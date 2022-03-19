@@ -4,7 +4,7 @@
   "description": "A magical vue admin. An out-of-box UI solution for enterprise applications. Newest development stack of vue. Lots of awesome features",
   "author": "Pan <panfree23@gmail.com>",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --mode development",
     "lint": "eslint --ext .js,.vue src",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
@@ -65,6 +65,7 @@
     "lint-staged": "8.1.5",
     "mockjs": "1.0.1-beta3",
     "plop": "2.3.0",
+    "qs": "^6.10.3",
     "runjs": "4.3.2",
     "sass": "1.26.2",
     "sass-loader": "8.0.2",
@@ -100,11 +101,6 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "repository": {
     "type": "git",

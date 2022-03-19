@@ -1,18 +1,23 @@
-import request from '@/utils/request'
+/* eslint-disable */
+import {
+  fetchGet,
+  fetchPost,
+  fetchPatch,
+  fetchPut,
+  fetchDelete
+} from '@/utils/request'
 
-export function login(data) {
-  return request({
-    url: '/vue-element-admin/user/login',
-    method: 'post',
-    data
-  })
+export function handleLogin(data) {
+  return fetchPost(`passport/login`, data)
 }
 
 export function getInfo(token) {
   return request({
     url: '/vue-element-admin/user/info',
     method: 'get',
-    params: { token }
+    params: {
+      token
+    }
   })
 }
 

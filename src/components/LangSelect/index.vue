@@ -31,8 +31,14 @@ export default {
     handleSetLanguage(lang) {
       this.$i18n.locale = lang
       this.$store.dispatch('app/setLanguage', lang)
+      const msg = {
+        zh: '切换成功',
+        en: 'Switch successful',
+        es: 'Cambio exitoso',
+        ja: '切り替え成功'
+      }
       this.$message({
-        message: 'Switch Language Success',
+        message: msg[lang],
         type: 'success'
       })
     }
