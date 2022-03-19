@@ -58,7 +58,7 @@ const actions = {
           data
         } = response
         commit('SET_TOKEN', data.token)
-        commit('SET_AVATAR', data.avatar)
+        commit('SET_AVATAR', data.avatar + '')
         commit('SET_NAME', data.nickname)
         commit('SET_INTRODUCTION', data.nickname)
         commit('SET_ROLES', 'admin')
@@ -76,34 +76,9 @@ const actions = {
     state
   }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const {
-          data
-        } = response
-
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const {
-          roles,
-          name,
-          avatar,
-          introduction
-        } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
+      commit('SET_ROLES', 'admin')
+      resolve({
+        roles: 'admin'
       })
     })
   },
@@ -115,22 +90,17 @@ const actions = {
     dispatch
   }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, {
-          root: true
-        })
-
-        resolve()
-      }).catch(error => {
-        reject(error)
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, {
+        root: true
       })
+      resolve()
     })
   },
 

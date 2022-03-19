@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
+    <!-- <github-corner class="github-corner" /> -->
 
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
@@ -116,7 +116,7 @@ export default {
   }
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .chart-wrapper {
     padding: 8px;
   }
