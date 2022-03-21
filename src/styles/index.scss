@@ -212,7 +212,7 @@ div:focus {
 }
 
 .inlineBlock {
-  display: block;
+  display: inline-block;
 }
 
 .clearfix {
@@ -247,6 +247,11 @@ aside {
       color: rgb(32, 160, 255);
     }
   }
+}
+
+//drawer-container全局样式
+.el-drawer .drawer-container {
+  padding: 20px !important;
 }
 
 //main-container全局样式
