@@ -6,6 +6,7 @@ import {
   Loading
 } from 'element-ui'
 import store from '@/store'
+import router from '@/router'
 import {
   getToken,
   setToken,
@@ -48,6 +49,7 @@ service.interceptors.request.use(
     console.log(`%c[ 请求 ]: [ ${process.env.VUE_APP_BASE_URL}/${config.url} ] [ ${config.method.toUpperCase()} ] 数据接口，参数：`, "color:DodgerBlue", jsonData || {})
 
     if (store.getters.token) {
+      // 有请求登录接口获取到token之后，才加入 Authorization 验证
       config.headers['Authorization'] = `Bearer ${getToken()}`
     }
     // 加入时间戳，标记接口不同时请求情况
@@ -93,7 +95,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
 
-      if (res.code === 1002 || res.code === 1003 || res.code === 1004) {
+      if (res.code === 1002 || res.code === 1003) {
         // to re-login
         MessageBox.confirm('登录失效', '确认退出？', {
           confirmButtonText: '重新登录',
@@ -104,6 +106,10 @@ service.interceptors.response.use(
             location.reload()
           })
         })
+      } else if (res.code === 1004) {
+        store.dispatch('user/resetToken').then(() => {
+          router.push('/login')
+        })
       }
       return Promise.reject(new Error(res.msg || '请求有误，请联系管理员'))
     } else {
@@ -113,12 +119,14 @@ service.interceptors.response.use(
   },
   // 接口响应有误捕捉
   error => {
-    console.log('err' + error) // for debug
+    console.log(`接口响应有误 err 【 ${error} 】`) // for debug
     Message({
-      message: error.message,
+      message: '服务器出现异常，请联系管理员',
       type: 'error',
       duration: 5 * 1000
     })
+    // 接口无响应，关闭遮罩，然后渠道相应错误提示页
+    loadingInstance.close()
     return Promise.reject(error)
   }
 )

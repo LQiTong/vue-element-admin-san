@@ -91,6 +91,7 @@ export const constantRoutes = [
   }
 ]
 
+import accountRouter from './modules/account'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -98,6 +99,7 @@ export const constantRoutes = [
 export const asyncRoutes = [
   // 动态路由映射
   // 404 page must be placed at the end !!!
+  accountRouter,
   {
     path: '*',
     redirect: '/404',
@@ -115,6 +117,7 @@ const _routesMap = {}
  * @param {Array} routes
  */
 const getRoutesMap = routes => {
+  console.log('routesMap routes --->', routes)
   routes.forEach(item => {
     _routesMap[item.name] = item.component
     if (item.children && item.children.length > 0) {
@@ -165,14 +168,14 @@ const generateRoutes = (routesList) => {
  * 过滤不符合规则的路由
  * @param {Array} routesList
  */
-export const filterRoutes = (routesList) => {
+export const filterRoutes = (routesList, url = '') => {
   const routes = []
-
+  console.log('routesMap ---> ', routesMap)
   routesList.forEach(route => {
     const _ = {}
     _.name = route.display_name
-    _.path = route.url
-    _.component = routesMap[route.url]
+    _.path = url ? `${url}${route.url}` : route.url
+    _.component = routesMap[url ? `${url.replace(/\//g, '')}.${route.url.replace(/\//g, '')}` : route.url.replace(/\//g, '')]
     _.hidden = false
     _.alwaysShow = false
     _.meta = {
@@ -183,7 +186,7 @@ export const filterRoutes = (routesList) => {
     }
 
     if (route.children && route.children.length > 0) {
-      _.children = filterRoutes(route.children)
+      _.children = filterRoutes(route.children, route.url)
     }
     routes.push(_)
   })
@@ -205,7 +208,7 @@ router.beforeEach(async (to, from, next) => {
         // const routes = generateRoutes([])
         console.log('getMenus ---> routes', routes)
         store
-          .dispatch('app/setMenus', [...routes, ...constantRoutes])
+          .dispatch('app/setMenus', [...constantRoutes, ...routes])
           .then(() => {
             let path = to.path
             if (
