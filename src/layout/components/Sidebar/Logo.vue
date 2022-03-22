@@ -14,6 +14,7 @@
 </template>
 
 <script>
+const defaultSettings = require('@/settings.js')
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,8 +25,8 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Element Admin',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: defaultSettings.title,
+      logo: 'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4?imageView2/1/w/80/h/80'
     }
   }
 }

@@ -14,7 +14,14 @@
       <el-table-column label="硬件编号" prop="hard_ware" />
       <el-table-column label="APPID" prop="app_id" />
       <el-table-column label="账户" prop="account" />
-      <el-table-column label="上次登录" prop="login_time" />
+      <el-table-column label="状态" prop="state">
+        <template slot-scope="scope">
+          {{ scope.row.state == 1 ? '在线' : scope.row.state == 2 ? '离线' : scope.row.state == -1 ? '封号' : '' }}
+        </template>
+      </el-table-column>
+      <el-table-column label="上次登录" prop="login_time">
+        <template slot-scope="scope">{{ scope.row.login_time | parseTime }}</template>
+      </el-table-column>
       <el-table-column label="操作" prop="">
         <template slot-scope="scope">
           <el-tooltip placement="top" class="mr-10">

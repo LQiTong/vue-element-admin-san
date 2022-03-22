@@ -5,6 +5,7 @@ const accountRouter = {
   component: Layout,
   redirect: '/zhanghu',
   name: 'zhanghu',
+  alwaysShow: true,
   meta: {
     title: '账户信息',
     icon: 'icon-zhanghuxinxi3'

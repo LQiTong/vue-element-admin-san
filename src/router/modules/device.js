@@ -1,6 +1,6 @@
 import Layout from '@/layout'
 
-const accountRouter = {
+const deviceRouter = {
   path: '/device',
   component: Layout,
   redirect: '/device',
@@ -30,4 +30,4 @@ const accountRouter = {
     }
   ]
 }
-export default accountRouter
+export default deviceRouter
