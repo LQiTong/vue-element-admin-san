@@ -92,6 +92,7 @@ export const constantRoutes = [
 ]
 
 import accountRouter from './modules/account'
+import deviceRouter from './modules/device'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -100,6 +101,7 @@ export const asyncRoutes = [
   // 动态路由映射
   // 404 page must be placed at the end !!!
   accountRouter,
+  deviceRouter,
   {
     path: '*',
     redirect: '/404',
@@ -149,9 +151,10 @@ const router = createRouter()
 const generateRoutes = (routesList) => {
   let routes = filterRoutes(routesList)
 
-  // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-  //   routes = asyncRoutes
-  // }
+  // 本地开发环境菜单拦截
+  if (process.env.NODE_ENV === 'development') {
+    routes = asyncRoutes
+  }
 
   routes = [
     ...routes

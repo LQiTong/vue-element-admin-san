@@ -29,7 +29,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
-  padding: 32px;
+  padding: 20px;
   background-color: rgb(240, 242, 245);
 }
 

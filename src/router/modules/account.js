@@ -7,7 +7,7 @@ const accountRouter = {
   name: 'zhanghu',
   meta: {
     title: '账户信息',
-    icon: 'table'
+    icon: 'icon-zhanghuxinxi3'
   },
   children: [
     // 用户信息
