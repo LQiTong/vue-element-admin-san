@@ -113,7 +113,8 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.msg || '请求有误，请联系管理员'))
     } else {
-      console.log('res --> ', res)
+      // 接口成功响应
+      // console.log('res --> ', res)
       return res
     }
   },
@@ -125,8 +126,24 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    // 接口无响应，关闭遮罩，然后渠道相应错误提示页
     loadingInstance.close()
+    // 错误处理
+    const errMsg = error.toString()
+    const code = errMsg.substr(errMsg.indexOf('code') + 5)
+    switch (code) {
+      case '404':
+        router.push({
+          name: 'error404'
+        });
+        break;
+      case '500':
+        router.push({
+          name: 'error500'
+        });
+        break;
+      default:
+        error.message = `出错了(${error.response.status})!`;
+    }
     return Promise.reject(error)
   }
 )

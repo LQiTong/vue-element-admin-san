@@ -66,7 +66,14 @@ export const constantRoutes = [
   },
   {
     path: '/404',
+    name: 'error404',
     component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/500',
+    name: 'error500',
+    component: () => import('@/views/error-page/500'),
     hidden: true
   },
   {
@@ -93,6 +100,7 @@ export const constantRoutes = [
 
 import accountRouter from './modules/account'
 import deviceRouter from './modules/device'
+import systemRouter from './modules/system'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -102,6 +110,7 @@ export const asyncRoutes = [
   // 404 page must be placed at the end !!!
   accountRouter,
   deviceRouter,
+  systemRouter,
   {
     path: '*',
     redirect: '/404',
@@ -119,7 +128,7 @@ const _routesMap = {}
  * @param {Array} routes
  */
 const getRoutesMap = routes => {
-  console.log('routesMap routes --->', routes)
+  // console.log('routesMap routes --->', routes)
   routes.forEach(item => {
     _routesMap[item.name] = item.component
     if (item.children && item.children.length > 0) {
@@ -152,9 +161,9 @@ const generateRoutes = (routesList) => {
   let routes = filterRoutes(routesList)
 
   // 本地开发环境菜单拦截
-  if (process.env.NODE_ENV === 'development') {
-    routes = asyncRoutes
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   routes = asyncRoutes
+  // }
 
   routes = [
     ...routes
@@ -173,14 +182,14 @@ const generateRoutes = (routesList) => {
  */
 export const filterRoutes = (routesList, url = '') => {
   const routes = []
-  console.log('routesMap ---> ', routesMap)
+  // console.log('routesMap ---> ', routesMap)
   routesList.forEach(route => {
     const _ = {}
     _.name = route.display_name
     _.path = url ? `${url}${route.url}` : route.url
     _.component = routesMap[url ? `${url.replace(/\//g, '')}.${route.url.replace(/\//g, '')}` : route.url.replace(/\//g, '')]
     _.hidden = false
-    _.alwaysShow = false
+    _.alwaysShow = +route.depth === 0
     _.meta = {
       requireAuth: true,
       title: route.display_name,
@@ -198,39 +207,46 @@ export const filterRoutes = (routesList, url = '') => {
 }
 
 router.beforeEach(async (to, from, next) => {
-  const menus = await store.dispatch('app/getMenus')
-  console.log('menus ---> ', menus)
-  if (menus.length === 0 && to.path !== '/login') {
+  const menus = await store.dispatch('app/getMenus', to)
+  // console.log('menus ---> ', menus)
+  console.log('to ---> ', to)
+  console.log('from ---> ', from)
+
+  if (menus.length === 0 && to.path !== '/login' && to.path !== '/500' && to.path !== '/404') {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
     // 以下方法调用菜单权限
-    getMenu().then(async res => {
-      console.log('getMenu res ---> ', res)
-      if (res.code === 200) {
-        const routes = generateRoutes(res.data.list || [])
-        // const routes = generateRoutes([])
-        console.log('getMenus ---> routes', routes)
-        store
-          .dispatch('app/setMenus', [...constantRoutes, ...routes])
-          .then(() => {
-            let path = to.path
-            if (
-              to.path.startsWith('/home') &&
-              routes[0] &&
-              !routes[0].path.startsWith('/home')
-            ) {
-              path = routes[0].redirect || routes[0].path
-            }
-            next({
-              ...to,
-              path,
-              replace: true
+    getMenu()
+      .then(async res => {
+        // console.log('getMenu res ---> ', res)
+        if (res.code === 200) {
+          const routes = generateRoutes(res.data.list || [])
+          // const routes = generateRoutes([])
+          // console.log('getMenus ---> routes', routes)
+          store
+            .dispatch('app/setMenus', [...constantRoutes, ...routes])
+            .then(() => {
+              let path = to.path
+              if (
+                to.path.startsWith('/home') &&
+                routes[0] &&
+                !routes[0].path.startsWith('/home')
+              ) {
+                path = routes[0].redirect || routes[0].path
+              }
+              next({
+                ...to,
+                path,
+                replace: true
+              })
             })
-          })
-      } else {
-        next('/login')
-      }
-    })
+        } else if (to.path === '/500' || to.path === '/404') {
+          // 错误页面处理
+          next(to.path)
+        } else {
+          next('/login')
+        }
+      })
   } else {
     next()
   }
