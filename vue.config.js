@@ -24,14 +24,15 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
-  outputDir: 'dist',
+  publicPath: './',
+  outputDir: process.env.OUT_PUT_DIR,
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
     port: port,
     open: true,
+    disableHostCheck: true,
     overlay: {
       warnings: false,
       errors: true
@@ -43,6 +44,14 @@ module.exports = {
         ws: false,
         pathRewrite: {
           '^/dev-manager': '/'
+        }
+      },
+      '/manager': {
+        target: 'http://47.100.72.23:9501/admin_api', // 生产环境
+        changeOrigin: true,
+        ws: false,
+        pathRewrite: {
+          '^/manager': '/'
         }
       }
     }

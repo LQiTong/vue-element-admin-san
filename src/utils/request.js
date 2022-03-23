@@ -21,6 +21,9 @@ ENV = process.env.NODE_ENV === 'production' ? 'prod' : ENV
 export const BASE_CONFIG = {
   dev: {
     baseURL: '/dev-manager'
+  },
+  prod: {
+    baseURL: '/manager'
   }
 } [ENV]
 
