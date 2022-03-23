@@ -1,8 +1,6 @@
+/* eslint-disable space-before-function-paren */
 import Vue from 'vue'
 import Router from 'vue-router'
-import {
-  fetchGet
-} from '@/utils/request'
 import {
   getMenu
 } from '@/api/menu'
@@ -209,8 +207,8 @@ export const filterRoutes = (routesList, url = '') => {
 router.beforeEach(async (to, from, next) => {
   const menus = await store.dispatch('app/getMenus', to)
   // console.log('menus ---> ', menus)
-  console.log('to ---> ', to)
-  console.log('from ---> ', from)
+  // console.log('to ---> ', to)
+  // console.log('from ---> ', from)
 
   if (menus.length === 0 && to.path !== '/login' && to.path !== '/500' && to.path !== '/404') {
     // 以下一行调用按钮级别权限

@@ -45,7 +45,10 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return `星期${['日', '一', '二', '三', '四', '五', '六'][value]}`
+    }
+    // Array.padStart 需要两个参数——新创建的结果字符串的总长度和将被重复的字符串
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -214,8 +217,9 @@ export function objectMerge(target, source) {
 }
 
 /**
- * @param {HTMLElement} element
- * @param {string} className
+ * 元素切换类方法
+ * @param {HTMLElement} element 目标元素
+ * @param {string} className 类名
  */
 export function toggleClass(element, className) {
   if (!element || !className) {
@@ -226,9 +230,7 @@ export function toggleClass(element, className) {
   if (nameIndex === -1) {
     classString += '' + className
   } else {
-    classString =
-      classString.substr(0, nameIndex) +
-      classString.substr(nameIndex + className.length)
+    classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length)
   }
   element.className = classString
 }
@@ -254,7 +256,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = () => {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -271,7 +273,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return (...args) => {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -287,9 +289,9 @@ export function debounce(func, wait, immediate) {
 }
 
 /**
- * This is just a simple version of deep copy
- * Has a lot of edge cases bug
- * If you want to use a perfect deep copy, use lodash's _.cloneDeep
+ * 这只是深度复制的一个简单版本
+ * 有很多edge bug案例
+ * 如果你想使用完美的深度复制，请使用lodash的。cloneDeep
  * @param {Object} source
  * @returns {Object}
  */
@@ -309,6 +311,8 @@ export function deepClone(source) {
 }
 
 /**
+ * Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）
+ * @deprecated 数组去重
  * @param {Array} arr
  * @returns {Array}
  */
@@ -326,7 +330,7 @@ export function createUniqueString() {
 }
 
 /**
- * Check if an element has a class
+ * 检查元素是否有类
  * @param {HTMLElement} elm
  * @param {string} cls
  * @returns {boolean}
@@ -336,18 +340,18 @@ export function hasClass(ele, cls) {
 }
 
 /**
- * Add class to element
- * @param {HTMLElement} elm
- * @param {string} cls
+ * 将类添加到元素
+ * @param {HTMLElement} ele 目标元素
+ * @param {string} cls 类名
  */
 export function addClass(ele, cls) {
   if (!hasClass(ele, cls)) ele.className += ' ' + cls
 }
 
 /**
- * Remove class from element
- * @param {HTMLElement} elm
- * @param {string} cls
+ * 从元素中删除类
+ * @param {HTMLElement} ele 目标元素
+ * @param {string} cls 类名
  */
 export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
