@@ -39,19 +39,11 @@ module.exports = {
     },
     proxy: {
       '/dev-manager': {
-        target: 'http://47.100.72.23:9501/admin_api', // 本地开发测试服务代理
+        target: process.env.VUE_APP_BASE_URL, // 本地开发测试服务代理
         changeOrigin: true,
         ws: false,
         pathRewrite: {
           '^/dev-manager': '/'
-        }
-      },
-      '/manager': {
-        target: 'http://47.100.72.23:9501/admin_api', // 生产环境
-        changeOrigin: true,
-        ws: false,
-        pathRewrite: {
-          '^/manager': '/'
         }
       }
     }

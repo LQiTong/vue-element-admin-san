@@ -3,13 +3,20 @@
     <el-table class="mt-20 menu-table" :data="menuList" highlight-current-row row-key="id" @current-change="handleCurrentChange">
       <el-table-column label="拖拽排序" width="100">
         <template slot-scope="scope">
-          <el-button size="small" @click="rowDrop(scope.row.order, scope.$index + 1 + (pages.current_page - 1) * pages.page_size)">
-            <svg-icon icon-class="icon-sort" />
-          </el-button>
+          <el-tooltip content="拖动排序" placement="top" effect="dark">
+            <span class="drag-handle" :data-id="scope.row.id" :data-parent_id="scope.row.parent_id" :data-depth="scope.row.depth">
+              <svg-icon icon-class="icon-sort" />
+            </span>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column label="ID" prop="id" />
-      <el-table-column label="菜单名称" prop="display_name" />
+      <el-table-column label="菜单名称" prop="display_name">
+        <template slot-scope="scope">
+          <svg-icon v-if="+scope.row.depth" icon-class="icon-zuzhizhankai" />
+          {{ scope.row.display_name }}
+        </template>
+      </el-table-column>
       <el-table-column label="绑定权限" prop="permission_name" />
       <el-table-column label="图标" prop="">
         <template slot-scope="scope">
@@ -69,7 +76,9 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     }
-    this.rowDrop()
+    this.$nextTick(() => {
+      this.rowDrop()
+    })
   },
   created() {
     this.getMenuList()
@@ -89,23 +98,51 @@ export default {
     handleCurrentChange(val) {
       this.currentRow = val
     },
-    rowDrop(order, currentIndex) {
-      const tbody = document.querySelector('.menu-table .el-table__body-wrapper tbody')
-      const that = this
-      Sortable.create(tbody, {
-        onEnd(evt) {
-          // 打印下标oldIndex旧的 newIndex新的
-          // console.log(evt.newIndex)
-          // console.log(evt.oldIndex)
-          that.menuList.splice(evt.newIndex, 0, that.menuList.splice(evt.oldIndex, 1)[0])
-          const newArray = that.menuList.slice(0)
-          for (let i in newArray) {
-            newArray[i].index = ++i
+    // 拖拽排序数据提交，请求接口
+    // async dragSortSubmit(orderIds) {
+    //   const ids = this.$refs['treeTable'].getExpandIds()
+    //   const info = await this.$api.orderMenu(orderIds)
+    //   if (info === 200) {
+    //     const { list } = await this.$api.getMenuList()
+    //     this.menuList = []
+    //     this.$nextTick(() => {
+    //       this.menuList = list
+    //       this.$nextTick(() => {
+    //         this.$refs['treeTable'].initTableExpand(ids)
+    //       })
+    //     })
+    //   }
+    //   this.$message.success('保存成功!')
+    // },
+    // 表格拖拽排序，同层级移动有效果
+    rowDrop() {
+      const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+      this.sortable = Sortable.create(el, {
+        handle: '.drag-handle',
+        setData: (dataTransfer) => {
+          dataTransfer.setData('Text', '')
+          // to avoid Firefox bug
+          // Detail see : https://github.com/RubaXa/Sortable/issues/1012
+        },
+        onEnd: evt => {
+          const oldId = evt.item.querySelectorAll('.drag-handle')[0].dataset.id
+          const Ids = []
+          const orderIds = []
+          const newList = []
+          const tmp = el.querySelectorAll('.drag-handle')
+          for (let i = 0, len = tmp.length; i < len; i++) {
+            newList[tmp[i].dataset.id] = { 'parent_id': tmp[i].dataset.parent_id, 'depth': tmp[i].dataset.depth }
+            Ids.push(tmp[i].dataset.id)
           }
-          that.menuList = []
-          that.$nextTick(() => {
-            that.menuList = newArray
-          })
+          // 处理组合实际请求后台数据
+          for (let i = 0, len = Ids.length; i < len; i++) {
+            if (newList[oldId].parent_id === newList[Ids[i]].parent_id && newList[oldId].depth === newList[Ids[i]].depth) {
+              orderIds.push(Ids[i])
+            }
+          }
+          console.log('orderIds ---> ', orderIds)
+          console.log('this.menuList ---> ', this.menuList)
+          // this.dragSortSubmit(orderIds)
         }
       })
     },

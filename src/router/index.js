@@ -99,6 +99,8 @@ export const constantRoutes = [
 import accountRouter from './modules/account'
 import deviceRouter from './modules/device'
 import systemRouter from './modules/system'
+import groupRouter from './modules/group'
+import customerRouter from './modules/customer'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -108,6 +110,8 @@ export const asyncRoutes = [
   // 404 page must be placed at the end !!!
   accountRouter,
   deviceRouter,
+  customerRouter,
+  groupRouter,
   systemRouter,
   {
     path: '*',
