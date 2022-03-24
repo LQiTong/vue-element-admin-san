@@ -132,7 +132,7 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="scss">
 .ape-drawer {
   position: fixed;
   top: 0;
@@ -140,16 +140,18 @@ export default {
   z-index: 1000;
 }
 
-.ape-drawer>* {
+.ape-drawer > * {
   transition: transform 0.3s;
 }
 
-.ape-drawer-left, .ape-drawer-right {
+.ape-drawer-left,
+.ape-drawer-right {
   width: 0%;
   height: 100%;
 }
 
-.ape-drawer-top, .ape-drawer-bottom {
+.ape-drawer-top,
+.ape-drawer-bottom {
   width: 100%;
   height: 0%;
 }
@@ -163,15 +165,17 @@ export default {
   transition: opacity 0.3s linear, height 0s ease 0.3s;
 }
 
-.ape-drawer-left.ape-drawer-open, .ape-drawer-right.ape-drawer-open {
+.ape-drawer-left.ape-drawer-open,
+.ape-drawer-right.ape-drawer-open {
   width: 100%;
 }
 
-.ape-drawer-top.ape-drawer-open, .ape-drawer-bottom.ape-drawer-open {
+.ape-drawer-top.ape-drawer-open,
+.ape-drawer-bottom.ape-drawer-open {
   height: 100%;
 }
 
-.ape-drawer.ape-drawer-open>.ape-drawer-mask {
+.ape-drawer.ape-drawer-open > .ape-drawer-mask {
   opacity: 0.6;
   height: 100%;
   transition: opacity ease-in-out 0.38s, visibility ease-in-out 0.38s;
@@ -189,11 +193,13 @@ export default {
   bottom: 0;
 }
 
-.ape-drawer-left .ape-drawer-content-wrapper, .ape-drawer-right .ape-drawer-content-wrapper {
+.ape-drawer-left .ape-drawer-content-wrapper,
+.ape-drawer-right .ape-drawer-content-wrapper {
   height: 100%;
 }
 
-.ape-drawer-top .ape-drawer-content-wrapper, .ape-drawer-bottom .ape-drawer-content-wrapper {
+.ape-drawer-top .ape-drawer-content-wrapper,
+.ape-drawer-bottom .ape-drawer-content-wrapper {
   width: 100%;
 }
 

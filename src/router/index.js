@@ -6,6 +6,12 @@ import {
 } from '@/api/menu'
 import store from '@/store'
 
+// 解决vue报错vue-router.esm.js
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+}
+
 Vue.use(Router)
 
 /* Layout */

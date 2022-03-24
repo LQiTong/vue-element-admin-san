@@ -1,7 +1,7 @@
 <template>
-  <el-main class="section-container">
+  <div class="main-page-content">
     群发任务
-  </el-main>
+  </div>
 </template>
 
 <script>

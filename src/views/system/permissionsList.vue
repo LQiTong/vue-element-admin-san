@@ -1,7 +1,7 @@
 <template>
-  <el-main class="section-container">
+  <div class="main-page-content">
     权限管理
-  </el-main>
+  </div>
 </template>
 
 <script>

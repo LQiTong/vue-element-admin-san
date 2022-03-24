@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .exception {
   display: flex;
   align-items: center;

@@ -22,7 +22,8 @@
       <template slot-scope="scope">
         <span v-if="v.operation">
           <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
-            <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" />
+            <!-- <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" /> -->
+            <svg-icon v-if="space===scope.row.depth" icon-class="icon-zuzhizhankai" class-name="iconfont icon-zuzhizhankai" />
             <i v-else class="iconfont icon-kongbai" />
           </span>
           <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
@@ -191,7 +192,7 @@ export default {
 }
 </style>
 
-<style lang="stylus" scope>
+<style lang="scss" scope>
 .iconfont {
   font-size: 12px;
 }
@@ -215,7 +216,7 @@ table td {
   margin-left: 8px;
 }
 
-.iconfont.icon-zuzhizhankai1 {
+.iconfont.icon-zuzhizhankai {
   margin-left: 8px;
 }
 
@@ -227,14 +228,14 @@ table td {
 .el-table__body tr.current-row > td {
   background-color: #91d5ff !important;
 }
-
-.el-button + .el-button {
-  margin-left: 0px;
+.el-icon + .el-icon {
+  margin-left: 0 !important;
   margin-right: 4px;
 }
-
 .tree-table {
-  .el-table__expand-icon, .el-table__placeholder, .el-table__indent {
+  .el-table__expand-icon,
+  .el-table__placeholder,
+  .el-table__indent {
     display: none !important;
   }
 }

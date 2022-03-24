@@ -1,7 +1,7 @@
 <template>
-  <el-main class="section-container">
+  <div class="main-page-content">
     角色管理
-  </el-main>
+  </div>
 </template>
 
 <script>

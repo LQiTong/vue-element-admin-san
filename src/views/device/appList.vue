@@ -1,11 +1,16 @@
 <template>
-  <el-main>
-    <el-tooltip placement="top">
-      <el-button type="primary" plain size="small" @click="userType = 0 , appForm = $options.data().appForm">
-        <svg-icon icon-class="icon-add-app" />
-      </el-button>
-      <template slot="content">添加账号</template>
-    </el-tooltip>
+  <div class="main-page-content">
+    <el-row class="mb-10">
+      <el-col>
+        <el-tooltip placement="top">
+          <el-button type="primary" plain size="small" @click="userType = 0 , appForm = $options.data().appForm">
+            <svg-icon icon-class="icon-add-app" />
+          </el-button>
+          <template slot="content">添加账号</template>
+        </el-tooltip>
+      </el-col>
+    </el-row>
+
     <el-table class="mt-20" :data="appList" highlight-current-row @current-change="handleCurrentChange">
       <el-table-column label="序号" width="80">
         <template slot-scope="scope">{{ scope.$index + 1 + (pages.current_page - 1) * pages.page_size }}</template>
@@ -34,7 +39,7 @@
       </el-table-column>
     </el-table>
     <pagination class="ta-r" :total="+pages.total" :page="pages.current_page" :limit="pages.page_size" @pagination="getAppList" />
-  </el-main>
+  </div>
 </template>
 
 <script>

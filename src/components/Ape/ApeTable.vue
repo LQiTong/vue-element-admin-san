@@ -242,7 +242,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scope>
+<style lang="scss" scope>
 table td {
   line-height: 26px;
 }
@@ -269,7 +269,9 @@ table td {
   font-size: 14px;
 }
 
-.el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .el-pager li {
   border: solid 1px #f5f5f5;
   background-color: #ffffff;
 }

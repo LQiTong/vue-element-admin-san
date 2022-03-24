@@ -1,63 +1,104 @@
 <template>
-  <el-main class="section-container">
-    <el-table class="mt-20 menu-table" :data="menuList" highlight-current-row row-key="id" @current-change="handleCurrentChange">
-      <el-table-column label="拖拽排序" width="100">
+  <div class="main-page-content">
+    <el-row class="mb-10">
+      <el-col>
+        <el-button v-if="buttonType =='text'" type="primary" size="medium" icon="iconfont " @click="addButton(0)">添加菜单组</el-button>
+        <el-tooltip v-if="buttonType =='icon'" effect="dark" content="添加菜单组" placement="top-start">
+          <el-button type="primary" size="medium" @click="addButton(0)">
+            <svg-icon icon-class="icon-add-submenu" />
+          </el-button>
+        </el-tooltip>
+      </el-col>
+    </el-row>
+    <TreeTable ref="treeTable" :data="menuList" :columns="columns" :loading="loadingStaus" highlight-current-row>
+      <el-table-column slot="first-column" width="80" align="center" label="Drag">
         <template slot-scope="scope">
-          <el-tooltip content="拖动排序" placement="top" effect="dark">
-            <span class="drag-handle" :data-id="scope.row.id" :data-parent_id="scope.row.parent_id" :data-depth="scope.row.depth">
-              <svg-icon icon-class="icon-sort" />
+          <el-tooltip effect="dark" content="拖动排序" placement="top-start">
+            <span class="drag-handle pointer" :data-id="scope.row.id" :data-parent_id="scope.row.parent_id" :data-depth="scope.row.depth"><i class="el-icon-rank" /></span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column v-if="buttonType=='icon'" label="操作">
+        <template slot-scope="scope">
+          <el-tooltip effect="dark" content="添加子菜单" placement="top-start">
+            <el-button size="mini" @click="addButton(scope.row.id)">
+              <svg-icon icon-class="icon-add-submenu" class-name="iconfont icon" />
+            </el-button>
+          </el-tooltip>
+          <el-tooltip effect="dark" content="编辑" placement="top-start">
+            <el-button size="mini" icon="el-icon-edit" @click="editButton(scope.row.id)" />
+          </el-tooltip>
+          <el-tooltip effect="dark" content="删除" placement="top-start">
+            <span>
+              <el-popover :ref="'el-popover-'+scope.$index" placement="top" width="150">
+                <p>确定要删除记录吗？</p>
+                <div style="text-align: right; margin: 0;">
+                  <el-button type="text" size="mini" @click="$refs['el-popover-'+scope.$index].doClose()">取消</el-button>
+                  <el-button type="danger" size="mini" @click="deleteButton(scope.row.id)">确定</el-button>
+                </div>
+                <el-button slot="reference" type="danger" size="mini" icon="el-icon-delete" />
+              </el-popover>
             </span>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column label="ID" prop="id" />
-      <el-table-column label="菜单名称" prop="display_name">
+      <el-table-column v-if="buttonType=='text'" width="200" label="操作">
         <template slot-scope="scope">
-          <svg-icon v-if="+scope.row.depth" icon-class="icon-zuzhizhankai" />
-          {{ scope.row.display_name }}
+          <el-button size="mini" icon="iconfont" @click="addButton(scope.row.id)">添加子菜单</el-button>
+          <el-button size="mini" @click="editButton(scope.row.id)">编辑</el-button>
+          <el-popover :ref="'el-popover-'+scope.$index" placement="top" width="150">
+            <p>确定要删除记录吗？</p>
+            <div style="text-align: right; margin: 0;">
+              <el-button type="text" size="mini" @click="$refs['el-popover-'+scope.$index].doClose()">取消</el-button>
+              <el-button type="danger" size="mini" @click="deleteButton(scope.row.id)">确定</el-button>
+            </div>
+            <el-button slot="reference" type="danger" size="mini">删除</el-button>
+          </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="绑定权限" prop="permission_name" />
-      <el-table-column label="图标" prop="">
-        <template slot-scope="scope">
-          <span v-if="!scope.row.icon" />
-          <i v-else-if="isEleIcon(scope.row.icon)" :class="scope.row.icon" />
-          <svg-icon v-else :icon-class="scope.row.icon" />
-        </template>
-      </el-table-column>
-      <el-table-column label="路径URL" prop="url" />
-      <el-table-column label="操作" prop="">
-        <template slot-scope="scope">
-          <el-tooltip placement="top">
-            <el-button size="mini" @click="addSubMenu(scope.row)">
-              <svg-icon icon-class="icon-add-submenu" />
-            </el-button>
-            <template slot="content">添加子菜单</template>
-          </el-tooltip>
-          <el-tooltip placement="top">
-            <el-button size="mini" @click="editMenu(scope.row)">
-              <i class="el-icon-edit" />
-            </el-button>
-            <template slot="content">编辑</template>
-          </el-tooltip>
-          <el-tooltip placement="top">
-            <el-button size="mini" type="danger" @click="delMenu(scope.row)">
-              <i class="el-icon-delete" />
-            </el-button>
-            <template slot="content">删除</template>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-    </el-table>
-  </el-main>
+    </TreeTable>
+  </div>
 </template>
 
 <script>
 import Sortable from 'sortablejs' // 列表拖拽插件，详见 http://www.sortablejs.com/options.html
 import { getMenuList } from '@/api/system'
+import TreeTable from '@/components/TreeTable'
+import { mapGetters } from 'vuex'
 export default {
+  components: {
+    TreeTable
+  },
   data() {
     return {
+      loadingStaus: true,
+      columns: [
+        {
+          title: 'ID',
+          value: 'id',
+          width: 50
+        },
+        {
+          title: '菜单名称',
+          operation: true, // 作为展开操作列
+          value: 'display_name'
+        },
+        {
+          title: '绑定权限',
+          value: 'permission_name'
+        },
+        {
+          title: '图标',
+          type: 'icon',
+          value: 'icon'
+        },
+        {
+          title: '路径URL',
+          value: 'url'
+        }
+      ],
+      // 定义表格拖拽排序
+      sortable: null,
       menuList: [],
       menuForm: {},
       pages: {},
@@ -65,7 +106,7 @@ export default {
     }
   },
   computed: {
-
+    ...mapGetters(['buttonType'])
   },
   watch: {
 
@@ -89,6 +130,7 @@ export default {
       if (res.code === 200) {
         this.menuList = res.data.list || []
         this.pages = res.data.pages || {}
+        this.loadingStaus = false
       }
     },
     isEleIcon(icon) {
@@ -99,21 +141,22 @@ export default {
       this.currentRow = val
     },
     // 拖拽排序数据提交，请求接口
-    // async dragSortSubmit(orderIds) {
-    //   const ids = this.$refs['treeTable'].getExpandIds()
-    //   const info = await this.$api.orderMenu(orderIds)
-    //   if (info === 200) {
-    //     const { list } = await this.$api.getMenuList()
-    //     this.menuList = []
-    //     this.$nextTick(() => {
-    //       this.menuList = list
-    //       this.$nextTick(() => {
-    //         this.$refs['treeTable'].initTableExpand(ids)
-    //       })
-    //     })
-    //   }
-    //   this.$message.success('保存成功!')
-    // },
+    async dragSortSubmit(orderIds) {
+      const ids = this.$refs['treeTable'].getExpandIds()
+      console.log('getExpandIds ids ---> ', ids)
+      // const info = await this.$api.orderMenu(orderIds)
+      // if (info === 200) {
+      //   const { list } = await this.$api.getMenuList()
+      //   this.menuList = []
+      //   this.$nextTick(() => {
+      //     this.menuList = list
+      //     this.$nextTick(() => {
+      //       this.$refs['treeTable'].initTableExpand(ids)
+      //     })
+      //   })
+      // }
+      // this.$message.success('保存成功!')
+    },
     // 表格拖拽排序，同层级移动有效果
     rowDrop() {
       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
@@ -142,7 +185,7 @@ export default {
           }
           console.log('orderIds ---> ', orderIds)
           console.log('this.menuList ---> ', this.menuList)
-          // this.dragSortSubmit(orderIds)
+          this.dragSortSubmit(orderIds)
         }
       })
     },
@@ -154,4 +197,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-button {
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.table-header {
+  margin-bottom: 12px;
+}
+
+.drag-handle {
+  font-size: 24px;
+  cursor: pointer;
+}
 </style>

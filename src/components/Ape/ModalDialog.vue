@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 .el-dialog__header {
   padding: 0;
   line-height: 48px;

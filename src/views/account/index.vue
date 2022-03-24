@@ -1,11 +1,16 @@
 <template>
-  <el-main class="section-container">
-    <el-tooltip placement="top">
-      <el-button type="primary" plain size="small" @click="userType = 0 , isOpenDrawer = true, userForm = $options.data().userForm">
-        <svg-icon icon-class="user_add" />
-      </el-button>
-      <template slot="content">添加用户</template>
-    </el-tooltip>
+  <div class="main-page-content">
+    <el-row class="mb-10">
+      <el-col>
+        <el-tooltip placement="top">
+          <el-button type="primary" plain size="small" @click="userType = 0 , isOpenDrawer = true, userForm = $options.data().userForm">
+            <svg-icon icon-class="user_add" />
+          </el-button>
+          <template slot="content">添加用户</template>
+        </el-tooltip>
+      </el-col>
+    </el-row>
+
     <el-table class="mt-20" :data="userList" highlight-current-row @current-change="handleCurrentChange">
       <el-table-column label="序号" prop="" width="80">
         <template slot-scope="scope">{{ scope.$index + 1 + (pages.current_page - 1) * pages.page_size }}</template>
@@ -73,7 +78,7 @@
         </el-form>
       </div>
     </el-drawer>
-  </el-main>
+  </div>
 </template>
 
 <script>

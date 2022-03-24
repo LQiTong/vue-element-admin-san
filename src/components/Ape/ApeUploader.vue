@@ -204,11 +204,11 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="scss">
 // 按钮宽度
-$icon-width = 100px;
+$icon-width: 100px;
 // 按钮高度
-$icon-height = 100px;
+$icon-height: 100px;
 
 .ape-uploader-image {
   .el-upload-dragger {

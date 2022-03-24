@@ -56,4 +56,17 @@ export default {
     padding-right: 15px;
   }
 }
+.el-main {
+  padding: 0;
+  margin: 24px;
+  overflow: inherit;
+  flexnone: !important;
+  min-height: 720px;
+}
+
+.main-page-content {
+  border-radius: 5px;
+  padding: 24px;
+  background-color: #fff;
+}
 </style>

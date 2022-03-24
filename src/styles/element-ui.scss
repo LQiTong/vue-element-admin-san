@@ -82,3 +82,14 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+.tree-table {
+  .el-icon+.el-icon {
+    margin-left: 0 !important;
+    margin-right: 4px;
+  }
+
+  .el-button+.el-button {
+    margin-left: 0;
+  }
+}
