@@ -7,7 +7,9 @@ import {
   fetchDelete
 } from '@/utils/request'
 
-// 获取菜单列表
-export function getMenuList() {
-  return fetchPost(`menu/list`)
+export default {
+  // 获取菜单列表
+  getMenuList() {
+    return fetchPost(`menu/list`)
+  }
 }

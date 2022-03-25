@@ -1,9 +1,7 @@
 /* eslint-disable space-before-function-paren */
 import Vue from 'vue'
 import Router from 'vue-router'
-import {
-  getMenu
-} from '@/api/menu'
+import menu from '@/api/menu'
 import store from '@/store'
 
 // 解决vue报错vue-router.esm.js
@@ -105,7 +103,7 @@ export const constantRoutes = [
 import accountRouter from './modules/account'
 import deviceRouter from './modules/device'
 import systemRouter from './modules/system'
-import groupRouter from './modules/group'
+import massRouter from './modules/mass'
 import targetRouter from './modules/target'
 /**
  * asyncRoutes
@@ -117,7 +115,7 @@ export const asyncRoutes = [
   accountRouter,
   deviceRouter,
   targetRouter,
-  groupRouter,
+  massRouter,
   systemRouter,
   {
     path: '*',
@@ -224,7 +222,7 @@ router.beforeEach(async (to, from, next) => {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
     // 以下方法调用菜单权限
-    getMenu()
+    menu.getMenu()
       .then(async res => {
         // console.log('getMenu res ---> ', res)
         if (res.code === 200) {

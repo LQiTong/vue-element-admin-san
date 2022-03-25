@@ -7,6 +7,8 @@ import {
   fetchDelete
 } from '@/utils/request'
 
-export function getMenu() {
-  return fetchPost(`menu/user_menu`)
+export default {
+  getMenu() {
+    return fetchPost(`menu/user_menu`)
+  }
 }

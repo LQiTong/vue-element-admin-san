@@ -62,7 +62,6 @@
 
 <script>
 import Sortable from 'sortablejs' // 列表拖拽插件，详见 http://www.sortablejs.com/options.html
-import { getMenuList } from '@/api/system'
 import TreeTable from '@/components/TreeTable'
 import { mapGetters } from 'vuex'
 export default {
@@ -126,7 +125,7 @@ export default {
   },
   methods: {
     async getMenuList() {
-      const res = await getMenuList()
+      const res = await this.$api.getMenuList()
       if (res.code === 200) {
         this.menuList = res.data.list || []
         this.pages = res.data.pages || {}

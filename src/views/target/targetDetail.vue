@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { targetDetail } from '@/api/target'
 export default {
   data() {
     return {
@@ -37,7 +36,7 @@ export default {
         this.loadingStatus = false
         return
       }
-      const res = await targetDetail({ task_num: this.taskNum })
+      const res = await this.$api.targetDetail({ task_num: this.taskNum })
       if (res.code === 200) {
         this.detailList = res.data.list || []
         this.pagingData = res.data.pages || {}

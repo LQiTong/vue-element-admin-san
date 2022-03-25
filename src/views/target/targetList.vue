@@ -34,7 +34,6 @@
 
 <script>
 import ApeTable from '@/components/Ape/ApeTable'
-import { getTargetList } from '@/api/target'
 export default {
   components: {
     ApeTable
@@ -75,7 +74,7 @@ export default {
       this.queryParam = this.$options.data().queryParam
     },
     async getTargetList() {
-      const res = await getTargetList()
+      const res = await this.$api.getTargetList()
       if (res.code === 200) {
         this.targetList = res.data.list || []
         this.pagingData = res.data.pages || {}

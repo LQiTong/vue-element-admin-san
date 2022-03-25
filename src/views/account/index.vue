@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { getUserList } from '@/api/account'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -121,7 +120,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const res = await getUserList()
+      const res = await this.$api.getUserList()
       if (res.code === 200) {
         this.userList = res.data.list || []
         this.pages = res.data.pages || {}

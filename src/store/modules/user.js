@@ -1,8 +1,4 @@
-import {
-  handleLogin,
-  logout,
-  getInfo
-} from '@/api/user'
+import user from '@/api/user'
 import {
   getToken,
   setToken,
@@ -49,7 +45,7 @@ const actions = {
     } = userInfo
     console.log('userInfo --->', username, password)
     return new Promise((resolve, reject) => {
-      handleLogin({
+      user.handleLogin({
         account: username.trim(),
         password
       }).then(response => {

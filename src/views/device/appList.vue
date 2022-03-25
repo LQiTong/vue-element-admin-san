@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { appList } from '@/api/device'
 export default {
   data() {
     return {
@@ -65,7 +64,7 @@ export default {
   methods: {
     async getAppList() {
       this.loadingStatus = true
-      const res = await appList()
+      const res = await this.$api.appList()
       if (res.code === 200) {
         this.appList = res.data.list || []
         this.pages = { ...res.data.pages, is_show: true } || {}

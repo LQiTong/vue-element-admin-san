@@ -1,6 +1,4 @@
-import {
-  getMenu
-} from '@/api/menu'
+import menu from '@/api/menu'
 import {
   constantRoutes,
   asyncRoutes
@@ -148,7 +146,7 @@ const actions = {
       if (state.menus && state.menus.length > 0) {
         resolve(state.menus)
       } else {
-        getMenu().then(async res => {
+        menu.getMenu().then(async res => {
           const routes = generateRoutes(res.data.list || [])
           // const routes = generateRoutes([])
           store.dispatch('app/setMenus', [...routes, ...constantRoutes])

@@ -9,7 +9,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description 是否展示侧边按钮设置
    */
-  showSettings: true,
+  showSettings: false,
 
   /**
    * @type {boolean} true | false
