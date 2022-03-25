@@ -129,9 +129,12 @@ export default {
     // 初始化分页
     initPaging() {
       if (!(typeof (this.pagingData) === 'undefined')) {
-        if (this.pagingData.is_show && this.pagingData.total > this.pageSize) {
+        if (this.pagingData.is_show) {
           return true
         }
+        // if (this.pagingData.is_show && this.pagingData.total > this.pageSize) {
+        //   return true
+        // }
       }
       return false
     },

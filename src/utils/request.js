@@ -135,7 +135,7 @@ service.interceptors.response.use(
     loadingInstance.close()
     // 错误处理
     const errMsg = error.toString()
-    const code = errMsg.substr(errMsg.indexOf('code') + 5)
+    const code = errMsg.indexOf('code') === -1 ? errMsg : errMsg.substr(errMsg.indexOf('code') + 5)
     switch (code) {
       case '404':
         router.push({
@@ -147,6 +147,11 @@ service.interceptors.response.use(
           name: 'error500'
         });
         break;
+      case 'Error: Network Error':
+        router.push({
+          name: 'error500'
+        })
+        break
       default:
         error.message = `出错了(${error.response.status})!`;
     }

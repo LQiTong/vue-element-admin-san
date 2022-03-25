@@ -1,29 +1,11 @@
 <template>
-  <el-table ref="treeTable" v-loading="loading" class="tree-table" element-loading-text="玩命加载中……" element-loading-spinner="el-icon-loading" :data="tableData" :row-style="showRow" row-key="id" v-bind="$attrs" @row-click="rowClick">
-    <slot name="first-column" />
-    <el-table-column v-if="columns.length===0" label="序号" width="150">
-      <template slot-scope="scope">
-        <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
-          <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" />
-          <i v-else class="iconfont icon-kongbai" />
-        </span>
-        <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
-          <el-tooltip v-if="!scope.row._expanded" effect="dark" content="展开" placement="top-start">
-            <i class="el-icon-plus" />
-          </el-tooltip>
-          <el-tooltip v-else effect="dark" content="折叠" placement="top-start">
-            <i class="el-icon-minus" />
-          </el-tooltip>
-        </span>
-        {{ scope.$index+1 }}
-      </template>
-    </el-table-column>
-    <el-table-column v-for="v in columns" v-else :key="v.value" :label="v.title" :width="v.width">
-      <template slot-scope="scope">
-        <span v-if="v.operation">
+  <div v-loading="loading" element-loading-text="玩命加载中……" element-loading-spinner="el-icon-loading">
+    <el-table ref="treeTable" class="tree-table" :data="tableData" :row-style="showRow" row-key="id" v-bind="$attrs" @row-click="rowClick">
+      <slot name="first-column" />
+      <el-table-column v-if="columns.length===0" label="序号" width="150">
+        <template slot-scope="scope">
           <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
-            <!-- <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" /> -->
-            <svg-icon v-if="space===scope.row.depth" icon-class="icon-zuzhizhankai" class-name="iconfont icon-zuzhizhankai" />
+            <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" />
             <i v-else class="iconfont icon-kongbai" />
           </span>
           <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
@@ -34,21 +16,42 @@
               <i class="el-icon-minus" />
             </el-tooltip>
           </span>
-        </span>
-        <i v-if="v.type=='icon'" class="iconfont" :class="scope.row[v.value]" />
-        <span v-else-if="v.type == 'image'"> <img :src="scope.row[v.value]" :alt="scope.row[v.value]" height="40px"></span>
-        <template v-else-if="v.value_alias && v.value">
-          <el-tooltip v-if="scope.row[v.value]" effect="dark" placement="top-start" popper-class="ape-table-tooltip">
-            <div slot="content" v-html="scope.row[v.value_alias]" />
-            <span v-if="typeof(v)=='object'" v-html="scope.row[v.value]" />
-          </el-tooltip>
-          <span v-else v-html="scope.row[v.value_alias]" />
+          {{ scope.$index+1 }}
         </template>
-        <span v-else>{{ scope.row[v.value] }}</span>
-      </template>
-    </el-table-column>
-    <slot />
-  </el-table>
+      </el-table-column>
+      <el-table-column v-for="v in columns" v-else :key="v.value" :label="v.title" :width="v.width">
+        <template slot-scope="scope">
+          <span v-if="v.operation">
+            <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
+              <!-- <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" /> -->
+              <svg-icon v-if="space===scope.row.depth" icon-class="icon-zuzhizhankai" class-name="iconfont icon-zuzhizhankai" />
+              <i v-else class="iconfont icon-kongbai" />
+            </span>
+            <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
+              <el-tooltip v-if="!scope.row._expanded" effect="dark" content="展开" placement="top-start">
+                <i class="el-icon-plus" />
+              </el-tooltip>
+              <el-tooltip v-else effect="dark" content="折叠" placement="top-start">
+                <i class="el-icon-minus" />
+              </el-tooltip>
+            </span>
+          </span>
+          <i v-if="v.type=='icon'" class="iconfont" :class="scope.row[v.value]" />
+          <span v-else-if="v.type == 'image'"> <img :src="scope.row[v.value]" :alt="scope.row[v.value]" height="40px"></span>
+          <template v-else-if="v.value_alias && v.value">
+            <el-tooltip v-if="scope.row[v.value]" effect="dark" placement="top-start" popper-class="ape-table-tooltip">
+              <div slot="content" v-html="scope.row[v.value_alias]" />
+              <span v-if="typeof(v)=='object'" v-html="scope.row[v.value]" />
+            </el-tooltip>
+            <span v-else v-html="scope.row[v.value_alias]" />
+          </template>
+          <span v-else>{{ scope.row[v.value] }}</span>
+        </template>
+      </el-table-column>
+      <slot />
+    </el-table>
+    <el-pagination v-if="initPaging" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" :layout="defaultLayout" :total="dataTotal" background @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+  </div>
 </template>
 
 <script>
@@ -64,6 +67,19 @@ export default {
       type: Array,
       default: () => []
     },
+    // ------ 分页相关 ---------
+    pagingData: {
+      type: Object,
+      default: () => {
+        return {
+          current_page: 0,
+          total: 0,
+          page_size: 10,
+          offset: 0
+        }
+      }
+      // required: true
+    },
     loading: {
       type: Boolean,
       default: true
@@ -72,13 +88,57 @@ export default {
   },
   data() {
     return {
-      currentRowId: null
+      currentRowId: null,
+      currentPage: 1
     }
   },
   computed: {
     // 表格数据
     tableData() {
       return this.data
+    },
+    // 每页条数，切换
+    pageSizes() {
+      if (!(typeof (this.pagingData.page_size) === 'undefined') && this.pagingData.page_size < 10) {
+        return [this.pagingData.page_size]
+      }
+      return [10, 20, 50, 100]
+    },
+    // 每一页大小，默认
+    pageSize() {
+      if (this.pagingData && !(typeof (this.pagingData.page_size) === 'undefined')) {
+        return this.pagingData.page_size
+      }
+      return 10
+    },
+    // 初始化分页
+    initPaging() {
+      if (!(typeof (this.pagingData) === 'undefined')) {
+        if (this.pagingData.is_show) {
+          return true
+        }
+        // if (this.pagingData.is_show && this.pagingData.total > this.pageSize) {
+        //   return true
+        // }
+      }
+      return false
+    },
+    // 数组总数
+    dataTotal() {
+      return this.pagingData.total
+    },
+    // 数据偏移量，分页序号使用
+    dataOffset() {
+      return typeof (this.pagingData.offset) === 'undefined' ? 0 : this.pagingData.offset
+    },
+    // 默认分页结构
+    defaultLayout() {
+      if (!(typeof (this.pagingData) === 'undefined')) {
+        if (this.pagingData.layout) {
+          return this.pagingData.layout
+        }
+      }
+      return 'total, sizes, prev, pager, next, jumper'
     }
   },
   created() {
@@ -86,7 +146,9 @@ export default {
   },
   updated() {
     this.$nextTick(() => {
-      this.defaultSelectedRow(this.currentRowId)
+      if (this.currentRowId) {
+        this.defaultSelectedRow(this.currentRowId)
+      }
     })
   },
   methods: {
@@ -149,6 +211,31 @@ export default {
      */
     rowClick(row) {
       this.currentRowId = row.id
+    },
+    // ------ 分页相关 ---------
+    // 获取当前分页相关信息,type类型主要处理删除删除后的情况处理
+    // 解决当前页数据全部删除完空白作用
+    getPagingInfo(type = 'no_del') {
+      if (type === 'del' && (this.pagingData.total - 1) <= (this.currentPage - 1) * this.pageSize) {
+        this.currentPage = this.currentPage - 1 > 0 ? this.currentPage - 1 : 1
+      }
+      const pagingInfo = {
+        page_size: this.apePageSize ? this.apePageSize : this.pageSize,
+        current_page: this.currentPage
+      }
+      return pagingInfo
+    },
+    // pageSize 改变时处理
+    handleSizeChange(val) {
+      // this.pageSize = val
+      this.apePageSize = val
+      this.currentPage = 1
+      this.$emit('switchPaging')
+    },
+    // currentPage 改变时处理
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.$emit('switchPaging')
     },
     // 获取展开列表的id集合，后续将通过id转换数据所在行index
     getExpandIds() {

@@ -10,7 +10,7 @@
         </el-tooltip>
       </el-col>
     </el-row>
-    <TreeTable ref="treeTable" :data="menuList" :columns="columns" :loading="loadingStaus" highlight-current-row>
+    <TreeTable ref="treeTable" :data="menuList" :columns="columns" :loading="loadingStaus" :paging-data="pages" highlight-current-row>
       <el-table-column slot="first-column" width="80" align="center" label="Drag">
         <template slot-scope="scope">
           <el-tooltip effect="dark" content="拖动排序" placement="top-start">
@@ -125,10 +125,11 @@ export default {
   },
   methods: {
     async getMenuList() {
+      this.loadingStaus = true
       const res = await this.$api.getMenuList()
       if (res.code === 200) {
         this.menuList = res.data.list || []
-        this.pages = res.data.pages || {}
+        // this.pages = { ...res.data.pages, is_show: true } || {}
         this.loadingStaus = false
       }
     },

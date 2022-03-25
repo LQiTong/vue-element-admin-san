@@ -12,7 +12,7 @@
       </el-col>
     </el-row>
 
-    <ApeTable ref="apeTable" :data="userList" :columns="columns" :loading="loadingStaus" :paging-data="pagingData" highlight-current-row>
+    <ApeTable ref="apeTable" :data="userList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData" highlight-current-row>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-tooltip placement="top" class="mr-10">
@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
     </ApeTable>
-    <ape-drawer :drawer-data="drawerData" @drawer-close="drawerClose" @drawer-confirm="drawerConfirm">
+    <ApeDrawer :drawer-data="drawerData" @drawer-close="drawerClose" @drawer-confirm="drawerConfirm">
       <div slot="ape-drawer" class="drawer-container">
         <el-form ref="userForm" :model="userForm" label-width="80px" :inline="false" size="normal">
           <el-form-item label="用户名">
@@ -67,7 +67,7 @@
           </el-form-item>
         </el-form>
       </div>
-    </ape-drawer>
+    </ApeDrawer>
   </div>
 </template>
 
@@ -76,7 +76,7 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      loadingStaus: true,
+      loadingStatus: true,
       userList: [],
       pagingData: {},
       currentRow: null,
@@ -120,11 +120,12 @@ export default {
   },
   methods: {
     async getUserList() {
+      this.loadingStatus = true
       const res = await this.$api.getUserList()
       if (res.code === 200) {
         this.userList = res.data.list || []
         this.pages = res.data.pages || {}
-        this.loadingStaus = false
+        this.loadingStatus = false
       }
     },
     drawerClose() {

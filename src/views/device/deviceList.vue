@@ -64,6 +64,8 @@ export default {
         this.loadingStatus = false
       }
     },
+    newDevice() { },
+    editDevice(row) { },
     handleCurrentChange(val) {
       this.currentRow = val
     }
