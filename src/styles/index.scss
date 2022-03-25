@@ -340,3 +340,16 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+// query-form 的样式
+.query-form {
+  .el-form-item {
+    width: 100%;
+    margin: 0;
+
+    .el-form-item__content {
+      // label 150px
+      width: calc(100% - 150px);
+    }
+  }
+}

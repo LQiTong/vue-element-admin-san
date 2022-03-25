@@ -2,9 +2,10 @@
   <div class="main-page-content">
     <el-row class="mb-10">
       <el-col>
+        <el-button v-if="buttonType =='text'" type="primary" size="medium" icon="iconfont " @click="userType = 0 , isOpenDrawer = true, userForm = $options.data().userForm">添加用户</el-button>
         <el-tooltip placement="top">
-          <el-button type="primary" plain size="small" @click="userType = 0 , isOpenDrawer = true, userForm = $options.data().userForm">
-            <svg-icon icon-class="user_add" />
+          <el-button type="primary" size="medium" @click="userType = 0 , isOpenDrawer = true, userForm = $options.data().userForm">
+            <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加用户</template>
         </el-tooltip>

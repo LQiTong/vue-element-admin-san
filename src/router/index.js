@@ -7,10 +7,10 @@ import {
 import store from '@/store'
 
 // 解决vue报错vue-router.esm.js
-const routerPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(error => error)
-}
+// const routerPush = Router.prototype.push
+// Router.prototype.push = function push(location) {
+//   return routerPush.call(this, location).catch(error => error)
+// }
 
 Vue.use(Router)
 
@@ -106,7 +106,7 @@ import accountRouter from './modules/account'
 import deviceRouter from './modules/device'
 import systemRouter from './modules/system'
 import groupRouter from './modules/group'
-import customerRouter from './modules/customer'
+import targetRouter from './modules/target'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -116,7 +116,7 @@ export const asyncRoutes = [
   // 404 page must be placed at the end !!!
   accountRouter,
   deviceRouter,
-  customerRouter,
+  targetRouter,
   groupRouter,
   systemRouter,
   {

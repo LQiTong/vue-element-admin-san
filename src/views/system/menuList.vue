@@ -5,7 +5,7 @@
         <el-button v-if="buttonType =='text'" type="primary" size="medium" icon="iconfont " @click="addButton(0)">添加菜单组</el-button>
         <el-tooltip v-if="buttonType =='icon'" effect="dark" content="添加菜单组" placement="top-start">
           <el-button type="primary" size="medium" @click="addButton(0)">
-            <svg-icon icon-class="icon-add-submenu" />
+            <svg-icon icon-class="icon-add-list-button" />
           </el-button>
         </el-tooltip>
       </el-col>

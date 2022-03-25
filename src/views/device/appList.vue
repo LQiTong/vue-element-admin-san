@@ -3,8 +3,8 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" plain size="small" @click="userType = 0 , appForm = $options.data().appForm">
-            <svg-icon icon-class="icon-add-app" />
+          <el-button type="primary" size="medium" @click="userType = 0 , appForm = $options.data().appForm">
+            <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加账号</template>
         </el-tooltip>

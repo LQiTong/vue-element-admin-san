@@ -251,10 +251,10 @@ table td {
   background-color: #91d5ff !important;
 }
 
-.el-button + .el-button {
-  margin-left: 0px;
-  margin-right: 4px;
-}
+// .el-button + .el-button {
+//   margin-left: 0px;
+//   margin-right: 4px;
+// }
 
 .iconfont {
   font-size: 12px;

@@ -1,0 +1,56 @@
+<template>
+  <div class="main-page-content">
+    <el-row class="mb-20" :gutter="20">
+      <el-col :span="12" :offset="0">客户详情</el-col>
+    </el-row>
+    <ApeTable ref="apeTable" class="mb-20" :data="detailList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData" highlight-current-row />
+  </div>
+</template>
+
+<script>
+import { targetDetail } from '@/api/target'
+import ApeTable from '@/components/Ape/ApeTable'
+export default {
+  components: {
+    ApeTable
+  },
+  data() {
+    return {
+      loadingStatus: true,
+      detailList: [],
+      pagingData: {},
+      columns: [
+        { title: '账户ID', value: 'id' },
+        { title: '手机号码', value: 'mobile' },
+        { title: '添加时间', value: 'add_time' }
+      ]
+    }
+  },
+  computed: {
+    taskNum() {
+      return this.$route.query.task_num || ''
+    }
+  },
+  created() {
+    this.targetDetail()
+  },
+  methods: {
+    async targetDetail() {
+      if (!this.taskNum) {
+        this.$message.error('参数有误，请检查')
+        this.loadingStatus = false
+        return
+      }
+      const res = await targetDetail({ task_num: this.taskNum })
+      if (res.code === 200) {
+        this.detailList = res.data.list || []
+        this.pagingData = res.data.pages || {}
+        this.loadingStatus = false
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+</style>

@@ -3,8 +3,8 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" plain size="small" @click="deviceType = 0, deviceForm = $options.data().deviceForm">
-            <svg-icon icon-class="icon-device_add" />
+          <el-button type="primary" size="medium" @click="deviceType = 0, deviceForm = $options.data().deviceForm">
+            <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加设备</template>
         </el-tooltip>
