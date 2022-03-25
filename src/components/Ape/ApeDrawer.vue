@@ -23,11 +23,12 @@
 
 <script scoped>
 export default {
+  name: 'ApeDrawer',
   props: {
     // 抽屉数据
     drawerData: {
       type: Object,
-      default: () => {
+      default() {
         return {
           // visible: false,
           // direction: 'right',
@@ -121,12 +122,12 @@ export default {
     // 关闭抽屉
     drawerClose() {
       document.body.classList.remove('el-popup-parent--hidden')
-      this.$emit('drawerClose')
+      this.$emit('drawer-close')
     },
     // 确认抽屉
     drawerConfirm() {
       document.body.classList.remove('el-popup-parent--hidden')
-      this.$emit('drawerConfirm')
+      this.$emit('drawer-confirm')
     }
 
   }

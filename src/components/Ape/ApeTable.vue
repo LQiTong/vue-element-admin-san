@@ -57,6 +57,7 @@
 <script>
 
 export default {
+  name: 'ApeTable',
   props: {
     // ------ 表格相关 ---------
     data: {
@@ -76,6 +77,9 @@ export default {
       type: Object,
       default: () => {
         return {
+          current_page: 0,
+          total: 0,
+          page_size: 10,
           offset: 0
         }
       }

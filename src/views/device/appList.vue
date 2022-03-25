@@ -3,7 +3,7 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" size="medium" @click="userType = 0 , appForm = $options.data().appForm">
+          <el-button type="primary" size="medium" @click="newApp">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加账号</template>
@@ -11,14 +11,7 @@
       </el-col>
     </el-row>
 
-    <el-table class="mt-20" :data="appList" highlight-current-row @current-change="handleCurrentChange">
-      <el-table-column label="序号" width="80">
-        <template slot-scope="scope">{{ scope.$index + 1 + (pages.current_page - 1) * pages.page_size }}</template>
-      </el-table-column>
-      <el-table-column label="用户ID" prop="user_id" />
-      <el-table-column label="硬件编号" prop="hard_ware" />
-      <el-table-column label="APPID" prop="app_id" />
-      <el-table-column label="账户" prop="account" />
+    <ApeTable res="apeTable" :data="appList" :loading="loadingStatus" :columns="columns" :paging-data="pages" highlight-current-row>
       <el-table-column label="状态" prop="state">
         <template slot-scope="scope">
           {{ scope.row.state == 1 ? '在线' : scope.row.state == 2 ? '离线' : scope.row.state == -1 ? '封号' : '' }}
@@ -37,8 +30,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-    </el-table>
-    <pagination class="ta-r" :total="+pages.total" :page="pages.current_page" :limit="pages.page_size" @pagination="getAppList" />
+    </ApeTable>
   </div>
 </template>
 
@@ -47,11 +39,18 @@ import { appList } from '@/api/device'
 export default {
   data() {
     return {
+      loadingStatus: false,
       appList: [],
       appType: 0, // 0 新增， 1 编辑
       appForm: {},
       pages: {},
-      currentRow: null
+      currentRow: null,
+      columns: [
+        { title: '所属用户ID', value: 'user_id' },
+        { title: '设备编码', value: 'hard_ware' },
+        { title: '账户编号', value: 'app_id' },
+        { title: '账户ID', value: 'account' }
+      ]
     }
   },
   computed: {
@@ -65,15 +64,19 @@ export default {
   },
   methods: {
     async getAppList() {
+      this.loadingStatus = true
       const res = await appList()
       if (res.code === 200) {
         this.appList = res.data.list || []
-        this.pages = res.data.pages || {}
+        this.pages = { ...res.data.pages, is_show: true } || {}
+        this.loadingStatus = false
       }
     },
     handleCurrentChange(val) {
       this.currentRow = val
-    }
+    },
+    newApp() { },
+    editApp() { }
   }
 }
 </script>

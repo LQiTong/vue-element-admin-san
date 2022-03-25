@@ -9,11 +9,7 @@
 
 <script>
 import { targetDetail } from '@/api/target'
-import ApeTable from '@/components/Ape/ApeTable'
 export default {
-  components: {
-    ApeTable
-  },
   data() {
     return {
       loadingStatus: true,

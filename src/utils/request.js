@@ -17,14 +17,17 @@ import qs from 'qs'
 /** ================================== 环境 ======================================= **/
 let ENV = 'dev'
 /** ================================== 生产环境打包拦路虎（预防打包出错） ============================ **/
-ENV = process.env.NODE_ENV === 'production' ? 'prod' : ENV
+ENV = process.env.NODE_ENV === 'production' ? 'production' : ENV
 export const BASE_CONFIG = {
   dev: {
     baseURL: '/dev-manager'
   },
-  prod: {
+  production: {
+    baseURL: '/admin_api'
+  },
+  prodDev: {
     baseURL: '/manager'
-  }
+  },
 } [ENV]
 
 // create an axios instance
