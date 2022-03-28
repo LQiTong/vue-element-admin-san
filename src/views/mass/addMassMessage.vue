@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item label="目标客户" size="normal" prop="target_id">
           <el-select v-model="modelRef.target_id" placeholder="请选择" clearable filterable>
-            <el-option v-for="item in targetList" :key="item.id" :label="`客户 ${item.id}`" :value="item.id" />
+            <el-option v-for="item in targetList" :key="item.id" :label="item.remark" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="消息内容" size="normal" prop="content">
@@ -69,22 +69,18 @@ export default {
       this.$refs.formRef.validate(async valid => {
         if (valid) {
           this.executeLoading = true
-          const res = await this.$api.addSend(this.modelRef)
-          if (res.code === 200) {
-            this.executeLoading = false
-            this.$message.success('新建成功')
-            this.$router.push('/task/record')
-          }
+          await this.$api.addSend(this.modelRef)
+          this.executeLoading = false
+          this.$message.success('新建成功')
+          this.$router.push('/task/record')
         } else {
           this.$message.error('请填写所有必填项')
         }
       })
     },
     async getTargetList() {
-      const res = await this.$api.getTargetList()
-      if (res.code === 200) {
-        this.targetList = res.data.list || []
-      }
+      const data = await this.$api.getTargetList()
+      this.targetList = data.list || []
     }
   }
 }

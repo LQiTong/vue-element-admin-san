@@ -48,11 +48,8 @@ const actions = {
       user.handleLogin({
         account: username.trim(),
         password
-      }).then(response => {
-        console.log('handleLogin res --->', response)
-        const {
-          data
-        } = response
+      }).then(data => {
+        console.log('handleLogin data --->', data)
         commit('SET_TOKEN', data.token)
         commit('SET_AVATAR', data.avatar + '')
         commit('SET_NAME', data.nickname)

@@ -50,6 +50,13 @@ Mixin.install = (Vue, options) => {
     methods: {
       $resetData(key) {
         this[key] = this.$options.data()[key]
+      },
+      // 初始化表单数据
+      $initFormData(formRef, options = {}) {
+        this.$nextTick(() => {
+          this[formRef] = options
+          this.$refs[formRef].resetFields()
+        })
       }
     },
   })

@@ -126,12 +126,10 @@ export default {
   methods: {
     async getMenuList() {
       this.loadingStaus = true
-      const res = await this.$api.getMenuList()
-      if (res.code === 200) {
-        this.menuList = res.data.list || []
-        // this.pages = { ...res.data.pages, is_show: true } || {}
-        this.loadingStaus = false
-      }
+      const data = await this.$api.getMenuList()
+      this.menuList = data.list || []
+      // this.pages = { ...data.pages, is_show: true } || {}
+      this.loadingStaus = false
     },
     isEleIcon(icon) {
       if (!icon) return false

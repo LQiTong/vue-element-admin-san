@@ -236,40 +236,32 @@ router.beforeEach(async (to, from, next) => {
   // console.log('to ---> ', to)
   // console.log('from ---> ', from)
 
-  if (menus.length === 0 && to.path !== '/login' && to.path !== '/500' && to.path !== '/404') {
+  if (menus.length === 0 && to.path !== '/login') {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
     // 以下方法调用菜单权限
     menu.getMenu()
-      .then(async res => {
-        // console.log('getMenu res ---> ', res)
-        if (res.code === 200) {
-          const routes = generateRoutes(res.data.list || [])
-          // const routes = generateRoutes([])
-          // console.log('getMenus ---> routes', routes)
-          store
-            .dispatch('app/setMenus', [...constantRoutes, ...routes])
-            .then(() => {
-              let path = to.path
-              if (
-                to.path.startsWith('/home') &&
-                routes[0] &&
-                !routes[0].path.startsWith('/home')
-              ) {
-                path = routes[0].redirect || routes[0].path
-              }
-              next({
-                ...to,
-                path,
-                replace: true
-              })
+      .then(async data => {
+        const routes = generateRoutes(data.list || [])
+        // const routes = generateRoutes([])
+        // console.log('getMenus ---> routes', routes)
+        store
+          .dispatch('app/setMenus', [...constantRoutes, ...routes])
+          .then(() => {
+            let path = to.path
+            if (
+              to.path.startsWith('/home') &&
+              routes[0] &&
+              !routes[0].path.startsWith('/home')
+            ) {
+              path = routes[0].redirect || routes[0].path
+            }
+            next({
+              ...to,
+              path,
+              replace: true
             })
-        } else if (to.path === '/500' || to.path === '/404') {
-          // 错误页面处理
-          next(to.path)
-        } else {
-          next('/login')
-        }
+          })
       })
   } else {
     next()

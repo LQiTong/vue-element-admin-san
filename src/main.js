@@ -46,8 +46,10 @@ import Mixin from '@/mixin'
 Vue.use(Mixin)
 
 import api from '@/api'
+import * as utils from '@/utils'
 
 Vue.prototype.$api = api
+Vue.prototype.$utils = utils
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

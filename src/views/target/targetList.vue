@@ -74,12 +74,10 @@ export default {
       this.queryParam = this.$options.data().queryParam
     },
     async getTargetList() {
-      const res = await this.$api.getTargetList()
-      if (res.code === 200) {
-        this.targetList = res.data.list || []
-        this.pagingData = res.data.pages || {}
-        this.loadingStaus = false
-      }
+      const data = await this.$api.getTargetList()
+      this.targetList = data.list || []
+      this.pagingData = data.pages || {}
+      this.loadingStaus = false
     },
     // 分页
     switchPaging() {

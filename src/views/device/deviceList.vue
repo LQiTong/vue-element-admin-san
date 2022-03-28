@@ -57,12 +57,10 @@ export default {
   methods: {
     async getDeviceList() {
       this.loadingStatus = true
-      const res = await this.$api.deviceList()
-      if (res.code === 200) {
-        this.deviceList = res.data.list || []
-        this.pages = res.data.pages || {}
-        this.loadingStatus = false
-      }
+      const data = await this.$api.deviceList()
+      this.deviceList = data.list || []
+      this.pages = data.pages || {}
+      this.loadingStatus = false
     },
     newDevice() { },
     editDevice(row) { },

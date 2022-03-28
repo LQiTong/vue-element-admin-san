@@ -36,12 +36,10 @@ export default {
         this.loadingStatus = false
         return
       }
-      const res = await this.$api.targetDetail({ task_num: this.taskNum })
-      if (res.code === 200) {
-        this.detailList = res.data.list || []
-        this.pagingData = res.data.pages || {}
-        this.loadingStatus = false
-      }
+      const data = await this.$api.targetDetail({ task_num: this.taskNum })
+      this.detailList = data.list || []
+      this.pagingData = data.pages || {}
+      this.loadingStatus = false
     }
   }
 }

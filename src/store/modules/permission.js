@@ -146,13 +146,13 @@ const actions = {
       if (state.menus && state.menus.length > 0) {
         resolve(state.menus)
       } else {
-        menu.getMenu().then(async res => {
-          console.log(res)
-          const routes = generateRoutes(res.data.list || [])
+        menu.getMenu().then(async data => {
+          console.log(data)
+          const routes = generateRoutes(data.list || [])
           // const routes = generateRoutes([])
           store.dispatch('app/setMenus', [...routes, ...constantRoutes])
 
-          resolve(res.data.list)
+          resolve(data.list)
         }).catch(err => {
           reject(err)
         })
