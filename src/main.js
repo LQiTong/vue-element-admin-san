@@ -47,9 +47,11 @@ Vue.use(Mixin)
 
 import api from '@/api'
 import * as utils from '@/utils'
+import appConst from '@/utils/const'
 
 Vue.prototype.$api = api
 Vue.prototype.$utils = utils
+Vue.prototype.$appConst = appConst
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

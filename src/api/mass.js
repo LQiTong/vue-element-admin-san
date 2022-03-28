@@ -14,7 +14,19 @@ export default {
   },
 
   // 执行群发
-  taskStart(data) {
-    return fetchPost(`task/start`, data)
+  taskStart(task_num) {
+    return fetchPost(`task/start`, {
+      task_num
+    })
+  },
+  // 群发列表
+  taskList(data) {
+    return fetchPost(`task/list`, data)
+  },
+  // 群发详情
+  taskDetail(task_num) {
+    return fetchPost(`task/detail`, {
+      task_num
+    })
   }
 }

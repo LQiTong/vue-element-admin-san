@@ -18,6 +18,9 @@
               </el-tooltip>
               <span v-else v-html="scope.row[v.value_alias]" />
             </span>
+            <span v-else-if="v.type == 'time'">
+              {{ scope.row[v.value] | parseTime }}
+            </span>
             <span v-else v-html="scope.row[v.value]" />
           </span>
           <span v-else-if="typeof(v.value)=='object'">
@@ -258,10 +261,10 @@ table td {
   background-color: #91d5ff !important;
 }
 
-// .el-button + .el-button {
-//   margin-left: 0px;
-//   margin-right: 4px;
-// }
+.el-button + .el-button {
+  margin-left: 0px;
+  margin-right: 5px;
+}
 
 .iconfont {
   font-size: 12px;

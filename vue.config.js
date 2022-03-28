@@ -38,12 +38,12 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/dev-manager': {
+      '/admin_api': {
         target: process.env.VUE_APP_BASE_URL, // 本地开发测试服务代理
         changeOrigin: true,
         ws: false,
         pathRewrite: {
-          '^/dev-manager': '/'
+          '^/admin_api': '/'
         }
       }
     }

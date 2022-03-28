@@ -26,7 +26,7 @@ const massRouter = {
       component: () => import('@/views/mass/massMessageRecord'),
       name: 'task.record',
       meta: {
-        title: '群发记录'
+        title: '群发列表'
       }
     }
   ]

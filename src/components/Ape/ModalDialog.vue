@@ -5,7 +5,7 @@
         <span>这是一段信息</span>
       </slot>
     </div>
-    <span slot="footer" class="dialog-footer">
+    <span v-if="dialogData.show_footer ? dialogData.show_footer : true" slot="footer" class="dialog-footer">
       <el-button size="medium" @click="dialogClose">取 消</el-button>
       <el-button size="medium" type="primary" :disabled="dialogData.loading" @click="dialogConfirm">确 定</el-button>
     </span>
@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  name: 'ModalDialog',
   props: {
     dialogData: {
       type: Object,
@@ -23,7 +24,8 @@ export default {
           // title: 'dialog',
           // width: '30%',
           // loading: true,
-          // modal: true
+          // modal: true,
+          // show_footer: true
         }
       }
     }

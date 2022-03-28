@@ -21,8 +21,8 @@
         <el-form-item label="备注" size="normal" prop="remark">
           <el-input v-model="modelRef.remark" placeholder="请输入备注信息" size="normal" clearable />
         </el-form-item>
-        <el-form-item label="添加数据" size="normal" prop="file">
-          <el-upload ref="upload" :action="uploadUrl" accept=".xlsx,.txt" :headers="uploadHeaders" :data="uploadParams" show-file-list with-credentials name="target" @on-change="handleBeforeUpload" @on-error="uploadError" @on-success="uploadSuccess">
+        <el-form-item label="添加数据" size="normal" prop="target">
+          <el-upload ref="upload" :action="uploadUrl" accept=".xlsx,.txt" :headers="uploadHeaders" :data="uploadParams" show-file-list with-credentials name="target" :before-upload="handleBeforeUpload" :on-change="handleChange" :on-error="uploadError" :on-success="uploadSuccess" :auto-upload="false">
             <el-button slot="trigger" size="small" type="primary" icon="el-icon-files">选取文件</el-button>
             <div slot="tip" class="el-upload__tip">
               支持扩展名：<el-button type="text" @click="downloadExcel">.xlsx(下载)</el-button>
@@ -45,15 +45,23 @@ import { getToken } from '@/utils/auth'
 import '@/assets/sprite.css'
 export default {
   data() {
+    const validFile = (r, v, cb) => {
+      console.log('this.modelRef.target', this.modelRef.target)
+      if (this.fileList.length !== 0) {
+        cb()
+      } else {
+        cb(new Error('数据不能为空'))
+      }
+    }
     return {
       modelRef: {
         activeCountry: undefined,
-        file: undefined
+        target: undefined
       },
       rules: {
         label_name: [{ required: true, message: '分组名称不能为空', trigger: 'change' }],
         activeCountry: [{ required: true, message: '国家/地区不能为空', trigger: 'change' }],
-        file: [{ required: true, message: '数据不能为空', trigger: 'change' }]
+        target: [{ required: true, message: '数据不能为空', trigger: 'change', validator: validFile }]
       },
       open: false,
       allCountries,
@@ -95,16 +103,32 @@ export default {
 
     },
     handleBeforeUpload(file) {
-      console.log('file ---> ', file)
+      // console.log('file ---> ', file)
+      // 取文件名
+      const suffix_index = file.name.lastIndexOf('.')
+      this.uploadParams.file_name = file.name.substring(0, suffix_index)
+    },
+    handleChange(file, fileList) {
+      // console.log(file)
+      this.fileList = fileList
     },
     uploadError(err, file, fileList) {
       console.log(err)
+      this._warnConfirm('上传出现问题！请联系管理员')
     },
     uploadSuccess(res, file, fileList) { },
     handleSubmit() {
-      this.$refs.upload.submit()
+      this.$refs.modelRef.validate(async valid => {
+        if (valid) {
+          this.$refs.upload.submit()
+        } else {
+          this.$message.error('数据验证失败，请检查必填项数据！')
+        }
+      })
     },
-    handleCancel() { },
+    handleCancel() {
+      this.$initFormData('modelRef')
+    },
     downloadExcel() {
       window.location.href = '/app/add_target_test.xlsx'
     },

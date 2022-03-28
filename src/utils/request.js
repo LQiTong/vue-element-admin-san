@@ -21,7 +21,7 @@ let ENV = 'dev'
 ENV = process.env.NODE_ENV === 'production' ? 'production' : ENV
 export const BASE_CONFIG = {
   dev: {
-    baseURL: '/dev-manager'
+    baseURL: '/admin_api'
   },
   production: {
     baseURL: '/admin_api'
