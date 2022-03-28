@@ -12,7 +12,7 @@ selenium-debug.log
 
 # Editor directories and files
 .idea
-.github
+.github/
 .vscode
 *.suo
 *.ntvs*
