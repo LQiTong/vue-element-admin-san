@@ -20,17 +20,17 @@
 <script>
 const config = {
   403: {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+    img: require(`@/assets/401_images/401.gif`),
     title: '403',
     desc: '抱歉，你无权访问该页面'
   },
   404: {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/KpnpchXsobRgLElEozzI.svg',
+    img: require(`@/assets/404_images/404.png`),
     title: '404',
     desc: '抱歉，你访问的页面不存在'
   },
   500: {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/RVRUAYdCGeYNBWoKiIwB.svg',
+    img: require(`@/assets/500_images/500.jpg`),
     title: '500',
     desc: '抱歉，服务器出错了'
   }

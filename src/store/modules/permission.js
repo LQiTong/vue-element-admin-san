@@ -147,6 +147,7 @@ const actions = {
         resolve(state.menus)
       } else {
         menu.getMenu().then(async res => {
+          console.log(res)
           const routes = generateRoutes(res.data.list || [])
           // const routes = generateRoutes([])
           store.dispatch('app/setMenus', [...routes, ...constantRoutes])

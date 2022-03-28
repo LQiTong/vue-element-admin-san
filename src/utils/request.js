@@ -13,6 +13,7 @@ import {
   removeToken
 } from '@/utils/auth'
 import qs from 'qs'
+import errorHandle from './errorHandle'
 
 /** ================================== 环境 ======================================= **/
 let ENV = 'dev'
@@ -93,35 +94,44 @@ service.interceptors.response.use(
     loadingInstance.close()
     // 打印接口响应相关
     console.log(`%c[ 响应 ]: [ ${process.env.VUE_APP_BASE_URL}/${response.config.url.replace(new RegExp(`${response.config.baseURL}/`), "")} ] [ ${response.config.method.toUpperCase()} ] 数据接口，返回：`, "color:YellowGreen", res)
-
-    if (res.code !== 200) {
-      Message({
-        message: res.msg || '请求有误，请联系管理员',
-        type: 'error',
-        duration: 5 * 1000
-      })
-
-      if (res.code === 1002 || res.code === 1003) {
-        // to re-login
-        MessageBox.confirm('登录失效', '确认退出？', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
+    // console.log('response ---> ', response);
+    if (response.status === 200) {
+      switch (errorHandle.codeCatch(res.code)) {
+        case errorHandle.handle.goLogin:
+          removeToken()
+          MessageBox.alert('请重新登录', '登录已失效', {
+            confirmButtonText: '确定',
+            callback: action => {
+              router.push({
+                path: "/login",
+                query: {
+                  redirect: router.currentRoute.fullPath
+                }
+              })
+            }
           })
-        })
-      } else if (res.code === 1004) {
-        store.dispatch('user/resetToken').then(() => {
-          router.push('/login')
-        })
+          break;
+        case errorHandle.handle.success:
+          console.log('response success!!!')
+          return res
+        case errorHandle.handle.showToast:
+          Message({
+            message: res.msg,
+            type: 'warning'
+          })
+          break
+        case errorHandle.handle.showAlert:
+          MessageBox.confirm(res.msg, {
+            type: 'error',
+            showClose: false,
+            showCancelButton: false
+          })
+          break
+        default:
+          Message.error(res.msg || '未知错误')
+          Promise.reject(res)
+          break;
       }
-      return Promise.reject(new Error(res.msg || '请求有误，请联系管理员'))
-    } else {
-      // 接口成功响应
-      // console.log('res --> ', res)
-      return res
     }
   },
   // 接口响应有误捕捉
@@ -154,6 +164,10 @@ service.interceptors.response.use(
         break
       default:
         error.message = `出错了(${error.response.status})!`;
+        router.push({
+          name: 'error500'
+        })
+        break
     }
     return Promise.reject(error)
   }

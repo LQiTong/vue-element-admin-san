@@ -67,21 +67,39 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/404',
-    name: 'error404',
-    component: () => import('@/views/error-page/404'),
-    hidden: true
-  },
-  {
-    path: '/500',
-    name: 'error500',
-    component: () => import('@/views/error-page/500'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
+    path: '/exception',
+    component: Layout,
+    hidden: true,
+    children: [
+      // 错误提示页
+      {
+        path: '/404',
+        name: 'error404',
+        component: () => import('@/views/error-page/404'),
+        hidden: true,
+        meta: {
+          title: 'error404'
+        }
+      },
+      {
+        path: '/500',
+        name: 'error500',
+        component: () => import('@/views/error-page/500'),
+        hidden: true,
+        meta: {
+          title: 'error500'
+        }
+      },
+      {
+        path: '/403',
+        name: 'error403',
+        component: () => import('@/views/error-page/403'),
+        hidden: true,
+        meta: {
+          title: 'error403'
+        }
+      }
+    ]
   },
   {
     path: '/',
