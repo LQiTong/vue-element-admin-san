@@ -62,9 +62,9 @@ export default {
 </script>
 
 <style lang="scss" >
-.box-card-component{
+.box-card-component {
   .el-card__header {
-    padding: 0px!important;
+    padding: 0px !important;
   }
 }
 </style>
@@ -92,25 +92,25 @@ export default {
   }
   .panThumb {
     z-index: 100;
-    height: 70px!important;
-    width: 70px!important;
-    position: absolute!important;
+    height: 70px !important;
+    width: 70px !important;
+    position: absolute !important;
     top: -45px;
     left: 0px;
     border: 5px solid #ffffff;
     background-color: #fff;
     margin: auto;
-    box-shadow: none!important;
+    box-shadow: none !important;
     ::v-deep .pan-info {
-      box-shadow: none!important;
+      box-shadow: none !important;
     }
   }
   .progress-item {
     margin-bottom: 10px;
     font-size: 14px;
   }
-  @media only screen and (max-width: 1510px){
-    .mallki-text{
+  @media only screen and (max-width: 1510px) {
+    .mallki-text {
       display: none;
     }
   }

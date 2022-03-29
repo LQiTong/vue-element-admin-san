@@ -4,6 +4,9 @@ import {
   setToken,
   removeToken
 } from '@/utils/auth'
+import {
+  default_avatar
+} from '@/settings'
 import router, {
   resetRouter
 } from '@/router'
@@ -51,7 +54,8 @@ const actions = {
       }).then(data => {
         console.log('handleLogin data --->', data)
         commit('SET_TOKEN', data.token)
-        commit('SET_AVATAR', data.avatar + '')
+        commit('SET_AVATAR', default_avatar)
+        // commit('SET_AVATAR', data.avatar ? data.avatar + '' : 'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4')
         commit('SET_NAME', data.nickname)
         commit('SET_INTRODUCTION', data.nickname)
         commit('SET_ROLES', 'admin')
@@ -61,6 +65,20 @@ const actions = {
         reject(error)
       })
     })
+  },
+
+  getAvatar({
+    commit,
+    state
+  }) {
+    return state.avatar
+  },
+
+  setAvatar({
+    commit,
+    state
+  }, avatar) {
+    commit('SET_AVATAR', avatar)
   },
 
   // get user info

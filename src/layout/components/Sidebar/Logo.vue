@@ -15,6 +15,7 @@
 
 <script>
 const defaultSettings = require('@/settings.js')
+import { mapGetters } from 'vuex'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -25,8 +26,13 @@ export default {
   },
   data() {
     return {
-      title: defaultSettings.title,
-      logo: 'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4?imageView2/1/w/80/h/80'
+      title: defaultSettings.title
+    }
+  },
+  computed: {
+    ...mapGetters(['avatar']),
+    logo() {
+      return `${this.avatar}?imageView2/1/w/80/h/80`
     }
   }
 }

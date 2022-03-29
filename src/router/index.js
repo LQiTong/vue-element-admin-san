@@ -3,6 +3,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import menu from '@/api/menu'
 import store from '@/store'
+import {
+  default_avatar
+} from '@/settings'
 
 // 解决vue报错vue-router.esm.js
 // const routerPush = Router.prototype.push
@@ -239,6 +242,7 @@ router.beforeEach(async (to, from, next) => {
   if (menus.length === 0 && to.path !== '/login') {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
+    await store.dispatch('user/setAvatar', default_avatar)
     // 以下方法调用菜单权限
     menu.getMenu()
       .then(async data => {
