@@ -22,7 +22,7 @@
         <template slot-scope="scope">
           <el-tooltip effect="dark" content="添加子菜单" placement="top-start">
             <el-button size="mini" @click="addButton(scope.row.id)">
-              <svg-icon icon-class="icon-add-submenu" class-name="iconfont icon" />
+              <svg-icon icon-class="tree" class-name="iconfont icon" />
             </el-button>
           </el-tooltip>
           <el-tooltip effect="dark" content="编辑" placement="top-start">
@@ -62,12 +62,8 @@
 
 <script>
 import Sortable from 'sortablejs' // 列表拖拽插件，详见 http://www.sortablejs.com/options.html
-import TreeTable from '@/components/TreeTable'
 import { mapGetters } from 'vuex'
 export default {
-  components: {
-    TreeTable
-  },
   data() {
     return {
       loadingStaus: true,

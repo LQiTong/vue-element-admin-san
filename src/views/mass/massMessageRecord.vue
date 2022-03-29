@@ -8,7 +8,7 @@
       </el-table-column>
       <el-table-column label="操作" width="220">
         <template slot-scope="scope">
-          <el-tooltip placement="top" class="mr-5">
+          <el-tooltip v-if="scope.row.status === 0 || scope.row.status === 3" placement="top" class="mr-5">
             <el-button size="mini" @click="executeTask(scope.row)">
               <svg-icon icon-class="icon-execute" />
             </el-button>
@@ -30,6 +30,11 @@
         <el-table-column label="状态">
           <template slot-scope="scope">
             {{ $appConst.TASK_DETAIL_STATUS[scope.row.status] }}
+          </template>
+        </el-table-column>
+        <el-table-column label="失败原因">
+          <template slot-scope="scope">
+            {{ scope.row.status === 3 ? scope.row.msg : '' }}
           </template>
         </el-table-column>
       </ApeTable>
@@ -54,7 +59,7 @@ export default {
         { title: '所选客户', value: 'remark' },
         { title: '任务总数', value: 'task_count' },
         { title: '已执行数', value: 'already_execute' },
-        { title: '添加时间', value: 'add_time', type: 'time', width: '180' },
+        { title: '创建时间', value: 'add_time', type: 'time', width: '180' },
         { title: '开始时间', value: 'start_time', type: 'time', width: '180' },
         { title: '结束时间', value: 'end_time', type: 'time', width: '180' }
       ],
