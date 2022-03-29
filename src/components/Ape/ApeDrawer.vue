@@ -1,20 +1,49 @@
 <template>
-  <div class="ape-drawer" :class="classObject">
-    <div class="ape-drawer-mask" @click="maskClick" />
-    <div class="ape-drawer-content-wrapper" :style="styleObject">
+  <div
+    class="ape-drawer"
+    :class="classObject"
+  >
+    <div
+      class="ape-drawer-mask"
+      @click="maskClick"
+    />
+    <div
+      class="ape-drawer-content-wrapper"
+      :style="styleObject"
+    >
       <div class="ape-drawer-content">
         <div class="ape-drawer-content-header">
           <span>{{ typeof(drawerData.title)==='undefined'?'Ape Drawer':drawerData.title }}</span>
-          <button class="ape-drawer-content-header-btn" @click="drawerClose"><i class="el-icon el-icon-close" /></button>
+          <button
+            class="ape-drawer-content-header-btn"
+            @click="drawerClose"
+          ><i class="el-icon el-icon-close" /></button>
         </div>
-        <div v-loading="drawerData.loading" class="ape-drawer-content-body" :element-loading-text="drawerData.loading_text?drawerData.loading_text:'玩命加载中……'" element-loading-spinner="el-icon-loading">
+        <div
+          v-loading="drawerData.loading"
+          class="ape-drawer-content-body"
+          :element-loading-text="drawerData.loading_text?drawerData.loading_text:'玩命加载中……'"
+          element-loading-spinner="el-icon-loading"
+        >
           <slot name="ape-drawer">
             <span>这是一段信息</span>
           </slot>
         </div>
-        <div v-if="isShowFooter" class="ape-drawer-content-footer">
-          <el-button size="medium" :type="closeType" @click="drawerClose">{{ drawerData.close_name?drawerData.close_name:'取 消' }}</el-button>
-          <el-button size="medium" :type="confirmType" :disabled="drawerData.loading" @click="drawerConfirm">{{ drawerData.confirm_name?drawerData.confirm_name:'确 定' }}</el-button>
+        <div
+          v-if="isShowFooter"
+          class="ape-drawer-content-footer"
+        >
+          <el-button
+            size="medium"
+            :type="closeType"
+            @click="drawerClose"
+          >{{ drawerData.close_name?drawerData.close_name:'取 消' }}</el-button>
+          <el-button
+            size="medium"
+            :type="confirmType"
+            :disabled="drawerData.loading"
+            @click="drawerConfirm"
+          >{{ drawerData.confirm_name?drawerData.confirm_name:'确 定' }}</el-button>
         </div>
       </div>
     </div>

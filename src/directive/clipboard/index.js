@@ -1,6 +1,7 @@
+/* eslint-disable */
 import Clipboard from './clipboard'
 
-const install = function(Vue) {
+const install = function (Vue) {
   Vue.directive('Clipboard', Clipboard)
 }
 

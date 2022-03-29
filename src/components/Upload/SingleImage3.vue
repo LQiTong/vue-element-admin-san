@@ -15,18 +15,30 @@
       </div>
     </el-upload>
     <div class="image-preview image-app-preview">
-      <div v-show="imageUrl.length>1" class="image-preview-wrapper">
+      <div
+        v-show="imageUrl.length>1"
+        class="image-preview-wrapper"
+      >
         <img :src="imageUrl">
         <div class="image-preview-action">
-          <i class="el-icon-delete" @click="rmImage" />
+          <i
+            class="el-icon-delete"
+            @click="rmImage"
+          />
         </div>
       </div>
     </div>
     <div class="image-preview">
-      <div v-show="imageUrl.length>1" class="image-preview-wrapper">
+      <div
+        v-show="imageUrl.length>1"
+        class="image-preview-wrapper"
+      >
         <img :src="imageUrl">
         <div class="image-preview-action">
-          <i class="el-icon-delete" @click="rmImage" />
+          <i
+            class="el-icon-delete"
+            @click="rmImage"
+          />
         </div>
       </div>
     </div>
@@ -86,7 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/mixin.scss";
+@import '~@/styles/mixin.scss';
 .upload-container {
   width: 100%;
   position: relative;
@@ -122,8 +134,8 @@ export default {
       color: #fff;
       opacity: 0;
       font-size: 20px;
-      background-color: rgba(0, 0, 0, .5);
-      transition: opacity .3s;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: opacity 0.3s;
       cursor: pointer;
       text-align: center;
       line-height: 200px;

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * 点击波纹效果
  *
@@ -5,7 +6,7 @@
  * @param  {[Object]} arg_opts [description]
  * @return {[bollean]}          [description]
  */
-export default function(e, arg_opts) {
+export default function (e, arg_opts) {
   var opts = Object.assign({
     ele: e.target, // 波纹作用元素
     type: 'hit', // hit点击位置扩散center中心点扩展

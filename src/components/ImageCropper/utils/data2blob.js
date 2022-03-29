@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * database64文件格式转换为2进制
  *
@@ -5,7 +6,7 @@
  * @param  {[String]} mime [description]
  * @return {[blob]}      [description]
  */
-export default function(data, mime) {
+export default function (data, mime) {
   data = data.split(',')[1]
   data = window.atob(data)
   var ia = new Uint8Array(data.length)

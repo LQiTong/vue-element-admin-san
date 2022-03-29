@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Editor id="tinymce" v-model="tinymceHtml" :init="tinymceData" />
+    <Editor
+      id="tinymce"
+      v-model="tinymceHtml"
+      :init="tinymceData"
+    />
   </div>
 </template>
 

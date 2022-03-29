@@ -1,50 +1,133 @@
 <template>
-  <div v-loading="loading" element-loading-text="玩命加载中……" element-loading-spinner="el-icon-loading">
-    <el-table ref="elTable" :data="tableData" v-bind="$attrs" :row-class-name="tableRowClassName" @selection-change="handleSelectionChange" @row-click="rowClick" @expand-change="expandChange">
+  <div
+    v-loading="loading"
+    element-loading-text="玩命加载中……"
+    element-loading-spinner="el-icon-loading"
+  >
+    <el-table
+      ref="elTable"
+      :data="tableData"
+      v-bind="$attrs"
+      :row-class-name="tableRowClassName"
+      @selection-change="handleSelectionChange"
+      @row-click="rowClick"
+      @expand-change="expandChange"
+    >
       <slot name="first-column" />
       <slot name="second-column" />
-      <el-table-column v-if="typeof(pagingData.offset)!='undefined'" width="64" label="序号">
+      <el-table-column
+        v-if="typeof(pagingData.offset)!='undefined'"
+        width="64"
+        label="序号"
+      >
         <template slot-scope="scope">
           <span>{{ dataOffset+scope.$index+1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-for="(v,k) in columns" :key="k" :label="v.title" :width="v.width" :header-align="v.header_align?v.header_align:'left'" :align="v.align?v.align:'left'">
+      <el-table-column
+        v-for="(v,k) in columns"
+        :key="k"
+        :label="v.title"
+        :width="v.width"
+        :header-align="v.header_align?v.header_align:'left'"
+        :align="v.align?v.align:'left'"
+      >
         <template slot-scope="scope">
           <span v-if="typeof(v.value)=='string'">
-            <span v-if="v.type == 'image'"> <img :src="scope.row[v.value]" :alt="scope.row[v.value]" width="40px"></span>
+            <span v-if="v.type == 'image'">
+              <img
+                :src="scope.row[v.value]"
+                :alt="scope.row[v.value]"
+                width="40px"
+              >
+            </span>
             <span v-else-if="v.value_alias">
-              <el-tooltip v-if="scope.row[v.value]" effect="dark" :content="scope.row[v.value_alias]" placement="top-start" popper-class="ape-table-tooltip">
+              <el-tooltip
+                v-if="scope.row[v.value]"
+                effect="dark"
+                :content="scope.row[v.value_alias]"
+                placement="top-start"
+                popper-class="ape-table-tooltip"
+              >
                 <span v-html="scope.row[v.value]" />
               </el-tooltip>
-              <span v-else v-html="scope.row[v.value_alias]" />
+              <span
+                v-else
+                v-html="scope.row[v.value_alias]"
+              />
             </span>
             <span v-else-if="v.type == 'time'">
               {{ scope.row[v.value] | parseTime }}
             </span>
-            <span v-else v-html="scope.row[v.value]" />
+            <span
+              v-else
+              v-html="scope.row[v.value]"
+            />
           </span>
           <span v-else-if="typeof(v.value)=='object'">
-            <span v-for="(v1,k1) in v.value" :key="k1">
+            <span
+              v-for="(v1,k1) in v.value"
+              :key="k1"
+            >
               <template v-if="v.key">
                 <template v-for="(item, idx) in scope.row[v.key]">
-                  <el-tooltip :key="idx" effect="dark" placement="top-start">
-                    <div slot="content" v-html="item[v1.value_alias]" />
+                  <el-tooltip
+                    :key="idx"
+                    effect="dark"
+                    placement="top-start"
+                  >
+                    <div
+                      slot="content"
+                      v-html="item[v1.value_alias]"
+                    />
                     <p class="is-value">{{ item[v1.value] }}</p>
                   </el-tooltip>
                 </template>
               </template>
-              <span v-else-if="scope.row[v1.value] || scope.row[v1.value_alias] || scope.row[v1]" class="more-info-display">
-                <span v-if="typeof(v1)=='string'" class="is-value" v-html="scope.row[v1]" />
-                <span v-if="typeof(v1)=='object' && v1.label" class="is-label" :style="{width:v1.width?parseInt(v1.width)+'px':'72px'}" v-html="v1.label" />
+              <span
+                v-else-if="scope.row[v1.value] || scope.row[v1.value_alias] || scope.row[v1]"
+                class="more-info-display"
+              >
+                <span
+                  v-if="typeof(v1)=='string'"
+                  class="is-value"
+                  v-html="scope.row[v1]"
+                />
+                <span
+                  v-if="typeof(v1)=='object' && v1.label"
+                  class="is-label"
+                  :style="{width:v1.width?parseInt(v1.width)+'px':'72px'}"
+                  v-html="v1.label"
+                />
                 <template v-if="v1.value_alias && v1.value">
-                  <el-tooltip v-if="scope.row[v1.value]" effect="dark" placement="top-start" popper-class="ape-table-tooltip">
-                    <div slot="content" v-html="scope.row[v1.value_alias]" />
-                    <span v-if="typeof(v1)=='object'" class="is-value" v-html="scope.row[v1.value]" />
+                  <el-tooltip
+                    v-if="scope.row[v1.value]"
+                    effect="dark"
+                    placement="top-start"
+                    popper-class="ape-table-tooltip"
+                  >
+                    <div
+                      slot="content"
+                      v-html="scope.row[v1.value_alias]"
+                    />
+                    <span
+                      v-if="typeof(v1)=='object'"
+                      class="is-value"
+                      v-html="scope.row[v1.value]"
+                    />
                   </el-tooltip>
-                  <span v-else class="is-value" v-html="scope.row[v1.value_alias]" />
+                  <span
+                    v-else
+                    class="is-value"
+                    v-html="scope.row[v1.value_alias]"
+                  />
                 </template>
                 <template v-else>
-                  <span v-if="typeof(v1)=='object'" class="is-value" v-html="scope.row[v1.value]" />
+                  <span
+                    v-if="typeof(v1)=='object'"
+                    class="is-value"
+                    v-html="scope.row[v1.value]"
+                  />
                 </template>
               </span>
             </span>
@@ -53,7 +136,17 @@
       </el-table-column>
       <slot />
     </el-table>
-    <el-pagination v-if="initPaging" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" :layout="defaultLayout" :total="dataTotal" background @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+    <el-pagination
+      v-if="initPaging"
+      :current-page="currentPage"
+      :page-sizes="pageSizes"
+      :page-size="pageSize"
+      :layout="defaultLayout"
+      :total="dataTotal"
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 

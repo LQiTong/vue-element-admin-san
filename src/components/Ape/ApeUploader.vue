@@ -1,12 +1,45 @@
 <template>
   <div>
-    <el-upload class="ape-uploader" :class="{'ape-uploader-image':isImage, 'ape-uploader-disabled':disabledUpload}" name="file" :action="uploadToken.host" :headers="uploadHeaders" :data="uploadData" :on-preview="handlePictureCardPreview" :before-upload="beforeUpload" :on-success="afterUpload" :on-remove="removeUpload" :list-type="listType" :on-error="onError" :file-list="uploadFileList" :limit="limit" :on-exceed="onExceed">
-      <el-button v-if="listType == 'text' && !disabledUpload" size="small" type="primary">点击上传</el-button>
-      <i v-if="listType == 'picture-card' && !disabledUpload" class="el-icon-plus" />
+    <el-upload
+      class="ape-uploader"
+      :class="{'ape-uploader-image':isImage, 'ape-uploader-disabled':disabledUpload}"
+      name="file"
+      :action="uploadToken.host"
+      :headers="uploadHeaders"
+      :data="uploadData"
+      :on-preview="handlePictureCardPreview"
+      :before-upload="beforeUpload"
+      :on-success="afterUpload"
+      :on-remove="removeUpload"
+      :list-type="listType"
+      :on-error="onError"
+      :file-list="uploadFileList"
+      :limit="limit"
+      :on-exceed="onExceed"
+    >
+      <el-button
+        v-if="listType == 'text' && !disabledUpload"
+        size="small"
+        type="primary"
+      >点击上传</el-button>
+      <i
+        v-if="listType == 'picture-card' && !disabledUpload"
+        class="el-icon-plus"
+      />
     </el-upload>
-    <div slot="tip" class="el-upload__tip">{{ uploadTip?uploadTip:'请上传文件，最多上传'+limit+'张/份。' }}</div>
-    <el-dialog :visible.sync="dialogVisible" append-to-body>
-      <img width="100%" :src="dialogImageUrl" alt="">
+    <div
+      slot="tip"
+      class="el-upload__tip"
+    >{{ uploadTip?uploadTip:'请上传文件，最多上传'+limit+'张/份。' }}</div>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      append-to-body
+    >
+      <img
+        width="100%"
+        :src="dialogImageUrl"
+        alt=""
+      >
     </el-dialog>
   </div>
 </template>

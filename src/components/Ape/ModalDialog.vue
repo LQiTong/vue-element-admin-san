@@ -1,13 +1,36 @@
 <template>
-  <el-dialog :visible.sync="dialogData.visible" :title="dialogData.title" :width="dialogData.width" :before-close="dialogClose" :close-on-click-modal="dialogData.modal">
-    <div v-loading="dialogData.loading" class="dialog-content" :element-loading-text="dialogData.loading_text?dialogData.loading_text:'玩命加载中……'" element-loading-spinner="el-icon-loading">
+  <el-dialog
+    :visible.sync="dialogData.visible"
+    :title="dialogData.title"
+    :width="dialogData.width"
+    :before-close="dialogClose"
+    :close-on-click-modal="dialogData.modal"
+  >
+    <div
+      v-loading="dialogData.loading"
+      class="dialog-content"
+      :element-loading-text="dialogData.loading_text?dialogData.loading_text:'玩命加载中……'"
+      element-loading-spinner="el-icon-loading"
+    >
       <slot name="content">
         <span>这是一段信息</span>
       </slot>
     </div>
-    <span v-if="dialogData.show_footer ? dialogData.show_footer : true" slot="footer" class="dialog-footer">
-      <el-button size="medium" @click="dialogClose">取 消</el-button>
-      <el-button size="medium" type="primary" :disabled="dialogData.loading" @click="dialogConfirm">确 定</el-button>
+    <span
+      v-if="dialogData.show_footer ? dialogData.show_footer : true"
+      slot="footer"
+      class="dialog-footer"
+    >
+      <el-button
+        size="medium"
+        @click="dialogClose"
+      >取 消</el-button>
+      <el-button
+        size="medium"
+        type="primary"
+        :disabled="dialogData.loading"
+        @click="dialogConfirm"
+      >确 定</el-button>
     </span>
   </el-dialog>
 </template>
