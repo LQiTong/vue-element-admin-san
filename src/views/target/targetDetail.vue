@@ -1,9 +1,23 @@
 <template>
   <div class="main-page-content">
-    <el-row class="mb-20" :gutter="20">
-      <el-col :span="12" :offset="0">客户详情</el-col>
+    <el-row
+      class="mb-20"
+      :gutter="20"
+    >
+      <el-col
+        :span="12"
+        :offset="0"
+      >客户详情</el-col>
     </el-row>
-    <ApeTable ref="apeTable" class="mb-20" :data="detailList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData" highlight-current-row />
+    <ApeTable
+      ref="apeTable"
+      class="mb-20"
+      :data="detailList"
+      :columns="columns"
+      :loading="loadingStatus"
+      :paging-data="pagingData"
+      highlight-current-row
+    />
   </div>
 </template>
 

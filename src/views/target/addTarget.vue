@@ -1,15 +1,40 @@
 <template>
   <div class="main-page-content">
-    <el-card shadow="always" :body-style="{ padding: '20px' }">
+    <el-card
+      shadow="always"
+      :body-style="{ padding: '20px' }"
+    >
       <div slot="header">
         <span>导入客户</span>
       </div>
       <!-- card body -->
-      <el-form ref="modelRef" class="createTarget-wrap" :model="modelRef" :rules="rules" label-width="120px" size="normal">
-        <el-form-item label="国家/地区" prop="activeCountry">
+      <el-form
+        ref="modelRef"
+        class="createTarget-wrap"
+        :model="modelRef"
+        :rules="rules"
+        label-width="120px"
+        size="normal"
+      >
+        <el-form-item
+          label="国家/地区"
+          prop="activeCountry"
+        >
           <div class="vti__dropdown-wrap">
-            <el-select v-model="modelRef.activeCountry" clearable filterable @filter-method="changeCountry" @change="handleSelectChange">
-              <el-option v-for="item in allCountries" :key="item.iso2" :label="`${item.name} (${item.iso2}) ${item.dialCode}`" :value="item.dialCode" class="ant-select-dropdown-menu-item">
+            <el-select
+              v-model="modelRef.activeCountry"
+              clearable
+              filterable
+              @filter-method="changeCountry"
+              @change="handleSelectChange"
+            >
+              <el-option
+                v-for="item in allCountries"
+                :key="item.iso2"
+                :label="`${item.name} (${item.iso2}) ${item.dialCode}`"
+                :value="item.dialCode"
+                class="ant-select-dropdown-menu-item"
+              >
                 <div :title="item.iso2">
                   <div :class="['vti__flag', item.iso2.toLowerCase()]" />
                   <span>{{ `${item.name} (${item.iso2}) ${item.dialCode}` }}</span>
@@ -18,21 +43,72 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item label="备注" size="normal" prop="remark">
-          <el-input v-model="modelRef.remark" placeholder="请输入备注信息" size="normal" clearable />
+        <el-form-item
+          label="备注"
+          size="normal"
+          prop="remark"
+        >
+          <el-input
+            v-model="modelRef.remark"
+            placeholder="请输入备注信息"
+            size="normal"
+            clearable
+          />
         </el-form-item>
-        <el-form-item label="添加数据" size="normal" prop="target">
-          <el-upload ref="upload" :action="uploadUrl" accept=".xlsx,.txt" :headers="uploadHeaders" :data="uploadParams" show-file-list with-credentials name="target" :before-upload="handleBeforeUpload" :on-change="handleChange" :on-error="uploadError" :on-success="uploadSuccess" :auto-upload="false">
-            <el-button slot="trigger" size="small" type="primary" icon="el-icon-files">选取文件</el-button>
-            <div slot="tip" class="el-upload__tip">
-              支持扩展名：<el-button type="text" @click="downloadExcel">.xlsx(下载)</el-button>
-              <el-button type="text" @click="downloadTxt">.txt(下载)</el-button>
+        <el-form-item
+          label="添加数据"
+          size="normal"
+          prop="target"
+        >
+          <el-upload
+            ref="upload"
+            :action="uploadUrl"
+            accept=".xlsx,.txt"
+            :headers="uploadHeaders"
+            :data="uploadParams"
+            show-file-list
+            with-credentials
+            name="target"
+            :before-upload="handleBeforeUpload"
+            :on-change="handleChange"
+            :on-error="uploadError"
+            :on-success="uploadSuccess"
+            :auto-upload="false"
+          >
+            <el-button
+              slot="trigger"
+              size="small"
+              type="primary"
+              icon="el-icon-files"
+            >选取文件</el-button>
+            <div
+              slot="tip"
+              class="el-upload__tip"
+            >
+              支持扩展名：<el-button
+                type="text"
+                @click="downloadExcel"
+              >.xlsx(下载)</el-button>
+              <el-button
+                type="text"
+                @click="downloadTxt"
+              >.txt(下载)</el-button>
             </div>
           </el-upload>
         </el-form-item>
-        <el-form-item label="" size="normal">
-          <el-button type="primary" size="small" @click="handleSubmit">提交</el-button>
-          <el-button size="small" @click="handleCancel">取消</el-button>
+        <el-form-item
+          label=""
+          size="normal"
+        >
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleSubmit"
+          >提交</el-button>
+          <el-button
+            size="small"
+            @click="handleCancel"
+          >取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -121,6 +197,7 @@ export default {
       this.$refs.modelRef.validate(async valid => {
         if (valid) {
           this.$refs.upload.submit()
+          this.$router.push({ name: 'target.target_list' })
         } else {
           this.$message.error('数据验证失败，请检查必填项数据！')
         }

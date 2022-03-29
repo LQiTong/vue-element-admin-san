@@ -2,9 +2,19 @@
   <div class="main-page-content">
     <el-row class="mb-10">
       <el-col>
-        <el-button v-if="buttonType =='text'" type="primary" size="medium" icon="iconfont " @click="newUser">添加用户</el-button>
+        <el-button
+          v-if="buttonType =='text'"
+          type="primary"
+          size="medium"
+          icon="iconfont "
+          @click="newUser"
+        >添加用户</el-button>
         <el-tooltip placement="top">
-          <el-button type="primary" size="medium" @click="newUser">
+          <el-button
+            type="primary"
+            size="medium"
+            @click="newUser"
+          >
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加用户</template>
@@ -12,20 +22,46 @@
       </el-col>
     </el-row>
 
-    <ApeTable ref="apeTable" :data="userList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData" highlight-current-row>
+    <ApeTable
+      ref="apeTable"
+      :data="userList"
+      :columns="columns"
+      :loading="loadingStatus"
+      :paging-data="pagingData"
+      highlight-current-row
+    >
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-tooltip placement="top" class="mr-10">
-            <el-button size="mini" @click="editUser(scope.row)">
+          <el-tooltip
+            placement="top"
+            class="mr-10"
+          >
+            <el-button
+              size="mini"
+              @click="editUser(scope.row)"
+            >
               <i class="el-icon-edit" />
             </el-button>
             <template slot="content">编辑</template>
           </el-tooltip>
-          <el-popconfirm placement="top" width="160" title="确定删除记录吗？" confirm-button-text="删除" cancel-button-text="取消" confirm-button-type="danger" cancel-button-type="text" hide-icon @confirm="delUser(scope.row)">
+          <el-popconfirm
+            placement="top"
+            width="160"
+            title="确定删除记录吗？"
+            confirm-button-text="删除"
+            cancel-button-text="取消"
+            confirm-button-type="danger"
+            cancel-button-type="text"
+            hide-icon
+            @confirm="delUser(scope.row)"
+          >
             <template slot="reference">
               <div class="inlineBlock">
                 <el-tooltip placement="top">
-                  <el-button type="danger" size="mini">
+                  <el-button
+                    type="danger"
+                    size="mini"
+                  >
                     <i class="el-icon-delete" />
                   </el-button>
                   <template slot="content">删除</template>
@@ -36,36 +72,88 @@
         </template>
       </el-table-column>
     </ApeTable>
-    <ApeDrawer :drawer-data="drawerData" @drawer-close="drawerClose" @drawer-confirm="drawerConfirm">
-      <div slot="ape-drawer" class="drawer-container">
-        <el-form ref="userForm" class="user-form" :rules="rules" :model="userForm" label-width="120px" :inline="false" size="normal">
-          <el-form-item label="用户名" prop="username">
+    <ApeDrawer
+      :drawer-data="drawerData"
+      @drawer-close="drawerClose"
+      @drawer-confirm="drawerConfirm"
+    >
+      <div
+        slot="ape-drawer"
+        class="drawer-container"
+      >
+        <el-form
+          ref="userForm"
+          class="user-form"
+          :rules="rules"
+          :model="userForm"
+          label-width="120px"
+          :inline="false"
+          size="normal"
+        >
+          <el-form-item
+            label="用户名"
+            prop="username"
+          >
             <el-input v-model="userForm.username" />
           </el-form-item>
-          <el-form-item label="昵称" prop="nickname">
+          <el-form-item
+            label="昵称"
+            prop="nickname"
+          >
             <el-input v-model="userForm.nickname" />
           </el-form-item>
-          <el-form-item label="手机号" prop="mobile">
+          <el-form-item
+            label="手机号"
+            prop="mobile"
+          >
             <el-input v-model="userForm.mobile" />
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item
+            label="邮箱"
+            prop="email"
+          >
             <el-input v-model="userForm.email" />
           </el-form-item>
-          <el-form-item label="工号" prop="">
+          <el-form-item
+            label="工号"
+            prop=""
+          >
             <el-input v-model="userForm.username" />
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item
+            label="密码"
+            prop="password"
+          >
             <el-input v-model="userForm.password" />
           </el-form-item>
           <el-form-item label="角色绑定">
-            <el-select v-model="userForm.user_roles" multiple filterable clearable placeholder="请选择">
-              <el-option v-for="item in rolesList" :key="item.id" :label="item.display_name" :value="item.id" />
+            <el-select
+              v-model="userForm.user_roles"
+              multiple
+              filterable
+              clearable
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in rolesList"
+                :key="item.id"
+                :label="item.display_name"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item>
             <el-button @click="drawerClose">取消</el-button>
-            <el-button v-if="userType === 1" type="primary" @click="drawerConfirm">立即修改</el-button>
-            <el-button v-if="userType === 0" type="primary" @click="drawerConfirm">立即创建</el-button>
+            <el-button
+              v-if="userType === 1"
+              type="primary"
+              @click="drawerConfirm"
+            >立即修改</el-button>
+            <el-button
+              v-if="userType === 0"
+              type="primary"
+              @click="drawerConfirm"
+            >立即创建</el-button>
           </el-form-item>
         </el-form>
       </div>

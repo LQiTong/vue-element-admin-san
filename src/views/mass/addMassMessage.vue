@@ -1,24 +1,69 @@
 <template>
   <div class="main-page-content">
-    <el-card shadow="always" :body-style="{ padding: '20px' }">
+    <el-card
+      shadow="always"
+      :body-style="{ padding: '20px' }"
+    >
       <div slot="header">
         <span>群发消息</span>
       </div>
       <!-- card body -->
-      <el-form ref="formRef" class="form-wrap" :model="modelRef" :rules="rules" label-width="120px" size="normal">
-        <el-form-item label="任务名称" size="normal" prop="task_name">
-          <el-input v-model="modelRef.task_name" placeholder="请输入任务名称" />
+      <el-form
+        ref="formRef"
+        class="form-wrap"
+        :model="modelRef"
+        :rules="rules"
+        label-width="120px"
+        size="normal"
+      >
+        <el-form-item
+          label="任务名称"
+          size="normal"
+          prop="task_name"
+        >
+          <el-input
+            v-model="modelRef.task_name"
+            placeholder="请输入任务名称"
+          />
         </el-form-item>
-        <el-form-item label="目标客户" size="normal" prop="target_id">
-          <el-select v-model="modelRef.target_id" placeholder="请选择" clearable filterable>
-            <el-option v-for="item in targetList" :key="item.id" :label="item.remark" :value="item.id" />
+        <el-form-item
+          label="目标客户"
+          size="normal"
+          prop="target_id"
+        >
+          <el-select
+            v-model="modelRef.target_id"
+            placeholder="请选择"
+            clearable
+            filterable
+          >
+            <el-option
+              v-for="item in targetList"
+              :key="item.id"
+              :label="item.remark"
+              :value="item.id"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="消息内容" size="normal" prop="content">
-          <el-input v-model="modelRef.content" type="textarea" :rows="6" placeholder="请输入内容" />
+        <el-form-item
+          label="消息内容"
+          size="normal"
+          prop="content"
+        >
+          <el-input
+            v-model="modelRef.content"
+            type="textarea"
+            :rows="6"
+            placeholder="请输入内容"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="default" :loading="executeLoading" @click="executeTask">立即创建</el-button>
+          <el-button
+            type="primary"
+            size="default"
+            :loading="executeLoading"
+            @click="executeTask"
+          >立即创建</el-button>
         </el-form-item>
       </el-form>
     </el-card>

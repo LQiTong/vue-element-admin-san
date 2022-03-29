@@ -188,7 +188,7 @@ const generateRoutes = (routesList) => {
   let routes = filterRoutes(routesList)
 
   // 本地开发环境菜单拦截
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
     routes = asyncRoutes
   }
 

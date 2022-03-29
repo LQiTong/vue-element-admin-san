@@ -1,32 +1,75 @@
 <template>
   <div class="main-page-content">
-    <ApeTable ref="apeTable" :data="recordList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData" highlight-current-row>
-      <el-table-column label="任务状态" width="100">
+    <ApeTable
+      ref="apeTable"
+      :data="recordList"
+      :columns="columns"
+      :loading="loadingStatus"
+      :paging-data="pagingData"
+      highlight-current-row
+    >
+      <el-table-column
+        label="任务状态"
+        width="100"
+      >
         <template slot-scope="scope">
           {{ $appConst.TASK_STATUS[scope.row.status] }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220">
+      <el-table-column
+        label="操作"
+        width="220"
+      >
         <template slot-scope="scope">
-          <el-tooltip v-if="scope.row.status === 0 || scope.row.status === 3" placement="top" class="mr-5">
-            <el-button size="mini" @click="executeTask(scope.row)">
+          <el-tooltip
+            v-if="scope.row.status === 0 || scope.row.status === 3"
+            placement="top"
+            class="mr-5"
+          >
+            <el-button
+              size="mini"
+              @click="executeTask(scope.row)"
+            >
               <svg-icon icon-class="icon-execute" />
             </el-button>
             <template slot="content">执行该任务</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button type="primary" plain size="mini" icon="el-icon-info" @click="taskDetail(scope.row)" />
+            <el-button
+              type="primary"
+              plain
+              size="mini"
+              icon="el-icon-info"
+              @click="taskDetail(scope.row)"
+            />
             <template slot="content">群发详情</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="delTask(scope.row)" />
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              @click="delTask(scope.row)"
+            />
             <template slot="content">删除该任务</template>
           </el-tooltip>
         </template>
       </el-table-column>
     </ApeTable>
-    <ModalDialog :dialog-data="dialogData" @dialogClose="dialogClose" @dialogConfirm="dialogConfirm">
-      <ApeTable slot="content" border :data="detailList" :columns="detailColumns" :loading="detailLoading" :paging-data="detailPages" highlight-current-row>
+    <ModalDialog
+      :dialog-data="dialogData"
+      @dialogClose="dialogClose"
+      @dialogConfirm="dialogConfirm"
+    >
+      <ApeTable
+        slot="content"
+        border
+        :data="detailList"
+        :columns="detailColumns"
+        :loading="detailLoading"
+        :paging-data="detailPages"
+        highlight-current-row
+      >
         <el-table-column label="状态">
           <template slot-scope="scope">
             {{ $appConst.TASK_DETAIL_STATUS[scope.row.status] }}

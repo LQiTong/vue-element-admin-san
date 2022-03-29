@@ -3,7 +3,11 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" size="medium" @click="newDevice">
+          <el-button
+            type="primary"
+            size="medium"
+            @click="newDevice"
+          >
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加设备</template>
@@ -11,11 +15,27 @@
       </el-col>
     </el-row>
 
-    <ApeTable ref="apeTable" :data="deviceList" highlight-current-row :columns="columns" :paging-data="pages" :loading="loadingStatus">
-      <el-table-column label="操作" prop="">
+    <ApeTable
+      ref="apeTable"
+      :data="deviceList"
+      highlight-current-row
+      :columns="columns"
+      :paging-data="pages"
+      :loading="loadingStatus"
+    >
+      <el-table-column
+        label="操作"
+        prop=""
+      >
         <template slot-scope="scope">
-          <el-tooltip placement="top" class="mr-10">
-            <el-button size="mini" @click="editDevice(scope.row)">
+          <el-tooltip
+            placement="top"
+            class="mr-10"
+          >
+            <el-button
+              size="mini"
+              @click="editDevice(scope.row)"
+            >
               <i class="el-icon-edit" />
             </el-button>
             <template slot="content">编辑</template>
