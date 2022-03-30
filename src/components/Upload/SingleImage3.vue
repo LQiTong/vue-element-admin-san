@@ -9,36 +9,25 @@
       drag
       action="https://httpbin.org/post"
     >
-      <i class="el-icon-upload" />
+      <i class="el-icon-upload"></i>
       <div class="el-upload__text">
-        将文件拖到此处，或<em>点击上传</em>
+        将文件拖到此处，或
+        <em>点击上传</em>
       </div>
     </el-upload>
     <div class="image-preview image-app-preview">
-      <div
-        v-show="imageUrl.length>1"
-        class="image-preview-wrapper"
-      >
-        <img :src="imageUrl">
+      <div v-show="imageUrl.length > 1" class="image-preview-wrapper">
+        <img :src="imageUrl" />
         <div class="image-preview-action">
-          <i
-            class="el-icon-delete"
-            @click="rmImage"
-          />
+          <i class="el-icon-delete" @click="rmImage"></i>
         </div>
       </div>
     </div>
     <div class="image-preview">
-      <div
-        v-show="imageUrl.length>1"
-        class="image-preview-wrapper"
-      >
-        <img :src="imageUrl">
+      <div v-show="imageUrl.length > 1" class="image-preview-wrapper">
+        <img :src="imageUrl" />
         <div class="image-preview-action">
-          <i
-            class="el-icon-delete"
-            @click="rmImage"
-          />
+          <i class="el-icon-delete" @click="rmImage"></i>
         </div>
       </div>
     </div>
@@ -98,7 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/mixin.scss';
+@import "~@/styles/mixin.scss";
 .upload-container {
   width: 100%;
   position: relative;

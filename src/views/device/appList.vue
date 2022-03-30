@@ -3,11 +3,7 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button
-            type="primary"
-            size="medium"
-            @click="newApp"
-          >
+          <el-button type="primary" size="medium" @click="newApp">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加账号</template>
@@ -23,34 +19,19 @@
       :paging-data="pages"
       highlight-current-row
     >
-      <el-table-column
-        label="状态"
-        prop="state"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.state == 1 ? '在线' : scope.row.state == 2 ? '离线' : scope.row.state == -1 ? '封号' : '' }}
-        </template>
+      <el-table-column label="状态" prop="state">
+        <template
+          slot-scope="scope"
+        >{{ scope.row.state == 1 ? '在线' : scope.row.state == 2 ? '离线' : scope.row.state == -1 ? '封号' : '' }}</template>
       </el-table-column>
-      <el-table-column
-        label="上次登录"
-        prop="login_time"
-      >
+      <el-table-column label="上次登录" prop="login_time">
         <template slot-scope="scope">{{ scope.row.login_time | parseTime }}</template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        prop=""
-      >
+      <el-table-column label="操作" prop>
         <template slot-scope="scope">
-          <el-tooltip
-            placement="top"
-            class="mr-10"
-          >
-            <el-button
-              size="mini"
-              @click="editApp(scope.row)"
-            >
-              <i class="el-icon-edit" />
+          <el-tooltip placement="top" class="mr-10">
+            <el-button size="mini" @click="editApp(scope.row)">
+              <i class="el-icon-edit"></i>
             </el-button>
             <template slot="content">编辑</template>
           </el-tooltip>

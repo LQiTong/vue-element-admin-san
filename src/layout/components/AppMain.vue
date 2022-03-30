@@ -60,7 +60,7 @@ export default {
   padding: 0;
   margin: 24px;
   overflow: inherit;
-  flexnone: !important;
+  // flexnone: !important;
   min-height: 720px;
 }
 

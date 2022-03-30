@@ -9,7 +9,7 @@
     <div
       v-loading="dialogData.loading"
       class="dialog-content"
-      :element-loading-text="dialogData.loading_text?dialogData.loading_text:'玩命加载中……'"
+      :element-loading-text="dialogData.loading_text ? dialogData.loading_text : '玩命加载中……'"
       element-loading-spinner="el-icon-loading"
     >
       <slot name="content">
@@ -21,10 +21,7 @@
       slot="footer"
       class="dialog-footer"
     >
-      <el-button
-        size="medium"
-        @click="dialogClose"
-      >取 消</el-button>
+      <el-button size="medium" @click="dialogClose">取 消</el-button>
       <el-button
         size="medium"
         type="primary"

@@ -44,7 +44,7 @@ export function parseTime(time, cFormat) {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') {
-      return `星期${['日', '一', '二', '三', '四', '五', '六'][value]}`
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
     }
     // Array.padStart 需要两个参数——新创建的结果字符串的总长度和将被重复的字符串
     return value.toString().padStart(2, '0')

@@ -1,25 +1,16 @@
 <template>
-  <div
-    class="exception"
-    :style="exceptionStyle"
-  >
+  <div class="exception" :style="exceptionStyle">
     <div class="img-block">
-      <div
-        class="img-ele"
-        :style="`background-image: url(${img || config[pageType].img})`"
-      />
+      <div class="img-ele" :style="`background-image: url(${img || config[pageType].img})`"></div>
     </div>
     <div class="content">
       <h1>{{ title || config[pageType].title }}</h1>
-      <slot name="title" />
+      <slot name="title"></slot>
       <div class="desc">{{ desc || config[pageType].desc }}</div>
-      <slot name="desc" />
+      <slot name="desc"></slot>
       <div class="actions">
         <router-link to="/">
-          <el-button
-            type="primary"
-            size="small"
-          >返回首页</el-button>
+          <el-button type="primary" size="small">返回首页</el-button>
         </router-link>
       </div>
     </div>

@@ -8,11 +8,8 @@
       autocomplete="on"
       label-position="left"
     >
-
       <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
-        </h3>
+        <h3 class="title">{{ $t('login.title') }}</h3>
         <lang-select class="set-language" />
       </div>
 
@@ -31,12 +28,7 @@
         />
       </el-form-item>
 
-      <el-tooltip
-        v-model="capsTooltip"
-        content="Caps lock is On"
-        placement="right"
-        manual
-      >
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -54,10 +46,7 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
-          <span
-            class="show-pwd"
-            @click="showPwd"
-          >
+          <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
@@ -68,9 +57,7 @@
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-      >
-        {{ $t('login.logIn') }}
-      </el-button>
+      >{{ $t('login.logIn') }}</el-button>
 
       <div style="position:relative">
         <div class="tips">
@@ -80,7 +67,7 @@
 
         <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           {{ $t('login.thirdparty') }}
-        </el-button> -->
+        </el-button>-->
       </div>
     </el-form>
 
@@ -90,7 +77,7 @@
       <br>
       <br>
       <social-sign />
-    </el-dialog> -->
+    </el-dialog>-->
   </div>
 </template>
 

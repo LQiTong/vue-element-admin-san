@@ -1,9 +1,6 @@
 <template>
   <div class="main-page-content">
-    <Exception
-      type="500"
-      exception-style="min-height:500px; height:80%;"
-    />
+    <Exception type="500" exception-style="min-height:500px; height:80%;" />
   </div>
 </template>
 

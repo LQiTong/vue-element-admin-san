@@ -3,23 +3,14 @@
     <el-row class="mb-10">
       <el-col>
         <el-button
-          v-if="buttonType =='text'"
+          v-if="buttonType == 'text'"
           type="primary"
           size="medium"
           icon="iconfont "
           @click="addButton(0)"
         >添加菜单组</el-button>
-        <el-tooltip
-          v-if="buttonType =='icon'"
-          effect="dark"
-          content="添加菜单组"
-          placement="top-start"
-        >
-          <el-button
-            type="primary"
-            size="medium"
-            @click="addButton(0)"
-          >
+        <el-tooltip v-if="buttonType == 'icon'" effect="dark" content="添加菜单组" placement="top-start">
+          <el-button type="primary" size="medium" @click="addButton(0)">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
         </el-tooltip>
@@ -33,131 +24,63 @@
       :paging-data="pages"
       highlight-current-row
     >
-      <el-table-column
-        slot="first-column"
-        width="80"
-        align="center"
-        label="Drag"
-      >
+      <el-table-column slot="first-column" width="80" align="center" label="Drag">
         <template slot-scope="scope">
-          <el-tooltip
-            effect="dark"
-            content="拖动排序"
-            placement="top-start"
-          >
+          <el-tooltip effect="dark" content="拖动排序" placement="top-start">
             <span
               class="drag-handle pointer"
               :data-id="scope.row.id"
               :data-parent_id="scope.row.parent_id"
               :data-depth="scope.row.depth"
-            ><i class="el-icon-rank" /></span>
+            >
+              <i class="el-icon-rank"></i>
+            </span>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="buttonType=='icon'"
-        label="操作"
-      >
+      <el-table-column v-if="buttonType == 'icon'" label="操作">
         <template slot-scope="scope">
-          <el-tooltip
-            effect="dark"
-            content="添加子菜单"
-            placement="top-start"
-          >
-            <el-button
-              size="mini"
-              @click="addButton(scope.row.id)"
-            >
-              <svg-icon
-                icon-class="tree"
-                class-name="iconfont icon"
-              />
+          <el-tooltip effect="dark" content="添加子菜单" placement="top-start">
+            <el-button size="mini" @click="addButton(scope.row.id)">
+              <svg-icon icon-class="tree" class-name="iconfont icon" />
             </el-button>
           </el-tooltip>
-          <el-tooltip
-            effect="dark"
-            content="编辑"
-            placement="top-start"
-          >
-            <el-button
-              size="mini"
-              icon="el-icon-edit"
-              @click="editButton(scope.row.id)"
-            />
+          <el-tooltip effect="dark" content="编辑" placement="top-start">
+            <el-button size="mini" icon="el-icon-edit" @click="editButton(scope.row.id)" />
           </el-tooltip>
-          <el-tooltip
-            effect="dark"
-            content="删除"
-            placement="top-start"
-          >
+          <el-tooltip effect="dark" content="删除" placement="top-start">
             <span>
-              <el-popover
-                :ref="'el-popover-'+scope.$index"
-                placement="top"
-                width="150"
-              >
+              <el-popover :ref="'el-popover-' + scope.$index" placement="top" width="150">
                 <p>确定要删除记录吗？</p>
                 <div style="text-align: right; margin: 0;">
                   <el-button
                     type="text"
                     size="mini"
-                    @click="$refs['el-popover-'+scope.$index].doClose()"
+                    @click="$refs['el-popover-' + scope.$index].doClose()"
                   >取消</el-button>
-                  <el-button
-                    type="danger"
-                    size="mini"
-                    @click="deleteButton(scope.row.id)"
-                  >确定</el-button>
+                  <el-button type="danger" size="mini" @click="deleteButton(scope.row.id)">确定</el-button>
                 </div>
-                <el-button
-                  slot="reference"
-                  type="danger"
-                  size="mini"
-                  icon="el-icon-delete"
-                />
+                <el-button slot="reference" type="danger" size="mini" icon="el-icon-delete" />
               </el-popover>
             </span>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="buttonType=='text'"
-        width="200"
-        label="操作"
-      >
+      <el-table-column v-if="buttonType == 'text'" width="200" label="操作">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            icon="iconfont"
-            @click="addButton(scope.row.id)"
-          >添加子菜单</el-button>
-          <el-button
-            size="mini"
-            @click="editButton(scope.row.id)"
-          >编辑</el-button>
-          <el-popover
-            :ref="'el-popover-'+scope.$index"
-            placement="top"
-            width="150"
-          >
+          <el-button size="mini" icon="iconfont" @click="addButton(scope.row.id)">添加子菜单</el-button>
+          <el-button size="mini" @click="editButton(scope.row.id)">编辑</el-button>
+          <el-popover :ref="'el-popover-' + scope.$index" placement="top" width="150">
             <p>确定要删除记录吗？</p>
             <div style="text-align: right; margin: 0;">
               <el-button
                 type="text"
                 size="mini"
-                @click="$refs['el-popover-'+scope.$index].doClose()"
+                @click="$refs['el-popover-' + scope.$index].doClose()"
               >取消</el-button>
-              <el-button
-                type="danger"
-                size="mini"
-                @click="deleteButton(scope.row.id)"
-              >确定</el-button>
+              <el-button type="danger" size="mini" @click="deleteButton(scope.row.id)">确定</el-button>
             </div>
-            <el-button
-              slot="reference"
-              type="danger"
-              size="mini"
-            >删除</el-button>
+            <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popover>
         </template>
       </el-table-column>

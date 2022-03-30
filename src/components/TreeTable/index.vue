@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-loading="loading"
-    element-loading-text="玩命加载中……"
-    element-loading-spinner="el-icon-loading"
-  >
+  <div v-loading="loading" element-loading-text="玩命加载中……" element-loading-spinner="el-icon-loading">
     <el-table
       ref="treeTable"
       class="tree-table"
@@ -13,111 +9,58 @@
       v-bind="$attrs"
       @row-click="rowClick"
     >
-      <slot name="first-column" />
-      <el-table-column
-        v-if="columns.length===0"
-        label="序号"
-        width="150"
-      >
+      <slot name="first-column"></slot>
+      <el-table-column v-if="columns.length === 0" label="序号" width="150">
         <template slot-scope="scope">
-          <span
-            v-for="space in scope.row.depth"
-            :key="space"
-            class="ms-tree-space"
-          >
-            <i
-              v-if="space===scope.row.depth"
-              class="iconfont icon-zuzhizhankai1"
-            />
-            <i
-              v-else
-              class="iconfont icon-kongbai"
-            />
+          <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
+            <i v-if="space === scope.row.depth" class="iconfont icon-zuzhizhankai1"></i>
+            <i v-else class="iconfont icon-kongbai"></i>
           </span>
-          <span
-            v-if="iconShow(scope.row)"
-            class="tree-ctrl"
-            @click="toggleExpanded(scope.row)"
-          >
+          <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
             <el-tooltip
               v-if="!scope.row._expanded"
               effect="dark"
               content="展开"
               placement="top-start"
             >
-              <i class="el-icon-plus" />
+              <i class="el-icon-plus"></i>
             </el-tooltip>
-            <el-tooltip
-              v-else
-              effect="dark"
-              content="折叠"
-              placement="top-start"
-            >
-              <i class="el-icon-minus" />
+            <el-tooltip v-else effect="dark" content="折叠" placement="top-start">
+              <i class="el-icon-minus"></i>
             </el-tooltip>
           </span>
-          {{ scope.$index+1 }}
+          {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column
-        v-for="v in columns"
-        v-else
-        :key="v.value"
-        :label="v.title"
-        :width="v.width"
-      >
+      <el-table-column v-for="v in columns" v-else :key="v.value" :label="v.title" :width="v.width">
         <template slot-scope="scope">
           <span v-if="v.operation">
-            <span
-              v-for="space in scope.row.depth"
-              :key="space"
-              class="ms-tree-space"
-            >
+            <span v-for="space in scope.row.depth" :key="space" class="ms-tree-space">
               <!-- <i v-if="space===scope.row.depth" class="iconfont icon-zuzhizhankai1" /> -->
               <svg-icon
-                v-if="space===scope.row.depth"
+                v-if="space === scope.row.depth"
                 icon-class="icon-zuzhizhankai"
                 class-name="iconfont icon-zuzhizhankai"
               />
-              <i
-                v-else
-                class="iconfont icon-kongbai"
-              />
+              <i v-else class="iconfont icon-kongbai"></i>
             </span>
-            <span
-              v-if="iconShow(scope.row)"
-              class="tree-ctrl"
-              @click="toggleExpanded(scope.row)"
-            >
+            <span v-if="iconShow(scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.row)">
               <el-tooltip
                 v-if="!scope.row._expanded"
                 effect="dark"
                 content="展开"
                 placement="top-start"
               >
-                <i class="el-icon-plus" />
+                <i class="el-icon-plus"></i>
               </el-tooltip>
-              <el-tooltip
-                v-else
-                effect="dark"
-                content="折叠"
-                placement="top-start"
-              >
-                <i class="el-icon-minus" />
+              <el-tooltip v-else effect="dark" content="折叠" placement="top-start">
+                <i class="el-icon-minus"></i>
               </el-tooltip>
             </span>
           </span>
-          <i
-            v-if="v.type=='icon'"
-            class="iconfont"
-            :class="scope.row[v.value]"
-          />
+          <i v-if="v.type == 'icon'" class="iconfont" :class="scope.row[v.value]"></i>
           <span v-else-if="v.type == 'image'">
-            <img
-              :src="scope.row[v.value]"
-              :alt="scope.row[v.value]"
-              height="40px"
-            >
+            <img :src="scope.row[v.value]" :alt="scope.row[v.value]" height="40px" />
           </span>
           <template v-else-if="v.value_alias && v.value">
             <el-tooltip
@@ -126,24 +69,15 @@
               placement="top-start"
               popper-class="ape-table-tooltip"
             >
-              <div
-                slot="content"
-                v-html="scope.row[v.value_alias]"
-              />
-              <span
-                v-if="typeof(v)=='object'"
-                v-html="scope.row[v.value]"
-              />
+              <div slot="content" v-html="scope.row[v.value_alias]"></div>
+              <span v-if="typeof (v) == 'object'" v-html="scope.row[v.value]"></span>
             </el-tooltip>
-            <span
-              v-else
-              v-html="scope.row[v.value_alias]"
-            />
+            <span v-else v-html="scope.row[v.value_alias]"></span>
           </template>
           <span v-else>{{ scope.row[v.value] }}</span>
         </template>
       </el-table-column>
-      <slot />
+      <slot></slot>
     </el-table>
     <el-pagination
       v-if="initPaging"

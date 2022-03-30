@@ -2,21 +2,34 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="计划列表" @keyup.enter="addTodo">
+      <input class="new-todo" autocomplete="off" placeholder="计划列表" @keyup.enter="addTodo" />
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
-      <input id="toggle-all" :checked="allChecked" class="toggle-all" type="checkbox" @change="toggleAll({ done: !allChecked })">
-      <label for="toggle-all" />
+      <input
+        id="toggle-all"
+        :checked="allChecked"
+        class="toggle-all"
+        type="checkbox"
+        @change="toggleAll({ done: !allChecked })"
+      />
+      <label for="toggle-all"></label>
       <ul class="todo-list">
-        <todo v-for="(todo, index) in filteredTodos" :key="index" :todo="todo" @toggleTodo="toggleTodo" @editTodo="editTodo" @deleteTodo="deleteTodo" />
+        <todo
+          v-for="(todo, index) in filteredTodos"
+          :key="index"
+          :todo="todo"
+          @toggleTodo="toggleTodo"
+          @editTodo="editTodo"
+          @deleteTodo="deleteTodo"
+        />
       </ul>
     </section>
     <!-- footer -->
     <footer v-show="todos.length" class="footer">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
-        {{ remaining | pluralize('项目') }} 未完成
+        {{ remaining | pluralize("项目") }} 未完成
       </span>
       <ul class="filters">
         <li v-for="(val, key) in filters" :key="key">
@@ -25,7 +38,7 @@
       </ul>
       <!-- <button class="clear-completed" v-show="todos.length > remaining" @click="clearCompleted">
         Clear completed
-      </button> -->
+      </button>-->
     </footer>
   </section>
 </template>
@@ -35,9 +48,9 @@ import Todo from './Todo.vue'
 
 const STORAGE_KEY = 'todos'
 const filters = {
-  '全部': todos => todos,
-  '进行中': todos => todos.filter(todo => !todo.done),
-  '已完成': todos => todos.filter(todo => todo.done)
+  全部: (todos) => todos,
+  进行中: (todos) => todos.filter((todo) => !todo.done),
+  已完成: (todos) => todos.filter((todo) => todo.done)
 }
 const defalutList = [
   { text: '在这个存储库中添加星号', done: false },
@@ -64,13 +77,13 @@ export default {
   },
   computed: {
     allChecked() {
-      return this.todos.every(todo => todo.done)
+      return this.todos.every((todo) => todo.done)
     },
     filteredTodos() {
       return filters[this.visibility](this.todos)
     },
     remaining() {
-      return this.todos.filter(todo => !todo.done).length
+      return this.todos.filter((todo) => !todo.done).length
     }
   },
   methods: {
@@ -101,11 +114,11 @@ export default {
       this.setLocalStorage()
     },
     clearCompleted() {
-      this.todos = this.todos.filter(todo => !todo.done)
+      this.todos = this.todos.filter((todo) => !todo.done)
       this.setLocalStorage()
     },
     toggleAll({ done }) {
-      this.todos.forEach(todo => {
+      this.todos.forEach((todo) => {
         todo.done = done
         this.setLocalStorage()
       })
@@ -115,5 +128,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './index.scss';
+@import "./index.scss";
 </style>

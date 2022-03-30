@@ -8,28 +8,17 @@
       :paging-data="pagingData"
       highlight-current-row
     >
-      <el-table-column
-        label="任务状态"
-        width="100"
-      >
-        <template slot-scope="scope">
-          {{ $appConst.TASK_STATUS[scope.row.status] }}
-        </template>
+      <el-table-column label="任务状态" width="100">
+        <template slot-scope="scope">{{ $appConst.TASK_STATUS[scope.row.status] }}</template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        width="220"
-      >
+      <el-table-column label="操作" width="220">
         <template slot-scope="scope">
           <el-tooltip
             v-if="scope.row.status === 0 || scope.row.status === 3"
             placement="top"
             class="mr-5"
           >
-            <el-button
-              size="mini"
-              @click="executeTask(scope.row)"
-            >
+            <el-button size="mini" @click="executeTask(scope.row)">
               <svg-icon icon-class="icon-execute" />
             </el-button>
             <template slot="content">执行该任务</template>
@@ -45,12 +34,7 @@
             <template slot="content">群发详情</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button
-              type="danger"
-              size="mini"
-              icon="el-icon-delete"
-              @click="delTask(scope.row)"
-            />
+            <el-button type="danger" size="mini" icon="el-icon-delete" @click="delTask(scope.row)" />
             <template slot="content">删除该任务</template>
           </el-tooltip>
         </template>
@@ -71,14 +55,10 @@
         highlight-current-row
       >
         <el-table-column label="状态">
-          <template slot-scope="scope">
-            {{ $appConst.TASK_DETAIL_STATUS[scope.row.status] }}
-          </template>
+          <template slot-scope="scope">{{ $appConst.TASK_DETAIL_STATUS[scope.row.status] }}</template>
         </el-table-column>
         <el-table-column label="失败原因">
-          <template slot-scope="scope">
-            {{ scope.row.status === 3 ? scope.row.msg : '' }}
-          </template>
+          <template slot-scope="scope">{{ scope.row.status === 3 ? scope.row.msg : '' }}</template>
         </el-table-column>
       </ApeTable>
     </ModalDialog>

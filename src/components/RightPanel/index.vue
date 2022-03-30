@@ -1,20 +1,16 @@
 <template>
-  <div
-    ref="rightPanel"
-    :class="{show:show}"
-    class="rightPanel-container"
-  >
-    <div class="rightPanel-background" />
+  <div ref="rightPanel" :class="{ show: show }" class="rightPanel-container">
+    <div class="rightPanel-background"></div>
     <div class="rightPanel">
       <div
         class="handle-button"
-        :style="{'top':buttonTop+'px','background-color':theme}"
-        @click="show=!show"
+        :style="{ 'top': buttonTop + 'px', 'background-color': theme }"
+        @click="show = !show"
       >
-        <i :class="show?'el-icon-close':'el-icon-setting'" />
+        <i :class="show ? 'el-icon-close' : 'el-icon-setting'"></i>
       </div>
       <div class="rightPanel-items">
-        <slot />
+        <slot></slot>
       </div>
     </div>
   </div>

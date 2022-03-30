@@ -5,7 +5,10 @@
 
       <div class="drawer-item">
         <span>{{ $t('settings.theme') }}</span>
-        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+        <theme-picker
+          style="float: right;height: 26px;margin: -3px 8px 0 0;"
+          @change="themeChange"
+        />
       </div>
 
       <div class="drawer-item">
@@ -33,8 +36,7 @@
       <div v-if="lang === 'zh'" class="drawer-item">
         <span>菜单支持拼音搜索</span>
         <el-switch v-model="supportPinyinSearch" class="drawer-switch" />
-      </div> -->
-
+      </div>-->
     </div>
   </div>
 </template>

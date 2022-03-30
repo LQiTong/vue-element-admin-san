@@ -1,7 +1,5 @@
 <template>
-  <div class="main-page-content">
-    权限管理
-  </div>
+  <div class="main-page-content">权限管理</div>
 </template>
 
 <script>

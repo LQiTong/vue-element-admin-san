@@ -6,13 +6,8 @@
       type="file"
       accept=".xlsx, .xls"
       @change="handleClick"
-    >
-    <div
-      class="drop"
-      @drop="handleDrop"
-      @dragover="handleDragover"
-      @dragenter="handleDragover"
-    >
+    />
+    <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
       Drop excel file here or
       <el-button
         :loading="loading"
@@ -20,9 +15,7 @@
         size="mini"
         type="primary"
         @click="handleUpload"
-      >
-        Browse
-      </el-button>
+      >Browse</el-button>
     </div>
   </div>
 </template>

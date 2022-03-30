@@ -7,7 +7,7 @@
     multiple
     v-on="$listeners"
   >
-    <slot />
+    <slot></slot>
   </el-select>
 </template>
 

@@ -1,14 +1,6 @@
 <template>
-  <div
-    :id="id"
-    :ref="id"
-    :action="url"
-    class="dropzone"
-  >
-    <input
-      type="file"
-      name="file"
-    >
+  <div :id="id" :ref="id" :action="url" class="dropzone">
+    <input type="file" name="file" />
   </div>
 </template>
 
@@ -216,7 +208,7 @@ export default {
 <style scoped>
 .dropzone {
   border: 2px solid #e5e5e5;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #777;
   transition: background-color 0.2s linear;
   padding: 5px;
@@ -235,7 +227,7 @@ i {
   height: 100%;
 }
 
-.dropzone input[name='file'] {
+.dropzone input[name="file"] {
   display: none;
 }
 
