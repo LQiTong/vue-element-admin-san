@@ -8,6 +8,13 @@
       :paging-data="pagingData"
       highlight-current-row
     >
+      <el-table-column label="已执行数" width="200">
+        <template slot-scope="scope">
+          {{ scope.row.already_execute }}
+          <el-tag type="success" class="mr-10">成功：{{ scope.row.success_num }}</el-tag>
+          <el-tag type="danger">失败：{{ scope.row.fail_num }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="任务状态" width="100">
         <template slot-scope="scope">{{ $appConst.TASK_STATUS[scope.row.status] }}</template>
       </el-table-column>
@@ -81,7 +88,7 @@ export default {
         { title: '任务名称', value: 'task_name' },
         { title: '所选客户', value: 'remark' },
         { title: '任务总数', value: 'task_count' },
-        { title: '已执行数', value: 'already_execute' },
+        // { title: '已执行数', value: 'already_execute' },
         { title: '创建时间', value: 'add_time', type: 'time', width: '180' },
         { title: '开始时间', value: 'start_time', type: 'time', width: '180' },
         { title: '结束时间', value: 'end_time', type: 'time', width: '180' }
