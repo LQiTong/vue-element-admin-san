@@ -48,10 +48,18 @@ Mixin.install = (Vue, options) => {
       ...mapGetters(['buttonType'])
     },
     methods: {
+      /**
+       * 初始化data内某属性数据
+       * @param {String} key 属性 key
+       */
       $resetData(key) {
         this[key] = this.$options.data()[key]
       },
-      // 初始化表单数据
+      /**
+       * 初始化表单数据
+       * @param {String} formRef 表单ref名字
+       * @param {Object} options 表单内数据
+       */
       $initFormData(formRef, options = {}) {
         this.$nextTick(() => {
           this[formRef] = options

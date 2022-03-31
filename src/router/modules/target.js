@@ -31,9 +31,9 @@ const targetRouter = {
     },
     // 客户详情
     {
-      path: 'target_detail',
+      path: 'target_detail/:id',
       component: () => import('@/views/target/targetDetail'),
-      name: 'target.target_detail',
+      name: 'target.target_detail/:id',
       hidden: true,
       meta: {
         title: '客户详情'

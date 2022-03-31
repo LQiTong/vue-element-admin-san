@@ -187,7 +187,6 @@ export default {
       this.drawerData.visible = false
     },
     drawerConfirm() {
-      this.drawerData.visible = false
       this.$refs.userForm.validate(async valid => {
         if (valid) {
           // console.log('userForm ---> ', this.userForm)
