@@ -1,8 +1,8 @@
 {
-  "name": "vue-element-admin",
+  "name": "whats-new",
   "version": "4.3.1",
-  "description": "A magical vue admin. An out-of-box UI solution for enterprise applications. Newest development stack of vue. Lots of awesome features",
-  "author": "Pan <panfree23@gmail.com>",
+  "description": "基于 vue + Element-UI + admin 的后台管理系统",
+  "author": "laoqitong727683@163.com>",
   "scripts": {
     "dev": "vue-cli-service serve --mode development",
     "deploy:prod": "npm run build:prod && cross-env ENV=production node ./deploy",
@@ -86,7 +86,7 @@
     "last 2 versions"
   ],
   "bugs": {
-    "url": "https://github.com/PanJiaChen/vue-element-admin/issues"
+    "url": "https://github.com/LQiTong/vue-element-admin-san/issues"
   },
   "engines": {
     "node": ">=8.9",
@@ -110,6 +110,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PanJiaChen/vue-element-admin.git"
+    "url": "git+https://github.com/LQiTong/vue-element-admin-san.git"
   }
 }
