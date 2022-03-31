@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     taskNum() {
-      return this.$route.query.task_num || ''
+      return this.$route.params.id || ''
     }
   },
   created() {

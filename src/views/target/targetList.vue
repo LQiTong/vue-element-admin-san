@@ -38,7 +38,7 @@
               <el-button
                 size="mini"
                 icon="el-icon-search"
-                @click="$router.push({ path: '/target/target_detail', query: { task_num: scope.row.task_num } })"
+                @click="$router.push({ path: `/target/target_detail/${scope.row.task_num}` })"
               />
             </el-tooltip>
           </template>
