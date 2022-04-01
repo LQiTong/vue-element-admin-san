@@ -2,15 +2,9 @@
   <div class="main-page-content">
     <el-row class="mb-10">
       <el-col>
-        <el-button
-          v-if="buttonType == 'text'"
-          type="primary"
-          size="medium"
-          icon="iconfont "
-          @click="newUser"
-        >添加用户</el-button>
+        <el-button v-if="buttonType == 'text'" type="primary" icon="iconfont " @click="newUser">添加用户</el-button>
         <el-tooltip placement="top">
-          <el-button type="primary" size="medium" @click="newUser">
+          <el-button type="primary" @click="newUser">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加用户</template>
@@ -29,7 +23,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-tooltip placement="top" class="mr-10">
-            <el-button size="mini" @click="editUser(scope.row)">
+            <el-button @click="editUser(scope.row)">
               <i class="el-icon-edit"></i>
             </el-button>
             <template slot="content">编辑</template>
@@ -48,7 +42,7 @@
             <template slot="reference">
               <div class="inlineBlock">
                 <el-tooltip placement="top">
-                  <el-button type="danger" size="mini">
+                  <el-button type="danger">
                     <i class="el-icon-delete"></i>
                   </el-button>
                   <template slot="content">删除</template>
@@ -72,7 +66,6 @@
           :model="userForm"
           label-width="120px"
           :inline="false"
-          size="normal"
         >
           <el-form-item label="用户名" prop="username">
             <el-input v-model="userForm.username" />

@@ -11,7 +11,6 @@
         :model="modelRef"
         :rules="rules"
         label-width="120px"
-        size="normal"
       >
         <el-form-item label="国家/地区" prop="activeCountry">
           <div class="vti__dropdown-wrap">
@@ -37,10 +36,10 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item label="备注" size="normal" prop="remark">
-          <el-input v-model="modelRef.remark" placeholder="请输入备注信息" size="normal" clearable />
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="modelRef.remark" placeholder="请输入备注信息" clearable />
         </el-form-item>
-        <el-form-item label="添加数据" size="normal" prop="target">
+        <el-form-item label="添加数据" prop="target">
           <el-upload
             ref="upload"
             :action="uploadUrl"
@@ -56,7 +55,7 @@
             :on-success="uploadSuccess"
             :auto-upload="false"
           >
-            <el-button slot="trigger" size="small" type="primary" icon="el-icon-files">选取文件</el-button>
+            <el-button slot="trigger" type="primary" icon="el-icon-files">选取文件</el-button>
             <div slot="tip" class="el-upload__tip">
               支持扩展名：
               <el-button type="text" @click="downloadExcel">.xlsx(模板下载)</el-button>
@@ -64,9 +63,9 @@
             </div>
           </el-upload>
         </el-form-item>
-        <el-form-item label size="normal">
-          <el-button type="primary" size="small" @click="handleSubmit">提交</el-button>
-          <el-button size="small" @click="handleCancel">取消</el-button>
+        <el-form-item label>
+          <el-button type="primary" @click="handleSubmit">提交</el-button>
+          <el-button @click="handleCancel">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>

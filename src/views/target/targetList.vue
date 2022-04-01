@@ -4,19 +4,14 @@
       <el-form inline class="query-form">
         <el-row :gutter="24">
           <el-col :xl="8" :lg="12" :md="24">
-            <el-form-item label="客户名称" size="normal" label-width="150px">
-              <el-input v-model="queryParam.label_name" placeholder="请输入" size="normal" clearable />
+            <el-form-item label="客户名称" label-width="150px">
+              <el-input v-model="queryParam.label_name" placeholder="请输入" clearable />
             </el-form-item>
           </el-col>
           <el-col :xl="8" :lg="12" :md="24">
-            <el-form-item label size="medium">
-              <el-button
-                type="primary"
-                size="default"
-                icon="el-icon-search"
-                @click="handleSearch"
-              >查询</el-button>
-              <el-button size="default" icon="el-icon-refresh-right" @click="handleReset">重置</el-button>
+            <el-form-item label>
+              <el-button type="primary" icon="el-icon-search" @click="handleSearch">查询</el-button>
+              <el-button icon="el-icon-refresh-right" @click="handleReset">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -36,8 +31,8 @@
           <template slot-scope="scope">
             <el-tooltip content="查看详情" placement="top" effect="dark">
               <el-button
-                size="mini"
-                icon="el-icon-search"
+                type="primary"
+                icon="el-icon-info"
                 @click="$router.push({ path: `/target/target_detail/${scope.row.task_num}` })"
               />
             </el-tooltip>

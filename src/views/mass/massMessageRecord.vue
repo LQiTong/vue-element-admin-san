@@ -25,23 +25,17 @@
             placement="top"
             class="mr-5"
           >
-            <el-button size="mini" @click="executeTask(scope.row)">
+            <el-button @click="executeTask(scope.row)">
               <svg-icon icon-class="icon-execute" />
             </el-button>
             <template slot="content">执行该任务</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button
-              type="primary"
-              plain
-              size="mini"
-              icon="el-icon-info"
-              @click="taskDetail(scope.row)"
-            />
+            <el-button type="primary" icon="el-icon-info" @click="taskDetail(scope.row)" />
             <template slot="content">群发详情</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="delTask(scope.row)" />
+            <el-button type="danger" icon="el-icon-delete" @click="delTask(scope.row)" />
             <template slot="content">删除该任务</template>
           </el-tooltip>
         </template>

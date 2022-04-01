@@ -3,7 +3,7 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" size="medium" @click="newApp">
+          <el-button type="primary" @click="newApp">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加账号</template>
@@ -30,7 +30,7 @@
       <el-table-column label="操作" prop>
         <template slot-scope="scope">
           <el-tooltip placement="top" class="mr-10">
-            <el-button size="mini" @click="editApp(scope.row)">
+            <el-button @click="editApp(scope.row)">
               <i class="el-icon-edit"></i>
             </el-button>
             <template slot="content">编辑</template>
