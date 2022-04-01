@@ -132,7 +132,7 @@ export default {
         { title: '昵称', value: 'nickname' },
         { title: '手机号', value: 'mobile' },
         { title: '邮箱', value: 'email' },
-        { title: '加入时间', value: 'create_at' }
+        { title: '加入时间', value: 'created_at' }
       ],
       drawerData: {
         visible: false,
