@@ -71,7 +71,7 @@ export default {
   methods: {
     async getAppList() {
       this.loadingStatus = true
-      const data = await this.$api.appList()
+      const { data } = await this.$api.appList()
       this.appList = data.list || []
       this.pages = { ...data.pages, is_show: true } || {}
       this.loadingStatus = false

@@ -146,7 +146,9 @@ const actions = {
       if (state.menus && state.menus.length > 0) {
         resolve(state.menus)
       } else {
-        menu.getMenu().then(async data => {
+        menu.getMenu().then(({
+          data
+        }) => {
           console.log(data)
           const routes = generateRoutes(data.list || [])
           // const routes = generateRoutes([])

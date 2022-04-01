@@ -61,7 +61,7 @@ export default {
       },
       loadingStaus: true,
       columns: [
-        { title: '账户ID', value: 'id' },
+        { title: '备注', value: 'remark' },
         { title: '总数量', value: 'count' },
         { title: '账户ID', value: 'id' },
         { title: '添加时间', value: 'add_time' }
@@ -90,7 +90,7 @@ export default {
       this.queryParam = this.$options.data().queryParam
     },
     async getTargetList() {
-      const data = await this.$api.getTargetList()
+      const { data } = await this.$api.getTargetList()
       this.targetList = data.list || []
       this.pagingData = data.pages || {}
       this.loadingStaus = false

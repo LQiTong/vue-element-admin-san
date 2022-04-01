@@ -96,7 +96,7 @@ export default {
       })
     },
     async getTargetList() {
-      const data = await this.$api.getTargetList()
+      const { data } = await this.$api.getTargetList()
       this.targetList = data.list || []
     }
   }

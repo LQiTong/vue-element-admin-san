@@ -8,11 +8,11 @@
       :paging-data="pagingData"
       highlight-current-row
     >
-      <el-table-column label="已执行数" width="200">
+      <el-table-column label="已执行数/成功/失败" width="200">
         <template slot-scope="scope">
-          {{ scope.row.already_execute }}
-          <el-tag type="success" class="mr-10">成功：{{ scope.row.success_num }}</el-tag>
-          <el-tag type="danger">失败：{{ scope.row.fail_num }}</el-tag>
+          <el-tag type="warning" class="mr-10" effect="dark">{{ scope.row.already_execute }}</el-tag>
+          <el-tag type="success" class="mr-10" effect="dark">{{ scope.row.success_num }}</el-tag>
+          <el-tag type="danger" effect="dark">{{ scope.row.fail_num }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="任务状态" width="100">
@@ -128,7 +128,7 @@ export default {
   // 方法集合
   methods: {
     async initRecordList() {
-      const data = await this.$api.taskList()
+      const { data } = await this.$api.taskList()
       this.recordList = data.list || []
       this.pagingData = data.pages || []
     },
@@ -138,9 +138,9 @@ export default {
       this.dialogData.loading = true
       this.dialogData.title = `${row.task_name} 群发详情`
       const task_num = row.task_num
-      const { list, pages } = await this.$api.taskDetail(task_num)
-      this.detailList = list || []
-      this.detailPages = pages || {}
+      const { data } = await this.$api.taskDetail(task_num)
+      this.detailList = data.list || []
+      this.detailPages = data.pages || {}
       this.$nextTick(() => {
         this.dialogData.loading = false
       })

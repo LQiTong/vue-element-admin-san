@@ -10,13 +10,15 @@ import {
 import router, {
   resetRouter
 } from '@/router'
+import store from '@/store'
 
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  menus: []
 }
 
 const mutations = {
@@ -51,7 +53,9 @@ const actions = {
       user.handleLogin({
         account: username.trim(),
         password
-      }).then(data => {
+      }).then(({
+        data
+      }) => {
         console.log('handleLogin data --->', data)
         commit('SET_TOKEN', data.token)
         commit('SET_AVATAR', default_avatar)
@@ -102,6 +106,7 @@ const actions = {
   }) {
     return new Promise((resolve, reject) => {
       commit('SET_TOKEN', '')
+      store.dispatch('app/setMenus', [])
       commit('SET_ROLES', [])
       removeToken()
       resetRouter()

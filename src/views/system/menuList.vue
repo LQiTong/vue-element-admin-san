@@ -150,7 +150,7 @@ export default {
   methods: {
     async getMenuList() {
       this.loadingStaus = true
-      const data = await this.$api.getMenuList()
+      const { data } = await this.$api.getMenuList()
       this.menuList = data.list || []
       // this.pages = { ...data.pages, is_show: true } || {}
       this.loadingStaus = false

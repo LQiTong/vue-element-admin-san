@@ -175,7 +175,7 @@ export default {
   methods: {
     async getUserList() {
       this.loadingStatus = true
-      const data = await this.$api.getUserList()
+      const { data } = await this.$api.getUserList()
       console.log(data)
       this.userList = data.list || []
       this.pages = data.pages || {}
@@ -214,7 +214,7 @@ export default {
       this.drawerData.loading_text = '玩命加载中……'
       this.drawerData.visible = true
       this.drawerData.title = '新增用户'
-      const list = await this.$api.getRoles()
+      const { data: list } = await this.$api.getRoles()
       this.rolesList = list
       this.drawerData.loading = false
       // this.$resetData('userForm')
@@ -225,7 +225,7 @@ export default {
       this.userForm = this.$utils.deepClone(row)
       this.drawerData.visible = true
       this.drawerData.title = `编辑用户(UID:${row.id})`
-      const list = await this.$api.getRoles()
+      const { data: list } = await this.$api.getRoles()
       this.drawerData.loading = false
       this.rolesList = list
     },

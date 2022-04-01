@@ -59,8 +59,8 @@
             <el-button slot="trigger" size="small" type="primary" icon="el-icon-files">选取文件</el-button>
             <div slot="tip" class="el-upload__tip">
               支持扩展名：
-              <el-button type="text" @click="downloadExcel">.xlsx(下载)</el-button>
-              <el-button type="text" @click="downloadTxt">.txt(下载)</el-button>
+              <el-button type="text" @click="downloadExcel">.xlsx(模板下载)</el-button>
+              <el-button type="text" @click="downloadTxt">.txt(模板下载)</el-button>
             </div>
           </el-upload>
         </el-form-item>
@@ -150,12 +150,20 @@ export default {
       console.log(err)
       this._warnConfirm('上传出现问题！请联系管理员')
     },
-    uploadSuccess(res, file, fileList) { },
+    uploadSuccess({ code, msg }, file, fileList) {
+      console.log('====================================')
+      console.log('上传响应 ===> ', code, msg)
+      console.log('====================================')
+      if (code !== 200) {
+        this.$message.error(msg || '请求出错')
+        return
+      }
+      this.$router.push({ name: 'target.target_list' })
+    },
     handleSubmit() {
       this.$refs.modelRef.validate(async valid => {
         if (valid) {
           this.$refs.upload.submit()
-          this.$router.push({ name: 'target.target_list' })
         } else {
           this.$message.error('数据验证失败，请检查必填项数据！')
         }

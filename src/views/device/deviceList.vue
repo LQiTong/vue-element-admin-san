@@ -64,7 +64,7 @@ export default {
   methods: {
     async getDeviceList() {
       this.loadingStatus = true
-      const data = await this.$api.deviceList()
+      const { data } = await this.$api.deviceList()
       this.deviceList = data.list || []
       this.pages = data.pages || {}
       this.loadingStatus = false

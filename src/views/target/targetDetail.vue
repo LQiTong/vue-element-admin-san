@@ -44,7 +44,7 @@ export default {
         this.loadingStatus = false
         return
       }
-      const data = await this.$api.targetDetail({ task_num: this.taskNum })
+      const { data } = await this.$api.targetDetail({ task_num: this.taskNum })
       this.detailList = data.list || []
       this.pagingData = data.pages || {}
       this.loadingStatus = false

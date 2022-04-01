@@ -1,6 +1,43 @@
 import moment from 'moment'
 
 /**
+ * @returns 生成随机颜色 16进制
+ */
+export function generateRandomHexColor() {
+  return `#${Math.floor(Math.random() * 0xffffff).toString(16)}`
+}
+
+/**
+ * 滚动到底部
+ * @param {HtmlElement} element 页面元素
+ */
+export function scrollToBottom(element) {
+  element.scrollIntoView({
+    behavior: 'smooth',
+    block: 'end'
+  })
+}
+
+/**
+ * 滚动到顶部
+ * @param {HtmlElement} element 页面元素
+ */
+export function scrollToTop(element) {
+  element.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
+}
+
+/**
+ * 检测用户是否开启了黑暗模式
+ * @returns boolean
+ */
+export function isDarkMode() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+/**
  * 时间转换
  * @param {(Object|string|number)} time
  * @param {string} cFormat

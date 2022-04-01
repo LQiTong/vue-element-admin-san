@@ -235,37 +235,42 @@ export const filterRoutes = (routesList, url = '') => {
 
 router.beforeEach(async (to, from, next) => {
   const menus = await store.dispatch('app/getMenus', to)
-  // console.log('menus ---> ', menus)
-  // console.log('to ---> ', to)
-  // console.log('from ---> ', from)
+  console.log('menus.length === 0 ---> ', Boolean(menus.length === 0))
+  console.log("to.path !== '/login' ---> ", Boolean(to.path !== '/login'))
+  console.log("to.path !== '/500' ---> ", Boolean(to.path !== '/500'))
+  console.log("to.path !== '/404' ---> ", Boolean(to.path !== '/404'))
 
-  if (menus.length === 0 && to.path !== '/login') {
+  if (menus.length === 0 && to.path !== '/login' && to.path !== '/500' && to.path !== '/404') {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
     await store.dispatch('user/setAvatar', default_avatar)
     // 以下方法调用菜单权限
     menu.getMenu()
-      .then(async data => {
-        const routes = generateRoutes(data.list || [])
-        // const routes = generateRoutes([])
-        // console.log('getMenus ---> routes', routes)
-        store
-          .dispatch('app/setMenus', [...constantRoutes, ...routes])
-          .then(() => {
-            let path = to.path
-            if (
-              to.path.startsWith('/home') &&
-              routes[0] &&
-              !routes[0].path.startsWith('/home')
-            ) {
-              path = routes[0].redirect || routes[0].path
-            }
-            next({
-              ...to,
-              path,
-              replace: true
+      .then(async res => {
+        if (res.code === 200) {
+          const routes = generateRoutes(res.data.list || [])
+          // const routes = generateRoutes([])
+          // console.log('getMenus ---> routes', routes)
+          store
+            .dispatch('app/setMenus', [...constantRoutes, ...routes])
+            .then(() => {
+              let path = to.path
+              if (
+                to.path.startsWith('/home') &&
+                routes[0] &&
+                !routes[0].path.startsWith('/home')
+              ) {
+                path = routes[0].redirect || routes[0].path
+              }
+              next({
+                ...to,
+                path,
+                replace: true
+              })
             })
-          })
+        } else {
+          next('/login')
+        }
       })
   } else {
     next()
