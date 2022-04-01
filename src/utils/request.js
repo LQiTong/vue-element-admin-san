@@ -72,7 +72,7 @@ service.interceptors.request.use(
     config.headers["Request-ID"] = new Date().getTime() * 1000
     let jsonData = config.method == "get" ? config.params : config.data
     // 打印接口请求相关
-    console.log(`%c[ 请求 ]: [ ${process.env.VUE_APP_BASE_URL}/${config.url} ] [ ${config.method.toUpperCase()} ] 数据接口，参数：`, "color:DodgerBlue", jsonData || {})
+    console.info(`%c[ 请求 ]: [ ${process.env.VUE_APP_BASE_URL}/${config.url} ] [ ${config.method.toUpperCase()} ] 数据接口，参数：`, "color:DodgerBlue", jsonData || {})
 
     if (store.getters.token) {
       // 有请求登录接口获取到token之后，才加入 Authorization 验证
@@ -112,7 +112,7 @@ service.interceptors.response.use(
     // 接口响应，关闭遮罩
     loadingInstance.close()
     // 打印接口响应相关
-    console.log(`%c[ 响应 ]: [ ${process.env.VUE_APP_BASE_URL}/${response.config.url.replace(new RegExp(`${response.config.baseURL}/`), "")} ] [ ${response.config.method.toUpperCase()} ] 数据接口，返回：`, "color:YellowGreen", res)
+    console.info(`%c[ 响应 ]: [ ${process.env.VUE_APP_BASE_URL}/${response.config.url.replace(new RegExp(`${response.config.baseURL}/`), "")} ] [ ${response.config.method.toUpperCase()} ] 数据接口，返回：`, "color:YellowGreen", res)
     // console.log('response ---> ', response);
     if (response.status === 200) {
       switch (errorHandle.codeCatch(res.code)) {
@@ -132,7 +132,7 @@ service.interceptors.response.use(
           break;
         case errorHandle.handle.success:
           console.log('response success!!!')
-          return res.data
+          return res
         case errorHandle.handle.showToast:
           Message({
             message: res.msg,
@@ -167,11 +167,13 @@ service.interceptors.response.use(
     const code = errMsg.indexOf('code') === -1 ? errMsg : errMsg.substr(errMsg.indexOf('code') + 5)
     switch (code) {
       case '404':
+        console.log('404');
         router.push({
           name: 'error404'
         });
         break;
       case '500':
+        console.log('500');
         router.push({
           name: 'error500'
         });
