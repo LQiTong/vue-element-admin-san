@@ -2,15 +2,24 @@ import './waves.css'
 
 const context = '@@wavesContext'
 
-function handleClick(el, binding) {
+function handleClick(el, binding, options = {
+  type: 'hit',
+  color: 'rgba(0, 0, 0, 0.15)'
+}) {
   function handle(e) {
     const customOpts = Object.assign({}, binding.value)
-    const opts = Object.assign({
-      ele: el, // 波纹作用元素
-      type: 'hit', // hit 点击位置扩散 center中心点扩展
-      color: 'rgba(0, 0, 0, 0.15)' // 波纹颜色
-    },
-    customOpts
+    const {
+      type,
+      color
+    } = options
+    const opts = Object.assign(
+      // 初始化设置
+      {
+        ele: el, // 波纹作用元素
+        type: type || 'hit', // hit 点击位置扩散 center中心点扩展
+        color: color || 'rgba(0, 0, 0, 0.15)' // 波纹颜色
+      },
+      customOpts
     )
     const target = opts.ele
     if (target) {
@@ -58,7 +67,9 @@ function handleClick(el, binding) {
 
 export default {
   bind(el, binding) {
-    el.addEventListener('click', handleClick(el, binding), false)
+    const options = binding.value
+    if (options) el.addEventListener('click', handleClick(el, binding, options), false)
+    else el.addEventListener('click', handleClick(el, binding), false)
   },
   update(el, binding) {
     el.removeEventListener('click', el[context].removeHandle, false)

@@ -10,8 +10,9 @@
       <slot name="desc"></slot>
       <div class="actions">
         <router-link to="/">
-          <el-button type="primary" size="small">返回首页</el-button>
+          <el-button type="primary">返回首页</el-button>
         </router-link>
+        <el-button type="text" class="ml-20" @click="reLogin">等不了的话，咱重新登录吧...</el-button>
       </div>
     </div>
   </div>
@@ -68,6 +69,12 @@ export default {
     return {
       config,
       pageType: this.type in config ? this.type : '404'
+    }
+  },
+  methods: {
+    async reLogin() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login`)
     }
   }
 }

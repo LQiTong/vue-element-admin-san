@@ -3,7 +3,7 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" @click="newDevice">
+          <el-button v-waves type="primary" @click="newDevice">
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加设备</template>

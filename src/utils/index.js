@@ -506,8 +506,9 @@ export function getTime(type) {
 }
 
 /**
- * @param {Function} func
- * @param {number} wait
+ * 防抖函数
+ * @param {Function} func 要执行的方法
+ * @param {number} wait 时间间隔
  * @param {boolean} immediate
  * @return {*}
  */
@@ -543,6 +544,23 @@ export function debounce(func, wait, immediate) {
     }
 
     return result
+  }
+}
+
+/**
+ * 节流函数
+ * @param {Function} fn 要处理的事件
+ * @param {number} wait 时间间隔
+ * @returns
+ */
+export function throttle(fn, wait) {
+  let start = 0 // 初始时间
+  return () => {
+    const end = new Date() // 当前时间
+    if (end - start > wait) {
+      fn.apply(this, arguments)
+      start = end
+    }
   }
 }
 

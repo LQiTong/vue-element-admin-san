@@ -18,8 +18,6 @@ import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
 
-import * as filters from './filters' // global filters
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -53,12 +51,19 @@ Vue.prototype.$api = api
 Vue.prototype.$utils = utils
 Vue.prototype.$appConst = appConst
 
+// 自定义指令注册
+import * as selfDirective from '@/directive'
+Object.keys(selfDirective).forEach(directive => {
+  Vue.directive(directive, selfDirective[directive])
+})
+
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
+  size: Cookies.get('size') || 'medium', // 设置 element-ui 组件默认大小
   i18n: (key, value) => i18n.t(key, value)
 })
 
-// register global utility filters
+// 注册全局过滤器
+import * as filters from './filters' // 全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
