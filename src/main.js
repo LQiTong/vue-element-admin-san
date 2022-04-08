@@ -68,6 +68,12 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+// 使用 vue-jsonp ，接入百度翻译api ， 防报跨域
+import {
+  VueJsonp
+} from 'vue-jsonp'
+Vue.use(VueJsonp)
+
 Vue.config.productionTip = false
 
 new Vue({

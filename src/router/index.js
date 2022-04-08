@@ -126,6 +126,7 @@ import deviceRouter from './modules/device'
 import systemRouter from './modules/system'
 import massRouter from './modules/mass'
 import targetRouter from './modules/target'
+import chatRouter from './modules/chat'
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -136,6 +137,7 @@ export const asyncRoutes = [
   accountRouter,
   deviceRouter,
   targetRouter,
+  chatRouter,
   massRouter,
   systemRouter,
   {
