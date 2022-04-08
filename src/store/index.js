@@ -5,6 +5,12 @@ import getters from './getters'
 Vue.use(Vuex)
 
 // https://webpack.js.org/guides/dependency-management/#requirecontext
+/**
+ * require.context函数接受三个参数
+ * 1、directory {String} -读取文件的路径
+ * 2、useSubdirectories {Boolean} -是否遍历文件的子目录
+ * 3、regExp {RegExp} -匹配文件的正则
+ */
 const modulesFiles = require.context('./modules', true, /\.js$/)
 
 // you do not need `import app from './modules/app'`

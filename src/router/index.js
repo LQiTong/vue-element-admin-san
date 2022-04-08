@@ -121,12 +121,25 @@ export const constantRoutes = [
   }
 ]
 
-import accountRouter from './modules/account'
-import deviceRouter from './modules/device'
-import systemRouter from './modules/system'
-import massRouter from './modules/mass'
-import targetRouter from './modules/target'
-import chatRouter from './modules/chat'
+// !繁琐，通过 webpack 提供的 require.context API进行导入，不用每次新增新的路由都写 import 导入
+// import accountRouter from './modules/account'
+// import deviceRouter from './modules/device'
+// import systemRouter from './modules/system'
+// import massRouter from './modules/mass'
+// import targetRouter from './modules/target'
+// import chatRouter from './modules/chat'
+
+/**
+ * require.context函数接受三个参数
+ * 1、directory {String} -读取文件的路径
+ * 2、useSubdirectories {Boolean} -是否遍历文件的子目录
+ * 3、regExp {RegExp} -匹配文件的正则
+ */
+const APP_ROUTERS_ARR = []
+const APP_ROUTERS = require.context('./modules', false, /\.js$/)
+APP_ROUTERS.keys().forEach(router => {
+  APP_ROUTERS_ARR.push(APP_ROUTERS(router).default)
+})
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -134,12 +147,7 @@ import chatRouter from './modules/chat'
 export const asyncRoutes = [
   // 动态路由映射
   // 404 page must be placed at the end !!!
-  accountRouter,
-  deviceRouter,
-  targetRouter,
-  chatRouter,
-  massRouter,
-  systemRouter,
+  ...APP_ROUTERS_ARR,
   {
     path: '*',
     redirect: '/404',

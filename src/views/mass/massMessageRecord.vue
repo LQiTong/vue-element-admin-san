@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column label="任务状态" width="100">
-        <template slot-scope="scope">{{ $appConst.TASK_STATUS[scope.row.status] }}</template>
+        <template slot-scope="scope">{{ $app_const.TASK_STATUS[scope.row.status] }}</template>
       </el-table-column>
       <el-table-column label="操作" width="220">
         <template slot-scope="scope">
@@ -56,7 +56,7 @@
         highlight-current-row
       >
         <el-table-column label="状态">
-          <template slot-scope="scope">{{ $appConst.TASK_DETAIL_STATUS[scope.row.status] }}</template>
+          <template slot-scope="scope">{{ $app_const.TASK_DETAIL_STATUS[scope.row.status] }}</template>
         </el-table-column>
         <el-table-column label="失败原因">
           <template slot-scope="scope">{{ scope.row.status === 3 ? scope.row.msg : '' }}</template>

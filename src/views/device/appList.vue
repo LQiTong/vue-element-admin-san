@@ -20,7 +20,7 @@
       highlight-current-row
     >
       <el-table-column label="状态" prop="state">
-        <template slot-scope="scope">{{ $appConst.appState[scope.row.state] }}</template>
+        <template slot-scope="scope">{{ $app_const.appState[scope.row.state] }}</template>
       </el-table-column>
       <el-table-column label="上次登录" prop="login_time">
         <template slot-scope="scope">{{ scope.row.login_time | parseTime }}</template>

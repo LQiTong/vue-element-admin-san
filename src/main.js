@@ -49,7 +49,7 @@ import appConst from '@/utils/const'
 
 Vue.prototype.$api = api
 Vue.prototype.$utils = utils
-Vue.prototype.$appConst = appConst
+Vue.prototype.$app_const = appConst
 
 // 自定义指令注册
 import * as selfDirective from '@/directive'

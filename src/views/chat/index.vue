@@ -52,7 +52,7 @@ export default {
       return this.$utils.deepClone(translateConfig)
     },
     translateLanguages() {
-      return this.$appConst.TRANSLATE_LANGUAGES
+      return this.$app_const.TRANSLATE_LANGUAGES
     }
   },
   // 监控data中的数据变化
