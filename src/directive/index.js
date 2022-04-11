@@ -6,6 +6,7 @@ import permission from './permission'
 import waves from './waves'
 import Debounce from './debounce'
 import Throttle from './throttle'
+import WaterMark from './water-mark'
 
 export {
   vueSticky,
@@ -15,5 +16,6 @@ export {
   permission,
   waves,
   Debounce,
-  Throttle
+  Throttle,
+  WaterMark
 }

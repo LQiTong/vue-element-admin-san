@@ -3,7 +3,7 @@ module.exports = {
    * @type {string}
    * @description 页面title
    */
-  title: '化三千后台管理系统',
+  title: 'whats-new后台管理系统',
 
   /**
    * @type {boolean} true | false

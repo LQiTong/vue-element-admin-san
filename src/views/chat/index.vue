@@ -4,7 +4,7 @@
       <!-- <div class="count">
         <p>在线人数：{{ count }}</p>
       </div>-->
-      <div class="content">
+      <div v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10 }" class="content">
         <div ref="chatBox" class="chat-box">
           <div v-for="(item, index) in chatArr" :key="index" class="chat-item">
             <div v-if="item.name === myName" class="chat-msg mine">
@@ -30,7 +30,7 @@
             <el-form-item label="自动检测：">
               <el-select v-model="source" placeholder="自动检测" class="mr-20" disabled>
                 <el-option
-                  v-for="(item, key) in translateLanguages"
+                  v-for="(item, key) in translateLanguagesSource"
                   :key="key"
                   :label="item"
                   :value="key"
@@ -47,7 +47,7 @@
                 @change="translateChange"
               >
                 <el-option
-                  v-for="(item, key) in translateLanguages"
+                  v-for="(item, key) in translateLanguagesTarget"
                   :key="key"
                   :label="item"
                   :value="key"
@@ -55,11 +55,11 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button class="mr-20" type="primary" @click="translate">翻译</el-button>
+              <el-button v-debounce="[translate, 'click', 500]" class="mr-20" type="primary">翻译</el-button>
             </el-form-item>
           </el-form>
         </div>
-        <div class="footer_bottom mt-20">
+        <div class="footer_bottom">
           <div class="footer_bottom_left">
             <el-input
               ref="message"
@@ -94,10 +94,8 @@
 </template>
 
 <script>
-import MD5 from '@/utils/translate/md5'
-import { LANGUAGE_IDETIFY, TRANSLATE_CONFIG } from '@/utils/translate'
+import { LANGUAGE_IDETIFY, TRANSLATE_CONFIG, signGenerater, qsUrlQuery } from '@/utils/translate'
 import { mapGetters } from 'vuex'
-import qs from 'qs'
 export default {
   components: {
 
@@ -131,7 +129,11 @@ export default {
     languageIdentify() {
       return this.$utils.deepClone(LANGUAGE_IDETIFY)
     },
-    translateLanguages() {
+    translateLanguagesSource() {
+      return this.$app_const.TRANSLATE_LANGUAGES
+    },
+    translateLanguagesTarget() {
+      delete this.$app_const.TRANSLATE_LANGUAGES.none
       return this.$app_const.TRANSLATE_LANGUAGES
     }
   },
@@ -194,13 +196,9 @@ export default {
     async check(value) {
       this.languageIdentify.q = value
       const { appid, q, salt, key, languageIdentifyURL } = this.languageIdentify
-      const str = appid + q + salt + key
-      this.languageIdentify.sign = MD5(str)
-      const str2 = qs.stringify({ q, salt, sign: this.languageIdentify.sign, appid })
-      const res = await this.$jsonp(`${languageIdentifyURL}?${str2}`)
-      console.log('====================================')
-      console.log('res ---> ', res)
-      console.log('====================================')
+      this.languageIdentify.sign = signGenerater({ appid, q, salt, key })
+      const str2 = qsUrlQuery({ appid, q, salt, sign: this.languageIdentify.sign })
+      const res = await this.$jsonp(languageIdentifyURL + str2)
       if (res.error_msg === 'success') {
         this.source = res.data.src || ''
       } else {
@@ -212,10 +210,9 @@ export default {
       // ! 百度翻译api接入相关请转：http://api.fanyi.baidu.com/doc/21
       this.translateConfig.q = this.demo
       const { appid, q, salt, key, translateURL, from, to } = this.translateConfig
-      const str = appid + q + salt + key
-      this.translateConfig.sign = MD5(str)
-      const str2 = qs.stringify({ from, to, sign: this.translateConfig.sign, q, appid, salt })
-      const res = await this.$jsonp(`${translateURL}?${str2}`)
+      this.translateConfig.sign = signGenerater({ appid, q, salt, key })
+      const str2 = qsUrlQuery({ appid, q, salt, sign: this.translateConfig.sign, from, to })
+      const res = await this.$jsonp(translateURL + str2)
       if (!res.error_code) {
         this.toDemo = res.trans_result[0].dst || ''
       }
@@ -370,6 +367,6 @@ export default {
   background: #98e165;
 }
 .otherBg {
-  background: #fff;
+  background: #f1f1f1;
 }
 </style>

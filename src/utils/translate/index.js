@@ -1,3 +1,5 @@
+import MD5 from './md5'
+import qs from 'qs'
 //! 百度翻译api接入相关请转：http://api.fanyi.baidu.com/doc/21
 module.exports = {
   TRANSLATE_CONFIG: {
@@ -23,5 +25,41 @@ module.exports = {
     key: 'Ch5LDzu1pW1TDhfgF43D',
     sign: null,
     q: null
+  },
+  /**
+   * 生成百度翻译开放平台API所需 签名
+   * @param {Object} {}
+   * @returns
+   */
+  signGenerater: ({
+    appid,
+    q,
+    salt,
+    key
+  }) => {
+    const _s = appid + q + salt + key // 百度翻译开放平台API规定，顺序不能乱，否则出错
+    return MD5(_s)
+  },
+  /**
+   * url 参数拼接
+   * @param {Object}
+   * @returns
+   */
+  qsUrlQuery: ({
+    appid,
+    q,
+    salt,
+    sign,
+    from,
+    to
+  }) => {
+    return '?' + qs.stringify({
+      appid,
+      q,
+      salt,
+      sign,
+      from,
+      to
+    })
   }
 }
