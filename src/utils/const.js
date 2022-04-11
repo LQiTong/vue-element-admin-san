@@ -48,6 +48,7 @@ export default {
     swe: '瑞典语',
     hu: '匈牙利语',
     cht: '繁体中文',
-    vie: '越南语'
+    vie: '越南语',
+    none: '暂无法识别该语种'
   }
 }

@@ -160,6 +160,7 @@ export default {
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
               // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              this.$store.dispatch('app/openSideBar', { withoutAnimation: false })
               this.$router.push({ path: '/' })
               this.loading = false
             })
