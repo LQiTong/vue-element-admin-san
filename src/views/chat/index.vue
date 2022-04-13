@@ -26,6 +26,12 @@
       </div>
       <div class="footer">
         <div class="footer_top mt-20">
+          <el-form label-width="120px" inline>
+            <el-form-item label>
+              <emoji v-model="emoji" class="ml-20" title="选择表情" @choose="selectedEmoji" />
+            </el-form-item>
+          </el-form>
+
           <el-form ref="form" label-width="120px" inline>
             <el-form-item label="自动检测：">
               <el-select v-model="source" placeholder="自动检测" class="mr-20" disabled>
@@ -95,14 +101,16 @@
 
 <script>
 import { LANGUAGE_IDETIFY, TRANSLATE_CONFIG, signGenerater, qsUrlQuery } from '@/utils/translate'
+import Emoji from '@/components/Emoji'
 import { mapGetters } from 'vuex'
 export default {
   components: {
-
+    Emoji
   },
   // 定义属性
   data() {
     return {
+      emoji: '',
       SOCKETURL: process.env.VUE_APP_SOCKET_URL,
       SOCKETIO: null,
       demo: '',
@@ -262,6 +270,12 @@ export default {
         this.toDemo = res.trans_result[0].dst || ''
       }
     },
+    // 选择表情
+    selectedEmoji(emoji) {
+      const arr = []
+      arr.push(emoji)
+      this.demo += arr.toString().replace(/,/g, '')
+    },
     open() {
       console.log('socket连接成功')
     },
@@ -312,7 +326,7 @@ export default {
   border-top-right-radius: 0;
   .footer_top {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
   }
   .footer_bottom {
@@ -323,9 +337,11 @@ export default {
     &_left {
       width: calc(100% - 160px);
       height: 100%;
-      .el-textarea {
+      .div-editable {
         width: 50%;
-        height: 100%;
+        display: inline-block;
+        padding: 10px;
+        border: #eeeeee 1px solid;
       }
     }
     &_right {

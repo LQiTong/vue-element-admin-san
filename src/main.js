@@ -74,6 +74,16 @@ import {
 } from 'vue-jsonp'
 Vue.use(VueJsonp)
 
+// 使用微信表情
+import {
+  emoji2string,
+  genString2emoji,
+  deleteEmoji
+} from '@/utils/qq-emoji'
+Vue.prototype.$emoji2string = emoji2string
+Vue.prototype.$string2emoji = genString2emoji(require('@/assets/qqface.png'))
+Vue.prototype.$deleteEmoji = deleteEmoji
+
 Vue.config.productionTip = false
 
 new Vue({
