@@ -175,12 +175,18 @@ service.interceptors.response.use(
       case '500':
         console.log('500');
         router.push({
-          name: 'error500'
+          name: 'error500',
+          query: {
+            redirect: router.currentRoute.fullPath
+          }
         });
         break;
       case 'Error: Network Error':
         router.push({
-          name: 'error500'
+          name: 'error500',
+          query: {
+            redirect: router.currentRoute.fullPath
+          }
         })
         break
       default:

@@ -65,7 +65,15 @@ Mixin.install = (Vue, options) => {
           this[formRef] = options
           this.$refs[formRef].resetFields()
         })
-      }
+      },
+      /**
+       * 滚动到顶部 or 底部
+       * @param {*} ref 要滚动的元素 ref 名称
+       * @param {Boolean} isTop true 顶部 / false 底部
+       */
+      $scrollTopOrBottom(ref, isTop) {
+        this.$refs[ref].scrollIntoView(isTop)
+      },
     },
   })
 }

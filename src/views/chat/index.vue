@@ -112,8 +112,53 @@ export default {
       chatArr: [
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我很中意你啊',
+          txt: '我好中意你噶',
           bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + 1 + '',
+          txt: '我好中意你噶',
+          bg: 'rgba(255,0,0,.15)'
+        },
+        {
+          name: new Date().getTime() + '',
+          txt: '知了知了，冇吵啦',
+          bg: 'rgba(255,0,0,.3)'
         }
       ],
       myName: new Date().getTime().toString(),
@@ -237,6 +282,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@import "~@/styles/mixin.scss";
 .count {
   height: 5%;
   display: flex;
@@ -247,8 +293,8 @@ export default {
 }
 .content {
   width: 100%;
-  height: 80%;
-  min-height: 750px;
+  height: 800px;
+  min-height: 800px;
   // background-color: #f4f4f4;
   border: 1px solid #eeeeee;
   border-radius: 10px;
@@ -301,6 +347,7 @@ export default {
   height: 100%;
   padding: 0 20px;
   overflow-y: auto;
+  @include scrollBar;
 }
 .chat-msg {
   display: flex;
@@ -345,18 +392,20 @@ export default {
     transform: none;
   }
 }
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  display: none;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #d1d1d1;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-left: 2px solid transparent;
-  border-top: 2px solid transparent;
-}
+
+// // 去掉滚动条
+// ::-webkit-scrollbar {
+//   width: 8px;
+//   height: 8px;
+//   display: none;
+// }
+// ::-webkit-scrollbar-thumb {
+//   background-color: #d1d1d1;
+//   border-radius: 3px;
+//   -webkit-border-radius: 3px;
+//   border-left: 2px solid transparent;
+//   border-top: 2px solid transparent;
+// }
 .mine {
   justify-content: flex-end;
 }
