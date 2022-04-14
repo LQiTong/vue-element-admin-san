@@ -1,39 +1,88 @@
 <template>
   <div class="main-page-content">
-    <ApeTable ref="apeTable" :data="recordList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData"
-      highlight-current-row>
-      <el-table-column label="已执行数/成功/失败" width="200">
+    <ApeTable
+      ref="apeTable"
+      :data="recordList"
+      :columns="columns"
+      :loading="loadingStatus"
+      :paging-data="pagingData"
+      highlight-current-row
+    >
+      <el-table-column
+        label="已执行数/成功/失败"
+        width="200"
+      >
         <template slot-scope="scope">
-          <el-tag type="warning" class="mr-10" effect="dark">{{ scope.row.already_execute }}</el-tag>
-          <el-tag type="success" class="mr-10" effect="dark">{{ scope.row.success_num }}</el-tag>
-          <el-tag type="danger" effect="dark">{{ scope.row.fail_num }}</el-tag>
+          <el-tag
+            type="warning"
+            class="mr-10"
+            effect="dark"
+          >{{ scope.row.already_execute }}</el-tag>
+          <el-tag
+            type="success"
+            class="mr-10"
+            effect="dark"
+          >{{ scope.row.success_num }}</el-tag>
+          <el-tag
+            type="danger"
+            effect="dark"
+          >{{ scope.row.fail_num }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="任务状态" width="100">
+      <el-table-column
+        label="任务状态"
+        width="100"
+      >
         <template slot-scope="scope">{{ $app_const.TASK_STATUS[scope.row.status] }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="220">
+      <el-table-column
+        label="操作"
+        width="220"
+      >
         <template slot-scope="scope">
-          <el-tooltip v-if="scope.row.status === 0 || scope.row.status === 3" placement="top" class="mr-5">
+          <el-tooltip
+            v-if="scope.row.status === 0 || scope.row.status === 3"
+            placement="top"
+            class="mr-5"
+          >
             <el-button @click="executeTask(scope.row)">
               <svg-icon icon-class="icon-execute" />
             </el-button>
             <template slot="content">执行该任务</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button type="primary" icon="el-icon-info" @click="taskDetail(scope.row)" />
+            <el-button
+              type="primary"
+              icon="el-icon-info"
+              @click="taskDetail(scope.row)"
+            />
             <template slot="content">群发详情</template>
           </el-tooltip>
           <el-tooltip placement="top">
-            <el-button type="danger" icon="el-icon-delete" @click="delTask(scope.row)" />
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              @click="delTask(scope.row)"
+            />
             <template slot="content">删除该任务</template>
           </el-tooltip>
         </template>
       </el-table-column>
     </ApeTable>
-    <ModalDialog :dialog-data="dialogData" @dialogClose="dialogClose" @dialogConfirm="dialogConfirm">
-      <ApeTable slot="content" border :data="detailList" :columns="detailColumns" :loading="detailLoading"
-        :paging-data="detailPages" highlight-current-row>
+    <ModalDialog
+      :dialog-data="dialogData"
+      @dialogClose="dialogClose"
+      @dialogConfirm="dialogConfirm"
+    >
+      <ApeTable
+        slot="content"
+        border
+        :data="detailList"
+        :columns="detailColumns"
+        :loading="detailLoading"
+        :paging-data="detailPages"
+        highlight-current-row
+      >
         <el-table-column label="状态">
           <template slot-scope="scope">{{ $app_const.TASK_DETAIL_STATUS[scope.row.status] }}</template>
         </el-table-column>

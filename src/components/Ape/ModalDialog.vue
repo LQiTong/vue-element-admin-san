@@ -21,7 +21,10 @@
       slot="footer"
       class="dialog-footer"
     >
-      <el-button size="medium" @click="dialogClose">取 消</el-button>
+      <el-button
+        size="medium"
+        @click="dialogClose"
+      >取 消</el-button>
       <el-button
         size="medium"
         type="primary"

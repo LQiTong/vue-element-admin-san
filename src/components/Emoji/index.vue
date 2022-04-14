@@ -1,11 +1,32 @@
 <template>
-  <el-popover placement="top-start" width="400" trigger="click">
-    <div v-if="url" :style="{ height: height }" class="qqface-container">
-      <span v-for="[key, value] of Object.entries(emoijs)" :key="value" class="qqface-wrapper pointer">
-        <img :src="url" class="qqface" :class="[`qqface${value}`]" @click="input(key)" />
+  <el-popover
+    placement="top-start"
+    width="400"
+    trigger="click"
+  >
+    <div
+      v-if="url"
+      :style="{ height: height }"
+      class="qqface-container"
+    >
+      <span
+        v-for="[key, value1] of Object.entries(emoijs)"
+        :key="value1"
+        class="qqface-wrapper pointer"
+      >
+        <img
+          :src="url"
+          class="qqface"
+          :class="[`qqface${value1}`]"
+          @click="input(key)"
+        />
       </span>
     </div>
-    <svg-icon slot="reference" icon-class="icon-face" class="pointer" />
+    <svg-icon
+      slot="reference"
+      icon-class="icon-face"
+      class="pointer"
+    />
   </el-popover>
 </template>
 
@@ -47,7 +68,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./index.scss";
+@import './index.scss';
 
 .qqface-container {
   overflow-y: scroll;

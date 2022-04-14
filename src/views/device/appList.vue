@@ -3,7 +3,10 @@
     <el-row class="mb-10">
       <el-col>
         <el-tooltip placement="top">
-          <el-button type="primary" @click="newApp">
+          <el-button
+            type="primary"
+            @click="newApp"
+          >
             <svg-icon icon-class="icon-add-list-button" />
           </el-button>
           <template slot="content">添加账号</template>
@@ -11,17 +14,35 @@
       </el-col>
     </el-row>
 
-    <ApeTable res="apeTable" :data="appList" :loading="loadingStatus" :columns="columns" :paging-data="pages"
-      highlight-current-row>
-      <el-table-column label="状态" prop="state">
+    <ApeTable
+      res="apeTable"
+      :data="appList"
+      :loading="loadingStatus"
+      :columns="columns"
+      :paging-data="pages"
+      highlight-current-row
+    >
+      <el-table-column
+        label="状态"
+        prop="state"
+      >
         <template slot-scope="scope">{{ $app_const.appState[scope.row.state] }}</template>
       </el-table-column>
-      <el-table-column label="上次登录" prop="login_time">
+      <el-table-column
+        label="上次登录"
+        prop="login_time"
+      >
         <template slot-scope="scope">{{ scope.row.login_time | parseTime }}</template>
       </el-table-column>
-      <el-table-column label="操作" prop>
+      <el-table-column
+        label="操作"
+        prop
+      >
         <template slot-scope="scope">
-          <el-tooltip placement="top" class="mr-10">
+          <el-tooltip
+            placement="top"
+            class="mr-10"
+          >
             <el-button @click="editApp(scope.row)">
               <i class="el-icon-edit"></i>
             </el-button>
