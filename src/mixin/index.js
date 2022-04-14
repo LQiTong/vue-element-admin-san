@@ -72,7 +72,8 @@ Mixin.install = (Vue, options) => {
        * @param {Boolean} isTop true 顶部 / false 底部
        */
       $scrollTopOrBottom(ref, isTop) {
-        this.$refs[ref].scrollIntoView(isTop)
+        const refDom = this.$refs[ref]
+        refDom.scrollTop = isTop ? 0 : refDom.scrollHeight
       },
     },
   })

@@ -12,7 +12,7 @@ module.exports = {
     salt: new Date().getTime(),
     q: null, // 需要翻译的内容
     from: 'auto', // 源语言
-    to: 'en', // 目标语言
+    to: 'zh', // 目标语言
     sign: null // 签名 需要使用MD5加密生成
   },
   LANGUAGE_IDETIFY: {

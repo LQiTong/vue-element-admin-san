@@ -4,63 +4,158 @@
       <!-- <div class="count">
         <p>在线人数：{{ count }}</p>
       </div>-->
-      <div v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }" class="content">
-        <div ref="chatBox" class="chat-box">
-          <div v-for="(item, index) in chatArr" :key="index" class="chat-item">
-            <div v-if="item.name === myName" class="chat-msg mine">
-              <p class="msg mineBg">{{ item.txt }}</p>
-              <p class="user" :style="{ background: randomRgb() }">
+      <div
+        ref="content"
+        v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }"
+        class="content"
+      >
+        <div
+          ref="chatBox"
+          class="chat-box"
+        >
+          <div
+            v-for="(item, index) in chatArr"
+            :key="index"
+            class="chat-item"
+          >
+            <div
+              v-if="item.name === myName"
+              class="chat-msg mine"
+            >
+              <el-button
+                type="text"
+                @click="translate(item.txt, index)"
+              >翻译</el-button>
+              <p
+                class="msg mineBg"
+                v-html="$string2emoji(item.txt)"
+              >
+              </p>
+              <p
+                class="user"
+                :style="{ background: randomRgb() }"
+              >
                 {{
                   item.name.substring(item.name.length - 5, item.name.length)
                 }}
               </p>
             </div>
-            <div v-else class="chat-msg other">
-              <p class="user" :style="{ background: item.bg }">
+            <div
+              v-else
+              class="chat-msg other"
+            >
+              <p
+                class="user"
+                :style="{ background: item.bg }"
+              >
                 {{
                   item.name.substring(item.name.length - 5, item.name.length)
                 }}
               </p>
-              <p class="msg otherBg">{{ item.txt }}</p>
+              <p
+                class="msg otherBg"
+                v-html="$string2emoji(item.txt)"
+              ></p>
+              <el-button
+                type="text"
+                @click="translate(item.txt, index)"
+              >翻译</el-button>
             </div>
           </div>
         </div>
       </div>
       <div class="footer">
         <div class="footer_top mt-20">
-          <el-form label-width="120px" inline>
+          <el-form
+            label-width="120px"
+            inline
+          >
             <el-form-item label>
-              <emoji v-model="emoji" class="ml-20" title="选择表情" @choose="selectedEmoji" />
+              <emoji
+                v-model="emoji"
+                class="ml-20"
+                title="选择表情"
+                @choose="selectedEmoji"
+              />
             </el-form-item>
           </el-form>
 
-          <el-form ref="form" label-width="120px" inline>
+          <el-form
+            ref="form"
+            label-width="120px"
+            inline
+          >
             <el-form-item label="自动检测：">
-              <el-select v-model="source" placeholder="自动检测" class="mr-20" disabled>
-                <el-option v-for="(item, key) in translateLanguagesSource" :key="key" :label="item" :value="key" />
+              <el-select
+                v-model="source"
+                placeholder="自动检测"
+                class="mr-20"
+                disabled
+              >
+                <el-option
+                  v-for="(item, key) in translateLanguagesSource"
+                  :key="key"
+                  :label="item"
+                  :value="key"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="目标语言：">
-              <el-select v-model="toTranslate" class="mr-20" placeholder clearable filterable @change="translateChange">
-                <el-option v-for="(item, key) in translateLanguagesTarget" :key="key" :label="item" :value="key" />
+              <el-select
+                v-model="toTranslate"
+                class="mr-20"
+                placeholder
+                clearable
+                filterable
+                @change="translateChange"
+              >
+                <el-option
+                  v-for="(item, key) in translateLanguagesTarget"
+                  :key="key"
+                  :label="item"
+                  :value="key"
+                />
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button v-debounce="[translate, 'click', 500]" class="mr-20" type="primary">翻译</el-button>
+              <el-button
+                v-debounce="[translate, 'click', 500]"
+                class="mr-20"
+                type="primary"
+              >翻译</el-button>
             </el-form-item>
           </el-form>
         </div>
         <div class="footer_bottom">
           <div class="footer_bottom_left">
-            <!-- <el-input ref="message" v-model="demo" type="textarea" :rows="5" :maxlength="-1" :show-word-limit="false"
-              placeholder="说点什么..." clearable resize="none" @keyup.enter.native="send" @change="checkSourceLanguage" />
-            <el-input v-model="toDemo" type="textarea" :rows="5" placeholder="译文" :maxlength="-1"
-              :show-word-limit="false" resize="none" /> -->
-            <input-contenteditable v-model="demo" class="contenteditable" tag="div" :placeholder="`说点什么...`" />
-            <input-contenteditable v-model="toDemo" class="contenteditable" tag="div" :placeholder="`译文`" />
+            <el-input
+              ref="message"
+              v-model="demo"
+              type="textarea"
+              :rows="5"
+              :maxlength="-1"
+              :show-word-limit="false"
+              placeholder="说点什么..."
+              clearable
+              resize="none"
+              @keyup.enter.native="send"
+              @change="checkSourceLanguage"
+            />
+            <el-input
+              v-model="toDemo"
+              type="textarea"
+              :rows="5"
+              placeholder="译文"
+              :maxlength="-1"
+              :show-word-limit="false"
+              resize="none"
+            />
           </div>
           <div class="footer_bottom_right">
-            <el-button type="success" @click="send">发送</el-button>
+            <el-button
+              type="success"
+              @click="send"
+            >发送</el-button>
           </div>
         </div>
       </div>
@@ -72,11 +167,9 @@
 import { LANGUAGE_IDETIFY, TRANSLATE_CONFIG, signGenerater, qsUrlQuery } from '@/utils/translate'
 import Emoji from '@/components/Emoji'
 import { mapGetters } from 'vuex'
-import InputContenteditable from '@/components/ContentEditable'
 export default {
   components: {
-    Emoji,
-    InputContenteditable
+    Emoji
   },
   // 定义属性
   data() {
@@ -86,7 +179,7 @@ export default {
       SOCKETIO: null,
       demo: '',
       toDemo: '',
-      toTranslate: 'en',
+      toTranslate: 'zh',
       source: 'zh',
       chatArr: [
         {
@@ -164,7 +257,16 @@ export default {
   // 监控data中的数据变化
   watch: {},
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() { },
+  created() {
+    this.$nextTick(() => {
+      this.$scrollTopOrBottom('chatBox', false)
+      // const chatBox = this.$refs.chatBox
+      // console.log('====================================')
+      // console.log('chatBox.scrollHeight --> ', chatBox.scrollHeight)
+      // console.log('====================================')
+      // chatBox.scrollTop = chatBox.scrollHeight
+    })
+  },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
@@ -192,15 +294,19 @@ export default {
       }
     },
     send() {
-      if (this.demo.value.trim().length > 0) {
+      if (this.demo.trim().length > 0) {
         const obj = {
           name: this.myName,
           txt: this.demo,
           bg: this.randomRgb()
         }
-        this.SOCKETIO.send(JSON.stringify(obj))
+        this.chatArr.push(obj)
+        // this.SOCKETIO.send(JSON.stringify(obj))
         this.demo = ''
         this.$refs.message.focus()
+        this.$nextTick(() => {
+          this.$scrollTopOrBottom('chatBox', false)
+        })
       }
     },
     randomRgb() {
@@ -234,9 +340,18 @@ export default {
         // this.$message.error('暂不支持该语种的检测')
       }
     },
-    async translate() {
+    async translate(value, index) {
       // ! 百度翻译api接入相关请转：http://api.fanyi.baidu.com/doc/21
-      this.translateConfig.q = this.demo
+      // * 翻译时去掉表情相关
+      const reg = /\[(.+?)\]/g
+      let source = []
+      if (!value) {
+        source = this.demo.replace(reg, '')
+      } else {
+        source = this.$emoji2string(value)
+        source = source.replace(reg, '')
+      }
+      this.translateConfig.q = source
       const { appid, q, salt, key, translateURL, from, to } =
         this.translateConfig
       this.translateConfig.sign = signGenerater({ appid, q, salt, key })
@@ -249,8 +364,13 @@ export default {
         to
       })
       const res = await this.$jsonp(translateURL + str2)
+      console.log('res ', res)
       if (!res.error_code) {
-        this.toDemo = res.trans_result[0].dst || ''
+        if (value) {
+          this.chatArr[index].txt = this.chatArr[index].txt.replace(source, res.trans_result[0].dst || '')
+        } else {
+          this.toDemo = this.demo.replace(source, res.trans_result[0].dst || '')
+        }
       }
     },
     // 选择表情
@@ -279,7 +399,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/mixin.scss";
+@import '~@/styles/mixin.scss';
 
 .count {
   height: 5%;
