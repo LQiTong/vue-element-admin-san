@@ -4,21 +4,23 @@
       <!-- <div class="count">
         <p>在线人数：{{ count }}</p>
       </div>-->
-      <div v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10 }" class="content">
+      <div v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }" class="content">
         <div ref="chatBox" class="chat-box">
           <div v-for="(item, index) in chatArr" :key="index" class="chat-item">
             <div v-if="item.name === myName" class="chat-msg mine">
               <p class="msg mineBg">{{ item.txt }}</p>
-              <p
-                class="user"
-                :style="{ background: randomRgb() }"
-              >{{ item.name.substring(item.name.length - 5, item.name.length) }}</p>
+              <p class="user" :style="{ background: randomRgb() }">
+                {{
+                  item.name.substring(item.name.length - 5, item.name.length)
+                }}
+              </p>
             </div>
             <div v-else class="chat-msg other">
-              <p
-                class="user"
-                :style="{ background: item.bg }"
-              >{{ item.name.substring(item.name.length - 5, item.name.length) }}</p>
+              <p class="user" :style="{ background: item.bg }">
+                {{
+                  item.name.substring(item.name.length - 5, item.name.length)
+                }}
+              </p>
               <p class="msg otherBg">{{ item.txt }}</p>
             </div>
           </div>
@@ -35,29 +37,12 @@
           <el-form ref="form" label-width="120px" inline>
             <el-form-item label="自动检测：">
               <el-select v-model="source" placeholder="自动检测" class="mr-20" disabled>
-                <el-option
-                  v-for="(item, key) in translateLanguagesSource"
-                  :key="key"
-                  :label="item"
-                  :value="key"
-                />
+                <el-option v-for="(item, key) in translateLanguagesSource" :key="key" :label="item" :value="key" />
               </el-select>
             </el-form-item>
             <el-form-item label="目标语言：">
-              <el-select
-                v-model="toTranslate"
-                class="mr-20"
-                placeholder
-                clearable
-                filterable
-                @change="translateChange"
-              >
-                <el-option
-                  v-for="(item, key) in translateLanguagesTarget"
-                  :key="key"
-                  :label="item"
-                  :value="key"
-                />
+              <el-select v-model="toTranslate" class="mr-20" placeholder clearable filterable @change="translateChange">
+                <el-option v-for="(item, key) in translateLanguagesTarget" :key="key" :label="item" :value="key" />
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -67,28 +52,12 @@
         </div>
         <div class="footer_bottom">
           <div class="footer_bottom_left">
-            <el-input
-              ref="message"
-              v-model="demo"
-              type="textarea"
-              :rows="5"
-              :maxlength="-1"
-              :show-word-limit="false"
-              placeholder="说点什么..."
-              clearable
-              resize="none"
-              @keyup.enter.native="send"
-              @change="checkSourceLanguage"
-            />
-            <el-input
-              v-model="toDemo"
-              type="textarea"
-              :rows="5"
-              placeholder="译文"
-              :maxlength="-1"
-              :show-word-limit="false"
-              resize="none"
-            />
+            <!-- <el-input ref="message" v-model="demo" type="textarea" :rows="5" :maxlength="-1" :show-word-limit="false"
+              placeholder="说点什么..." clearable resize="none" @keyup.enter.native="send" @change="checkSourceLanguage" />
+            <el-input v-model="toDemo" type="textarea" :rows="5" placeholder="译文" :maxlength="-1"
+              :show-word-limit="false" resize="none" /> -->
+            <input-contenteditable v-model="demo" class="contenteditable" tag="div" :placeholder="`说点什么...`" />
+            <input-contenteditable v-model="toDemo" class="contenteditable" tag="div" :placeholder="`译文`" />
           </div>
           <div class="footer_bottom_right">
             <el-button type="success" @click="send">发送</el-button>
@@ -103,9 +72,11 @@
 import { LANGUAGE_IDETIFY, TRANSLATE_CONFIG, signGenerater, qsUrlQuery } from '@/utils/translate'
 import Emoji from '@/components/Emoji'
 import { mapGetters } from 'vuex'
+import InputContenteditable from '@/components/ContentEditable'
 export default {
   components: {
-    Emoji
+    Emoji,
+    InputContenteditable
   },
   // 定义属性
   data() {
@@ -193,9 +164,7 @@ export default {
   // 监控data中的数据变化
   watch: {},
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-
-  },
+  created() { },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
@@ -209,7 +178,7 @@ export default {
   // 方法集合
   methods: {
     init() {
-      if (typeof (WebSocket) === 'undefined') {
+      if (typeof WebSocket === 'undefined') {
         this._warnConfirm('您的浏览器不支持socket')
       } else {
         // 实例化socket
@@ -248,9 +217,15 @@ export default {
     },
     async check(value) {
       this.languageIdentify.q = value
-      const { appid, q, salt, key, languageIdentifyURL } = this.languageIdentify
+      const { appid, q, salt, key, languageIdentifyURL } =
+        this.languageIdentify
       this.languageIdentify.sign = signGenerater({ appid, q, salt, key })
-      const str2 = qsUrlQuery({ appid, q, salt, sign: this.languageIdentify.sign })
+      const str2 = qsUrlQuery({
+        appid,
+        q,
+        salt,
+        sign: this.languageIdentify.sign
+      })
       const res = await this.$jsonp(languageIdentifyURL + str2)
       if (res.error_msg === 'success') {
         this.source = res.data.src || ''
@@ -262,9 +237,17 @@ export default {
     async translate() {
       // ! 百度翻译api接入相关请转：http://api.fanyi.baidu.com/doc/21
       this.translateConfig.q = this.demo
-      const { appid, q, salt, key, translateURL, from, to } = this.translateConfig
+      const { appid, q, salt, key, translateURL, from, to } =
+        this.translateConfig
       this.translateConfig.sign = signGenerater({ appid, q, salt, key })
-      const str2 = qsUrlQuery({ appid, q, salt, sign: this.translateConfig.sign, from, to })
+      const str2 = qsUrlQuery({
+        appid,
+        q,
+        salt,
+        sign: this.translateConfig.sign,
+        from,
+        to
+      })
       const res = await this.$jsonp(translateURL + str2)
       if (!res.error_code) {
         this.toDemo = res.trans_result[0].dst || ''
@@ -295,8 +278,9 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "~@/styles/mixin.scss";
+
 .count {
   height: 5%;
   display: flex;
@@ -305,6 +289,7 @@ export default {
   background: #eeeae8;
   font-size: 16px;
 }
+
 .content {
   width: 100%;
   height: 800px;
@@ -316,6 +301,7 @@ export default {
   border-bottom-right-radius: 0;
   overflow: hidden;
 }
+
 .footer {
   width: 100%;
   min-height: 200px;
@@ -324,29 +310,40 @@ export default {
   border-radius: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+
   .footer_top {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
   .footer_bottom {
     height: 117px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     &_left {
       width: calc(100% - 160px);
       height: 100%;
-      .div-editable {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .contenteditable {
         width: 50%;
-        display: inline-block;
         padding: 10px;
-        border: #eeeeee 1px solid;
+        height: 117px;
+        overflow-y: auto;
+        border: 1px #eee solid;
+        @include scrollBar;
       }
     }
+
     &_right {
       width: 160px;
       height: 100%;
+
       .el-button {
         width: 100%;
         height: 100%;
@@ -359,16 +356,19 @@ export default {
   background: #98e165;
   color: #fff;
 }
+
 .chat-box {
   height: 100%;
   padding: 0 20px;
   overflow-y: auto;
   @include scrollBar;
 }
+
 .chat-msg {
   display: flex;
   align-items: center;
 }
+
 .user {
   font-weight: bold;
   color: #fff;
@@ -381,6 +381,7 @@ export default {
   border-radius: 8px;
   text-align: center;
 }
+
 .msg {
   margin: 0 5px;
   max-width: 74%;
@@ -393,10 +394,12 @@ export default {
   font-size: 16px;
   box-shadow: 0px 0px 10px #f4f4f4;
 }
+
 .chat-item {
   margin: 20px 0;
   animation: up-down 1s both;
 }
+
 @keyframes up-down {
   0% {
     opacity: 0;
@@ -425,12 +428,15 @@ export default {
 .mine {
   justify-content: flex-end;
 }
+
 .other {
   justify-content: flex-start;
 }
+
 .mineBg {
   background: #98e165;
 }
+
 .otherBg {
   background: #f1f1f1;
 }

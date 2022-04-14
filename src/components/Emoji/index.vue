@@ -1,11 +1,7 @@
 <template>
   <el-popover placement="top-start" width="400" trigger="click">
     <div v-if="url" :style="{ height: height }" class="qqface-container">
-      <span
-        v-for="[key, value] of Object.entries(emoijs)"
-        :key="value"
-        class="qqface-wrapper pointer"
-      >
+      <span v-for="[key, value] of Object.entries(emoijs)" :key="value" class="qqface-wrapper pointer">
         <img :src="url" class="qqface" :class="[`qqface${value}`]" @click="input(key)" />
       </span>
     </div>
@@ -41,7 +37,7 @@ export default {
   // inject: ['emojisUrl'],
   methods: {
     input(key) {
-      this.$emit('choose', this.$string2emoji(this.value + key))
+      this.$emit('choose', this.value + key)
     },
     deleteEmoji() {
       this.$emit('input', deleteEmoji(this.value))
@@ -52,8 +48,10 @@ export default {
 
 <style lang="scss">
 @import "./index.scss";
+
 .qqface-container {
   overflow-y: scroll;
+
   // position: relative;
   // height: 300px;
   .qqface-wrapper {
