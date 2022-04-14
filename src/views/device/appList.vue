@@ -11,14 +11,8 @@
       </el-col>
     </el-row>
 
-    <ApeTable
-      res="apeTable"
-      :data="appList"
-      :loading="loadingStatus"
-      :columns="columns"
-      :paging-data="pages"
-      highlight-current-row
-    >
+    <ApeTable res="apeTable" :data="appList" :loading="loadingStatus" :columns="columns" :paging-data="pages"
+      highlight-current-row>
       <el-table-column label="状态" prop="state">
         <template slot-scope="scope">{{ $app_const.appState[scope.row.state] }}</template>
       </el-table-column>
@@ -50,7 +44,7 @@ export default {
       pages: {},
       currentRow: null,
       columns: [
-        { title: '所属用户ID', value: 'user_id' },
+        // { title: '所属用户ID', value: 'user_id' },
         { title: '设备编码', value: 'hard_ware' },
         { title: '账户编号', value: 'app_id' },
         { title: '账户ID', value: 'account' }

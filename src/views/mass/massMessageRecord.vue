@@ -1,13 +1,7 @@
 <template>
   <div class="main-page-content">
-    <ApeTable
-      ref="apeTable"
-      :data="recordList"
-      :columns="columns"
-      :loading="loadingStatus"
-      :paging-data="pagingData"
-      highlight-current-row
-    >
+    <ApeTable ref="apeTable" :data="recordList" :columns="columns" :loading="loadingStatus" :paging-data="pagingData"
+      highlight-current-row>
       <el-table-column label="已执行数/成功/失败" width="200">
         <template slot-scope="scope">
           <el-tag type="warning" class="mr-10" effect="dark">{{ scope.row.already_execute }}</el-tag>
@@ -20,11 +14,7 @@
       </el-table-column>
       <el-table-column label="操作" width="220">
         <template slot-scope="scope">
-          <el-tooltip
-            v-if="scope.row.status === 0 || scope.row.status === 3"
-            placement="top"
-            class="mr-5"
-          >
+          <el-tooltip v-if="scope.row.status === 0 || scope.row.status === 3" placement="top" class="mr-5">
             <el-button @click="executeTask(scope.row)">
               <svg-icon icon-class="icon-execute" />
             </el-button>
@@ -41,20 +31,9 @@
         </template>
       </el-table-column>
     </ApeTable>
-    <ModalDialog
-      :dialog-data="dialogData"
-      @dialogClose="dialogClose"
-      @dialogConfirm="dialogConfirm"
-    >
-      <ApeTable
-        slot="content"
-        border
-        :data="detailList"
-        :columns="detailColumns"
-        :loading="detailLoading"
-        :paging-data="detailPages"
-        highlight-current-row
-      >
+    <ModalDialog :dialog-data="dialogData" @dialogClose="dialogClose" @dialogConfirm="dialogConfirm">
+      <ApeTable slot="content" border :data="detailList" :columns="detailColumns" :loading="detailLoading"
+        :paging-data="detailPages" highlight-current-row>
         <el-table-column label="状态">
           <template slot-scope="scope">{{ $app_const.TASK_DETAIL_STATUS[scope.row.status] }}</template>
         </el-table-column>
@@ -134,7 +113,7 @@ export default {
       const task_num = row.task_num
       const { data } = await this.$api.taskDetail(task_num)
       this.detailList = data.list || []
-      this.detailPages = data.pages || {}
+      this.detailPages = data.pages ? { ...data.pages, is_show: true } : {}
       this.$nextTick(() => {
         this.dialogData.loading = false
       })

@@ -1,4 +1,9 @@
 export default {
+  // 设备状态
+  deviceState: {
+    1: '在线',
+    0: '离线'
+  },
   // 帐号状态
   appState: {
     1: '在线',

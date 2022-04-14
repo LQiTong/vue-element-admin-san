@@ -11,22 +11,19 @@
       </el-col>
     </el-row>
 
-    <ApeTable
-      ref="apeTable"
-      :data="deviceList"
-      highlight-current-row
-      :columns="columns"
-      :paging-data="pages"
-      :loading="loadingStatus"
-    >
-      <el-table-column label="操作" prop>
-        <template slot-scope="scope">
+    <ApeTable ref="apeTable" :data="deviceList" highlight-current-row :columns="columns" :paging-data="pages"
+      :loading="loadingStatus">
+      <el-table-column label="状态" prop>
+        <!-- <template slot-scope="scope">
           <el-tooltip placement="top" class="mr-10">
             <el-button @click="editDevice(scope.row)">
               <i class="el-icon-edit"></i>
             </el-button>
             <template slot="content">编辑</template>
           </el-tooltip>
+        </template> -->
+        <template slot-scope="scope">
+          {{ $app_const.deviceState[scope.row.status] }}
         </template>
       </el-table-column>
     </ApeTable>
@@ -44,11 +41,11 @@ export default {
       pages: {},
       currentRow: null,
       columns: [
-        { title: 'ID', value: 'id' },
+        // { title: 'ID', value: 'id' },
         { title: '编号', value: 'num' },
-        { title: '设备IP', value: 'proxy_ip' },
-        { title: '设备编码', value: 'hard_ware' },
-        { title: '最后上线时间', value: 'last_time' }
+        // { title: '设备IP', value: 'proxy_ip' },
+        { title: '设备编码', value: 'hard_ware' }
+        // { title: '最后上线时间', value: 'last_time' }
       ]
     }
   },
