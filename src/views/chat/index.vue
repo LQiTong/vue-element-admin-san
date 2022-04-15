@@ -1,165 +1,235 @@
 <template>
   <div class="main-page-content">
-    <div class="home">
-      <!-- <div class="count">
-        <p>在线人数：{{ count }}</p>
-      </div>-->
-      <div
-        ref="content"
-        v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }"
-        class="content"
-      >
-        <div
-          ref="chatBox"
-          class="chat-box"
+    <el-container direction="vertical">
+      <el-container direction="horizontal">
+        <el-aside
+          width="300px"
+          class="margin-0 padding-0"
         >
-          <div
-            v-for="(item, index) in chatArr"
-            :key="index"
-            class="chat-item"
+          <el-card
+            shadow="always"
+            :body-style="{ padding: '10px','height': '1030px' }"
           >
-            <div
-              v-if="item.name === myName"
-              class="chat-msg mine"
-            >
-              <el-button
-                type="text"
-                @click="translate(item.txt, index)"
-              >翻译</el-button>
-              <p
-                class="msg mineBg"
-                v-html="$string2emoji(item.txt)"
-              >
-              </p>
-              <p
-                class="user"
-                :style="{ background: randomRgb() }"
-              >
-                {{
-                  item.name.substring(item.name.length - 5, item.name.length)
-                }}
-              </p>
+            <div slot="header">
+              <span>账号</span>
             </div>
-            <div
-              v-else
-              class="chat-msg other"
-            >
-              <p
-                class="user"
-                :style="{ background: item.bg }"
-              >
-                {{
-                  item.name.substring(item.name.length - 5, item.name.length)
-                }}
-              </p>
-              <p
-                class="msg otherBg"
-                v-html="$string2emoji(item.txt)"
-              ></p>
-              <el-button
-                type="text"
-                @click="translate(item.txt, index)"
-              >翻译</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <div class="footer_top mt-20">
-          <el-form
-            label-width="120px"
-            inline
+            <p class="margin-10 mt-0 padding-10 flex space-between">
+              <span>昨日新增：0</span>
+              <span>今日新增：0</span>
+            </p>
+            <el-tree
+              ref="accountTree"
+              :data="accountData"
+              node-key=""
+              :props="{ children: 'children', label: 'label' }"
+              empty-text="暂无数据"
+              highlight-current
+              @node-click="accountClick"
+            />
+          </el-card>
+        </el-aside>
+        <el-aside
+          width="300px"
+          class="margin-0 padding-0"
+        >
+          <el-card
+            shadow="always"
+            :body-style="{ padding: '10px','height': '1030px' }"
           >
-            <el-form-item label>
-              <emoji
-                v-model="emoji"
-                class="ml-20"
-                title="选择表情"
-                @choose="selectedEmoji"
+            <div slot="header">
+              <span>好友列表</span>
+            </div>
+            <p class="margin-10 mt-0 padding-10 flex space-between">
+              <span>昨日新增：0</span>
+              <span>今日新增：0</span>
+            </p>
+            <el-input
+              v-model="friendName"
+              placeholder=""
+              class="mb-10"
+            >
+              <template slot="prepend">加好友</template>
+              <el-button
+                slot="append"
+                icon="el-icon-search"
               />
-            </el-form-item>
-          </el-form>
+            </el-input>
+            <el-tree
+              ref="friendsTree"
+              :data="friendsData"
+              node-key=""
+              :props="{ children: 'children', label: 'label' }"
+              empty-text="暂无数据"
+              highlight-current
+              @node-click="friendsClick"
+            />
+          </el-card>
+        </el-aside>
+        <el-main class="home margin-0">
+          <el-card shadow="always">
+            <div slot="header">
+              <span>聊天窗口</span>
+            </div>
+            <section
+              ref="content"
+              v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }"
+              class="content"
+            >
+              <div
+                ref="chatBox"
+                class="chat-box"
+              >
+                <div
+                  v-for="(item, index) in chatList"
+                  :key="index"
+                  class="chat-item"
+                >
+                  <div
+                    v-if="item.name === myName"
+                    class="chat-msg mine"
+                  >
+                    <el-button
+                      type="text"
+                      @click="translate(item.txt, index)"
+                    >翻译</el-button>
+                    <p
+                      class="msg mineBg"
+                      v-html="$string2emoji(item.txt)"
+                    >
+                    </p>
+                    <p
+                      class="user"
+                      :style="{ background: randomRgb() }"
+                    >
+                      {{
+                        item.name.substring(item.name.length - 5, item.name.length)
+                      }}
+                    </p>
+                  </div>
+                  <div
+                    v-else
+                    class="chat-msg other"
+                  >
+                    <p
+                      class="user"
+                      :style="{ background: item.bg }"
+                    >
+                      {{
+                        item.name.substring(item.name.length - 5, item.name.length)
+                      }}
+                    </p>
+                    <p
+                      class="msg otherBg"
+                      v-html="$string2emoji(item.txt)"
+                    ></p>
+                    <el-button
+                      type="text"
+                      @click="translate(item.txt, index)"
+                    >翻译</el-button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <el-footer class="footer">
+              <div class="footer_top mt-20">
+                <el-form
+                  label-width="120px"
+                  inline
+                >
+                  <el-form-item label>
+                    <emoji
+                      v-model="emoji"
+                      class="ml-20"
+                      title="选择表情"
+                      @choose="selectedEmoji"
+                    />
+                  </el-form-item>
+                </el-form>
 
-          <el-form
-            ref="form"
-            label-width="120px"
-            inline
-          >
-            <el-form-item label="自动检测：">
-              <el-select
-                v-model="source"
-                placeholder="自动检测"
-                class="mr-20"
-                disabled
-              >
-                <el-option
-                  v-for="(item, key) in translateLanguagesSource"
-                  :key="key"
-                  :label="item"
-                  :value="key"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="目标语言：">
-              <el-select
-                v-model="toTranslate"
-                class="mr-20"
-                placeholder
-                clearable
-                filterable
-                @change="translateChange"
-              >
-                <el-option
-                  v-for="(item, key) in translateLanguagesTarget"
-                  :key="key"
-                  :label="item"
-                  :value="key"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button
-                v-debounce="[translate, 'click', 500]"
-                class="mr-20"
-                type="primary"
-              >翻译</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div class="footer_bottom">
-          <div class="footer_bottom_left">
-            <el-input
-              ref="message"
-              v-model="demo"
-              type="textarea"
-              :rows="5"
-              :maxlength="-1"
-              :show-word-limit="false"
-              placeholder="说点什么..."
-              clearable
-              resize="none"
-              @keyup.enter.native="send"
-              @change="checkSourceLanguage"
-            />
-            <el-input
-              v-model="toDemo"
-              type="textarea"
-              :rows="5"
-              placeholder="译文"
-              :maxlength="-1"
-              :show-word-limit="false"
-              resize="none"
-            />
-          </div>
-          <div class="footer_bottom_right">
-            <el-button
-              type="success"
-              @click="send"
-            >发送</el-button>
-          </div>
-        </div>
-      </div>
-    </div>
+                <el-form
+                  ref="form"
+                  label-width="120px"
+                  inline
+                >
+                  <el-form-item label="自动检测：">
+                    <el-select
+                      v-model="source"
+                      placeholder="自动检测"
+                      class="mr-20"
+                      disabled
+                    >
+                      <el-option
+                        v-for="(item, key) in translateLanguagesSource"
+                        :key="key"
+                        :label="item"
+                        :value="key"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="目标语言：">
+                    <el-select
+                      v-model="toTranslate"
+                      class="mr-20"
+                      placeholder
+                      clearable
+                      filterable
+                      @change="translateChange"
+                    >
+                      <el-option
+                        v-for="(item, key) in translateLanguagesTarget"
+                        :key="key"
+                        :label="item"
+                        :value="key"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button
+                      v-debounce="[translate, 'click', 500]"
+                      class="mr-20"
+                      type="primary"
+                    >翻译</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+              <div class="footer_bottom">
+                <div class="footer_bottom_left">
+                  <el-input
+                    ref="message"
+                    v-model="demo"
+                    type="textarea"
+                    :rows="5"
+                    :maxlength="-1"
+                    :show-word-limit="false"
+                    placeholder="说点什么..."
+                    clearable
+                    resize="none"
+                    @keyup.enter.native="send"
+                    @change="checkSourceLanguage"
+                  />
+                  <el-input
+                    v-model="toDemo"
+                    type="textarea"
+                    :rows="5"
+                    placeholder="译文"
+                    :maxlength="-1"
+                    :show-word-limit="false"
+                    resize="none"
+                  />
+                </div>
+                <div class="footer_bottom_right">
+                  <el-button
+                    type="success"
+                    @click="send"
+                  >发送</el-button>
+                </div>
+              </div>
+            </el-footer>
+          </el-card>
+        </el-main>
+      </el-container>
+    </el-container>
+
   </div>
 </template>
 
@@ -175,13 +245,14 @@ export default {
   data() {
     return {
       emoji: '',
+      friendName: '',
       SOCKETURL: process.env.VUE_APP_SOCKET_URL,
       SOCKETIO: null,
       demo: '',
       toDemo: '',
       toTranslate: 'zh',
       source: 'zh',
-      chatArr: [
+      chatList: [
         {
           name: new Date().getTime() + 1 + '',
           txt: '我好中意你噶',
@@ -234,7 +305,9 @@ export default {
         }
       ],
       myName: new Date().getTime().toString(),
-      bg: ''
+      bg: '',
+      accountData: [],
+      friendsData: []
     }
   },
   // 计算属性，会监听依赖属性值随之变化
@@ -258,13 +331,9 @@ export default {
   watch: {},
   // 生命周期 - 创建完成（可以访问当前this实例）
   created() {
+    // 聊天框默认滚动到最底部
     this.$nextTick(() => {
       this.$scrollTopOrBottom('chatBox', false)
-      // const chatBox = this.$refs.chatBox
-      // console.log('====================================')
-      // console.log('chatBox.scrollHeight --> ', chatBox.scrollHeight)
-      // console.log('====================================')
-      // chatBox.scrollTop = chatBox.scrollHeight
     })
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
@@ -279,6 +348,12 @@ export default {
   },
   // 方法集合
   methods: {
+    accountClick() {
+
+    },
+    friendsClick() {
+
+    },
     init() {
       if (typeof WebSocket === 'undefined') {
         this._warnConfirm('您的浏览器不支持socket')
@@ -300,7 +375,7 @@ export default {
           txt: this.demo,
           bg: this.randomRgb()
         }
-        this.chatArr.push(obj)
+        this.chatList.push(obj)
         // this.SOCKETIO.send(JSON.stringify(obj))
         this.demo = ''
         this.$refs.message.focus()
@@ -367,7 +442,7 @@ export default {
       console.log('res ', res)
       if (!res.error_code) {
         if (value) {
-          this.chatArr[index].txt = this.chatArr[index].txt.replace(source, res.trans_result[0].dst || '')
+          this.chatList[index].txt = this.chatList[index].txt.replace(source, res.trans_result[0].dst || '')
         } else {
           this.toDemo = this.demo.replace(source, res.trans_result[0].dst || '')
         }
@@ -400,7 +475,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/styles/mixin.scss';
-
+.el-input {
+  >>> .el-input-group__append {
+    cursor: pointer;
+  }
+}
 .count {
   height: 5%;
   display: flex;
