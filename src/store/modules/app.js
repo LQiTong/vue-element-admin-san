@@ -1,4 +1,9 @@
+/* eslint-disable */
 import Cookies from 'js-cookie'
+import Axios from 'axios'
+import {
+  parseTime
+} from '@/utils'
 import {
   getLanguage
 } from '@/lang/index'
@@ -95,7 +100,33 @@ const actions = {
     state
   }) {
     return state.menus
+  },
+  checkVersion({
+    commit,
+    state
+  }) {
+    //! 摘自https://juejin.cn/post/7086779205777621006
+    return new Promise(resolve => {
+      Axios.get('/version.json?v=' + new Date().getTime(), {
+          headers: {
+            'Cache-Control': 'no-cache'
+          },
+          baseURL: window.location.origin
+        })
+        // 反正就是要请求到json文件的内容, 并且禁止缓存
+        .then(res => {
+          const version = +res.data.version
+          const clientVersion = Number(document.querySelector('#BPMVersion').content || '')
+          // 以下是查看版本号上线时间 - start
+          console.info(`%c Environment %c ${process.env.NODE_ENV} `, `padding: 1px; border-radius: 3px 0 0 3px;color: #fff; background: #606060`, `padding: 1px; border-radius: 0 3px 3px 0;color: # fff; background: #42c02e`)
+          console.info(`%c Build Date %c ${parseTime(new Date(clientVersion),'{y}-{m}-{d} {h}:{i}:{s}')} `, 'padding: 1px; border-radius: 3px 0 0 3px;color: #fff; background: #606060', 'padding: 1px; border-radius: 0 3px 3px 0;color: # fff; background: #1475b2')
+          console.info(`%c Last Build Date %c ${parseTime(new Date(version),'{y}-{m}-{d} {h}:{i}:{s}')}`, 'padding: 1px; border-radius: 3px 0 0 3px;color: # fff; background: #606060', 'padding: 1px; border-radius: 0 3px 3px 0;color: # fff; background: #1475b2')
+          // -end
+          resolve(version === clientVersion)
+        })
+    })
   }
+
 }
 
 export default {
