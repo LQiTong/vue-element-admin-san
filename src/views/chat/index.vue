@@ -8,7 +8,7 @@
         >
           <el-card
             shadow="always"
-            :body-style="{ padding: '10px','height': '1030px' }"
+            :body-style="{ padding: '10px', 'height': '1040px' }"
           >
             <div slot="header">
               <span>账号</span>
@@ -34,7 +34,7 @@
         >
           <el-card
             shadow="always"
-            :body-style="{ padding: '10px','height': '1030px' }"
+            :body-style="{ padding: '10px', 'height': '1040px' }"
           >
             <div slot="header">
               <span>好友列表</span>
@@ -65,10 +65,26 @@
             />
           </el-card>
         </el-aside>
-        <el-main class="home margin-0">
+        <el-main class="margin-0">
           <el-card shadow="always">
-            <div slot="header">
+            <div
+              slot="header"
+              class="flex space-between"
+            >
               <span>聊天窗口</span>
+              <div>
+                <el-button-group>
+                  <el-button
+                    size="small"
+                    icon="el-icon-arrow-up"
+                  >历史消息</el-button>
+                  <el-button
+                    type="success"
+                    size="small"
+                    icon="el-icon-reading"
+                  >置为已读</el-button>
+                </el-button-group>
+              </div>
             </div>
             <section
               ref="content"
@@ -130,7 +146,7 @@
                 </div>
               </div>
             </section>
-            <el-footer class="footer">
+            <el-footer class="footer margin-0 padding-0">
               <div class="footer_top mt-20">
                 <el-form
                   label-width="120px"
@@ -255,27 +271,27 @@ export default {
       chatList: [
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我好中意你噶',
+          txt: 'I love you very much!',
           bg: 'rgba(255,0,0,.15)'
         },
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我好中意你噶',
+          txt: 'I love you very much!',
           bg: 'rgba(255,0,0,.15)'
         },
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我好中意你噶',
+          txt: 'I love you very much!',
           bg: 'rgba(255,0,0,.15)'
         },
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我好中意你噶',
+          txt: 'I love you very much!',
           bg: 'rgba(255,0,0,.15)'
         },
         {
           name: new Date().getTime() + 1 + '',
-          txt: '我好中意你噶',
+          txt: 'I love you very much!',
           bg: 'rgba(255,0,0,.15)'
         },
         {
@@ -475,19 +491,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/styles/mixin.scss';
-.el-input {
-  >>> .el-input-group__append {
-    cursor: pointer;
-  }
-}
-.count {
-  height: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #eeeae8;
-  font-size: 16px;
-}
 
 .content {
   width: 100%;
