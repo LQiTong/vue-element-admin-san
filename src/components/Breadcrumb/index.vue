@@ -6,7 +6,12 @@
           v-if="item.redirect === 'noRedirect' || index == levelList.length - 1"
           class="no-redirect"
         >{{ generateTitle(item.meta.title) }}</span>
-        <a v-else @click.prevent="handleLink(item)">{{ generateTitle(item.meta.title) }}</a>
+        <a v-else @click.prevent="handleLink(item)">
+          <i v-if="item.meta && item.meta.icon && item.meta.icon.includes('el-icon')" :class="item.meta.icon"></i>
+          <!-- eslint-disable-next-line  -->
+          <svg-icon v-else :icon-class="item.meta.icon || ''"></svg-icon>
+          {{ generateTitle(item.meta.title) }}
+        </a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -45,7 +50,7 @@ export default {
         matched = [
           {
             path: '/dashboard',
-            meta: { title: 'dashboard' }
+            meta: { title: 'dashboard', icon: 'dashboard' }
           }
         ].concat(matched)
       }
