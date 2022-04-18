@@ -292,12 +292,13 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach(async (to, form) => {
   // 生产环境提示升级
-  if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'production') {
     const checkVersion = await store.dispatch('app/checkVersion')
     if (!checkVersion) { // 获取的版本号不等时
-      Message.warning('正在自动升级新版本...', 2, () => {
+      Message.warning('正在自动升级新版本...')
+      setTimeout(() => {
         window.location.reload() // 版本不同 刷新 获取最新版本
-      })
+      }, 2000)
     }
   }
 })
