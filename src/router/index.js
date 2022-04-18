@@ -3,12 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import menu from '@/api/menu'
 import store from '@/store'
-import {
-  Message
-} from 'element-ui'
-import {
-  default_avatar
-} from '@/settings'
+import { Message } from 'element-ui'
+import { default_avatar } from '@/settings'
 
 // 解决vue报错vue-router.esm.js
 // const routerPush = Router.prototype.push
@@ -57,10 +53,12 @@ export const constantRoutes = [
     path: '/redirect',
     component: Layout,
     hidden: true,
-    children: [{
-      path: '/redirect/:path(.*)',
-      component: () => import('@/views/redirect/index')
-    }]
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
   },
   {
     path: '/login',
@@ -111,16 +109,18 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index'),
-      name: 'Dashboard',
-      meta: {
-        title: 'dashboard',
-        icon: 'dashboard',
-        affix: true
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: {
+          title: 'dashboard',
+          icon: 'dashboard',
+          affix: true
+        }
       }
-    }]
+    ]
   }
 ]
 
@@ -140,7 +140,7 @@ export const constantRoutes = [
  */
 const APP_ROUTERS_ARR = []
 const APP_ROUTERS = require.context('./modules', false, /\.js$/)
-APP_ROUTERS.keys().forEach(router => {
+APP_ROUTERS.keys().forEach((router) => {
   APP_ROUTERS_ARR.push(APP_ROUTERS(router).default)
 })
 /**
@@ -167,9 +167,9 @@ const _routesMap = {}
  * 生成路由映射集合
  * @param {Array} routes
  */
-const getRoutesMap = routes => {
+const getRoutesMap = (routes) => {
   // console.log('routesMap routes --->', routes)
-  routes.forEach(item => {
+  routes.forEach((item) => {
     _routesMap[item.name] = item.component
     if (item.children && item.children.length > 0) {
       getRoutesMap(item.children)
@@ -180,16 +180,17 @@ const getRoutesMap = routes => {
 
 export const routesMap = getRoutesMap(asyncRoutes)
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  mode: 'hash',
-  scrollBehavior: (to, from, savePosition) => ({
-    // 每次进到页面期望滚到的位置
-    x: 0,
-    y: 0
-  }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    mode: 'hash',
+    scrollBehavior: (to, from, savePosition) => ({
+      // 每次进到页面期望滚到的位置
+      x: 0,
+      y: 0
+    }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
@@ -205,9 +206,7 @@ const generateRoutes = (routesList) => {
     routes = asyncRoutes
   }
 
-  routes = [
-    ...routes
-  ]
+  routes = [...routes]
 
   router.matcher = createRouter().matcher
 
@@ -223,11 +222,12 @@ const generateRoutes = (routesList) => {
 export const filterRoutes = (routesList, url = '') => {
   const routes = []
   // console.log('routesMap ---> ', routesMap)
-  routesList.forEach(route => {
+  routesList.forEach((route) => {
     const _ = {}
     _.name = route.display_name
     _.path = url ? `${url}${route.url}` : route.url
-    _.component = routesMap[url ? `${url.replace(/\//g, '')}.${route.url.replace(/\//g, '')}` : route.url.replace(/\//g, '')]
+    _.component =
+      routesMap[url ? `${url.replace(/\//g, '')}.${route.url.replace(/\//g, '')}` : route.url.replace(/\//g, '')]
     _.hidden = false
     _.alwaysShow = +route.depth === 0
     _.meta = {
@@ -248,43 +248,30 @@ export const filterRoutes = (routesList, url = '') => {
 
 router.beforeEach(async (to, from, next) => {
   const menus = await store.dispatch('app/getMenus', to)
-  console.log('menus.length === 0 ---> ', Boolean(menus.length === 0))
-  console.log("to.path !== '/login' ---> ", Boolean(to.path !== '/login'))
-  console.log("to.path !== '/500' ---> ", Boolean(to.path !== '/500'))
-  console.log("to.path !== '/404' ---> ", Boolean(to.path !== '/404'))
 
   if (menus.length === 0 && to.path !== '/login' && to.path !== '/500' && to.path !== '/404') {
     // 以下一行调用按钮级别权限
     await store.dispatch('permission/getMenus')
     await store.dispatch('user/setAvatar', default_avatar)
     // 以下方法调用菜单权限
-    menu.getMenu()
-      .then(async res => {
-        if (res.code === 200) {
-          const routes = generateRoutes(res.data.list || [])
-          // const routes = generateRoutes([])
-          // console.log('getMenus ---> routes', routes)
-          store
-            .dispatch('app/setMenus', [...constantRoutes, ...routes])
-            .then(() => {
-              let path = to.path
-              if (
-                to.path.startsWith('/home') &&
-                routes[0] &&
-                !routes[0].path.startsWith('/home')
-              ) {
-                path = routes[0].redirect || routes[0].path
-              }
-              next({
-                ...to,
-                path,
-                replace: true
-              })
-            })
-        } else {
-          next('/login')
-        }
-      })
+    menu.getMenu().then(async (res) => {
+      if (res.code === 200) {
+        const routes = generateRoutes(res.data.list || [])
+        store.dispatch('app/setMenus', [...constantRoutes, ...routes]).then(() => {
+          let path = to.path
+          if (to.path.startsWith('/home') && routes[0] && !routes[0].path.startsWith('/home')) {
+            path = routes[0].redirect || routes[0].path
+          }
+          next({
+            ...to,
+            path,
+            replace: true
+          })
+        })
+      } else {
+        next('/login')
+      }
+    })
   } else {
     next()
   }
@@ -294,7 +281,8 @@ router.afterEach(async (to, form) => {
   // 生产环境提示升级
   if (process.env.NODE_ENV === 'production') {
     const checkVersion = await store.dispatch('app/checkVersion')
-    if (!checkVersion) { // 获取的版本号不等时
+    if (!checkVersion) {
+      // 获取的版本号不等时
       Message.warning('正在自动升级新版本...')
       setTimeout(() => {
         window.location.reload() // 版本不同 刷新 获取最新版本
