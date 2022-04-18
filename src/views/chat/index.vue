@@ -2,14 +2,8 @@
   <div class="main-page-content">
     <el-container direction="vertical">
       <el-container direction="horizontal">
-        <el-aside
-          width="300px"
-          class="margin-0 padding-0"
-        >
-          <el-card
-            shadow="always"
-            :body-style="{ padding: '10px', 'height': '1040px' }"
-          >
+        <el-aside width="300px" class="margin-0 padding-0">
+          <el-card shadow="always" :body-style="{ padding: '10px', height: '1040px' }">
             <div slot="header">
               <span>账号</span>
             </div>
@@ -28,14 +22,8 @@
             />
           </el-card>
         </el-aside>
-        <el-aside
-          width="300px"
-          class="margin-0 padding-0"
-        >
-          <el-card
-            shadow="always"
-            :body-style="{ padding: '10px', 'height': '1040px' }"
-          >
+        <el-aside width="300px" class="margin-0 padding-0">
+          <el-card shadow="always" :body-style="{ padding: '10px', height: '1040px' }">
             <div slot="header">
               <span>好友列表</span>
             </div>
@@ -43,16 +31,9 @@
               <span>昨日新增：0</span>
               <span>今日新增：0</span>
             </p>
-            <el-input
-              v-model="friendName"
-              placeholder=""
-              class="mb-10"
-            >
+            <el-input v-model="friendName" placeholder="" class="mb-10">
               <template slot="prepend">加好友</template>
-              <el-button
-                slot="append"
-                icon="el-icon-search"
-              />
+              <el-button slot="append" icon="el-icon-search" />
             </el-input>
             <el-tree
               ref="friendsTree"
@@ -67,113 +48,50 @@
         </el-aside>
         <el-main class="margin-0">
           <el-card shadow="always">
-            <div
-              slot="header"
-              class="flex space-between"
-            >
+            <div slot="header" class="flex space-between">
               <span>聊天窗口</span>
               <div>
                 <el-button-group>
-                  <el-button
-                    size="small"
-                    icon="el-icon-arrow-up"
-                  >历史消息</el-button>
-                  <el-button
-                    type="success"
-                    size="small"
-                    icon="el-icon-reading"
-                  >置为已读</el-button>
+                  <el-button size="small" icon="el-icon-arrow-up">历史消息</el-button>
+                  <el-button type="success" size="small" icon="el-icon-reading">置为已读</el-button>
                 </el-button-group>
               </div>
             </div>
             <section
               ref="content"
-              v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10, }"
+              v-water-mark="{ text: 'whats-new后台管理系统', time: Date.now(), angle: -10 }"
               class="content"
             >
-              <div
-                ref="chatBox"
-                class="chat-box"
-              >
-                <div
-                  v-for="(item, index) in chatList"
-                  :key="index"
-                  class="chat-item"
-                >
-                  <div
-                    v-if="item.name === myName"
-                    class="chat-msg mine"
-                  >
-                    <el-button
-                      type="text"
-                      @click="translate(item.txt, index)"
-                    >翻译</el-button>
-                    <p
-                      class="msg mineBg"
-                      v-html="$string2emoji(item.txt)"
-                    >
-                    </p>
-                    <p
-                      class="user"
-                      :style="{ background: randomRgb() }"
-                    >
-                      {{
-                        item.name.substring(item.name.length - 5, item.name.length)
-                      }}
+              <div ref="chatBox" class="chat-box">
+                <div v-for="(item, index) in chatList" :key="index" class="chat-item">
+                  <div v-if="item.name === myName" class="chat-msg mine">
+                    <el-button type="text" @click="translate(item.txt, index)">翻译</el-button>
+                    <p class="msg mineBg" v-html="$string2emoji(item.txt)"></p>
+                    <p class="user" :style="{ background: randomRgb() }">
+                      {{ item.name.substring(item.name.length - 5, item.name.length) }}
                     </p>
                   </div>
-                  <div
-                    v-else
-                    class="chat-msg other"
-                  >
-                    <p
-                      class="user"
-                      :style="{ background: item.bg }"
-                    >
-                      {{
-                        item.name.substring(item.name.length - 5, item.name.length)
-                      }}
+                  <div v-else class="chat-msg other">
+                    <p class="user" :style="{ background: item.bg }">
+                      {{ item.name.substring(item.name.length - 5, item.name.length) }}
                     </p>
-                    <p
-                      class="msg otherBg"
-                      v-html="$string2emoji(item.txt)"
-                    ></p>
-                    <el-button
-                      type="text"
-                      @click="translate(item.txt, index)"
-                    >翻译</el-button>
+                    <p class="msg otherBg" v-html="$string2emoji(item.txt)"></p>
+                    <el-button type="text" @click="translate(item.txt, index)">翻译</el-button>
                   </div>
                 </div>
               </div>
             </section>
             <el-footer class="footer margin-0 padding-0">
               <div class="footer_top mt-20">
-                <el-form
-                  label-width="120px"
-                  inline
-                >
+                <el-form label-width="120px" inline>
                   <el-form-item label>
-                    <emoji
-                      v-model="emoji"
-                      class="ml-20"
-                      title="选择表情"
-                      @choose="selectedEmoji"
-                    />
+                    <emoji v-model="emoji" class="ml-20" title="选择表情" @choose="selectedEmoji" />
                   </el-form-item>
                 </el-form>
 
-                <el-form
-                  ref="form"
-                  label-width="120px"
-                  inline
-                >
+                <el-form ref="form" label-width="120px" inline>
                   <el-form-item label="自动检测：">
-                    <el-select
-                      v-model="source"
-                      placeholder="自动检测"
-                      class="mr-20"
-                      disabled
-                    >
+                    <el-select v-model="source" placeholder="自动检测" class="mr-20" disabled>
                       <el-option
                         v-for="(item, key) in translateLanguagesSource"
                         :key="key"
@@ -234,10 +152,7 @@
                   />
                 </div>
                 <div class="footer_bottom_right">
-                  <el-button
-                    type="success"
-                    @click="send"
-                  >发送</el-button>
+                  <el-button type="success" @click="send">发送</el-button>
                 </div>
               </div>
             </el-footer>
@@ -245,7 +160,6 @@
         </el-main>
       </el-container>
     </el-container>
-
   </div>
 </template>
 
@@ -364,12 +278,8 @@ export default {
   },
   // 方法集合
   methods: {
-    accountClick() {
-
-    },
-    friendsClick() {
-
-    },
+    accountClick() {},
+    friendsClick() {},
     init() {
       if (typeof WebSocket === 'undefined') {
         this._warnConfirm('您的浏览器不支持socket')
@@ -414,8 +324,7 @@ export default {
     },
     async check(value) {
       this.languageIdentify.q = value
-      const { appid, q, salt, key, languageIdentifyURL } =
-        this.languageIdentify
+      const { appid, q, salt, key, languageIdentifyURL } = this.languageIdentify
       this.languageIdentify.sign = signGenerater({ appid, q, salt, key })
       const str2 = qsUrlQuery({
         appid,
@@ -443,8 +352,7 @@ export default {
         source = source.replace(reg, '')
       }
       this.translateConfig.q = source
-      const { appid, q, salt, key, translateURL, from, to } =
-        this.translateConfig
+      const { appid, q, salt, key, translateURL, from, to } = this.translateConfig
       this.translateConfig.sign = signGenerater({ appid, q, salt, key })
       const str2 = qsUrlQuery({
         appid,
@@ -493,125 +401,125 @@ export default {
 @import '~@/styles/mixin.scss';
 
 .content {
-  width: 100%;
-  height: 800px;
-  min-height: 800px;
-  // background-color: #f4f4f4;
-  border: 1px solid #eeeeee;
-  border-radius: 10px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  overflow: hidden;
+    width: 100%;
+    height: 800px;
+    min-height: 800px;
+    // background-color: #f4f4f4;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow: hidden;
 }
 
 .footer {
-  width: 100%;
-  min-height: 200px;
-  background-color: #fff;
-  border: 1px solid #eeeeee;
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    width: 100%;
+    min-height: 200px;
+    background-color: #fff;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 
-  .footer_top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    .footer_top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .footer_bottom {
-    height: 117px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &_left {
-      width: calc(100% - 160px);
-      height: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .contenteditable {
-        width: 50%;
-        padding: 10px;
+    .footer_bottom {
         height: 117px;
-        overflow-y: auto;
-        border: 1px #eee solid;
-        @include scrollBar;
-      }
-    }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    &_right {
-      width: 160px;
-      height: 100%;
+        &_left {
+            width: calc(100% - 160px);
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-      .el-button {
-        width: 100%;
-        height: 100%;
-      }
+            .contenteditable {
+                width: 50%;
+                padding: 10px;
+                height: 117px;
+                overflow-y: auto;
+                border: 1px #eee solid;
+                @include scrollBar;
+            }
+        }
+
+        &_right {
+            width: 160px;
+            height: 100%;
+
+            .el-button {
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
-  }
 }
 
 .active {
-  background: #98e165;
-  color: #fff;
+    background: #98e165;
+    color: #fff;
 }
 
 .chat-box {
-  height: 100%;
-  padding: 0 20px;
-  overflow-y: auto;
-  @include scrollBar;
+    height: 100%;
+    padding: 0 20px;
+    overflow-y: auto;
+    @include scrollBar;
 }
 
 .chat-msg {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .user {
-  font-weight: bold;
-  color: #fff;
-  position: relative;
-  word-wrap: break-word;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  border-radius: 8px;
-  text-align: center;
+    font-weight: bold;
+    color: #fff;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 .msg {
-  margin: 0 5px;
-  max-width: 74%;
-  white-space: normal;
-  word-break: break-all;
-  color: #333;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: justify;
-  font-size: 16px;
-  box-shadow: 0px 0px 10px #f4f4f4;
+    margin: 0 5px;
+    max-width: 74%;
+    white-space: normal;
+    word-break: break-all;
+    color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: justify;
+    font-size: 16px;
+    box-shadow: 0px 0px 10px #f4f4f4;
 }
 
 .chat-item {
-  margin: 20px 0;
-  animation: up-down 1s both;
+    margin: 20px 0;
+    animation: up-down 1s both;
 }
 
 @keyframes up-down {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-  }
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
 
-  100% {
-    opacity: 1;
-    transform: none;
-  }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 // // 去掉滚动条
@@ -628,18 +536,18 @@ export default {
 //   border-top: 2px solid transparent;
 // }
 .mine {
-  justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .other {
-  justify-content: flex-start;
+    justify-content: flex-start;
 }
 
 .mineBg {
-  background: #98e165;
+    background: #98e165;
 }
 
 .otherBg {
-  background: #f1f1f1;
+    background: #f1f1f1;
 }
 </style>

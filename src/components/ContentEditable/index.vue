@@ -1,6 +1,14 @@
 <template>
-  <component :is="tag" ref="contenteditable" contenteditable :placeholder="placeholder" @input="onInput"
-    @keydown="$emit('keydown', $event)" @keyup="$emit('keyup', $event)" @keypress="$emit('keypress', $event)" />
+  <component
+    :is="tag"
+    ref="contenteditable"
+    contenteditable
+    :placeholder="placeholder"
+    @input="onInput"
+    @keydown="$emit('keydown', $event)"
+    @keyup="$emit('keyup', $event)"
+    @keypress="$emit('keypress', $event)"
+  />
 </template>
 
 <script>
