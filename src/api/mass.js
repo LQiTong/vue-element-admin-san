@@ -1,11 +1,5 @@
 /* eslint-disable */
-import {
-  fetchGet,
-  fetchPost,
-  fetchPatch,
-  fetchPut,
-  fetchDelete
-} from '@/utils/request'
+import { fetchGet, fetchPost, fetchPatch, fetchPut, fetchDelete } from '@/utils/request'
 
 export default {
   // 新建群发

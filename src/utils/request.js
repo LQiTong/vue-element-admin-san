@@ -1,17 +1,9 @@
 /* eslint-disable */
 import axios from 'axios'
-import {
-  MessageBox,
-  Message,
-  Loading
-} from 'element-ui'
+import { MessageBox, Message, Loading } from 'element-ui'
 import store from '@/store'
 import router from '@/router'
-import {
-  getToken,
-  setToken,
-  removeToken
-} from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 import qs from 'qs'
 import errorHandle from './errorHandle'
 
@@ -28,8 +20,8 @@ export const BASE_CONFIG = {
   },
   prodDev: {
     baseURL: '/manager'
-  },
-} [ENV]
+  }
+}[ENV]
 
 // 前端自定义错误信息
 // const codeMessage = {
@@ -60,19 +52,25 @@ const service = axios.create({
 export let loadingInstance
 // 请求拦截器
 service.interceptors.request.use(
-  config => {
+  (config) => {
     // do something before request is sent
     // 添加一个loading遮罩
     loadingInstance = Loading.service({
       lock: true,
-      text: "数据加载中，请稍后...",
-      spinner: "el-icon-loading",
-      background: "rgba(0, 0, 0, 0.7)"
+      text: '数据加载中，请稍后...',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)'
     })
-    config.headers["Request-ID"] = new Date().getTime() * 1000
-    let jsonData = config.method == "get" ? config.params : config.data
+    config.headers['Request-ID'] = new Date().getTime() * 1000
+    let jsonData = config.method == 'get' ? config.params : config.data
     // 打印接口请求相关
-    console.info(`%c[ 请求 ]: [ ${process.env.VUE_APP_BASE_URL}/${config.url} ] [ ${config.method.toUpperCase()} ] 数据接口，参数：`, "color:DodgerBlue", jsonData || {})
+    console.info(
+      `%c[ 请求 ]: [ ${process.env.VUE_APP_BASE_URL}/${
+        config.url
+      } ] [ ${config.method.toUpperCase()} ] 数据接口，参数：`,
+      'color:DodgerBlue',
+      jsonData || {}
+    )
 
     if (store.getters.token) {
       // 有请求登录接口获取到token之后，才加入 Authorization 验证
@@ -87,7 +85,7 @@ service.interceptors.request.use(
     config.params = params
     return config
   },
-  error => {
+  (error) => {
     // do something with request error
     loadingInstance.close()
     console.log('请求有误，请联系管理员') // for debug
@@ -107,12 +105,19 @@ service.interceptors.response.use(
    * Here is just an example
    * You can also judge the status by HTTP Status Code
    */
-  response => {
+  (response) => {
     const res = response.data
     // 接口响应，关闭遮罩
     loadingInstance.close()
     // 打印接口响应相关
-    console.info(`%c[ 响应 ]: [ ${process.env.VUE_APP_BASE_URL}/${response.config.url.replace(new RegExp(`${response.config.baseURL}/`), "")} ] [ ${response.config.method.toUpperCase()} ] 数据接口，返回：`, "color:YellowGreen", res)
+    console.info(
+      `%c[ 响应 ]: [ ${process.env.VUE_APP_BASE_URL}/${response.config.url.replace(
+        new RegExp(`${response.config.baseURL}/`),
+        ''
+      )} ] [ ${response.config.method.toUpperCase()} ] 数据接口，返回：`,
+      'color:YellowGreen',
+      res
+    )
     // console.log('response ---> ', response);
     if (response.status === 200) {
       switch (errorHandle.codeCatch(res.code)) {
@@ -120,16 +125,16 @@ service.interceptors.response.use(
           removeToken()
           MessageBox.alert('请重新登录', '登录已失效', {
             confirmButtonText: '确定',
-            callback: action => {
+            callback: (action) => {
               router.push({
-                path: "/login",
+                path: '/login',
                 query: {
                   redirect: router.currentRoute.fullPath
                 }
               })
             }
           })
-          break;
+          break
         case errorHandle.handle.success:
           console.log('response success!!!')
           return res
@@ -149,12 +154,12 @@ service.interceptors.response.use(
         default:
           Message.error(res.msg || '未知错误')
           Promise.reject(res)
-          break;
+          break
       }
     }
   },
   // 接口响应有误捕捉
-  error => {
+  (error) => {
     console.log(`接口响应有误 err 【 ${error} 】`) // for debug
     Message({
       message: '服务器出现异常，请联系管理员',
@@ -167,20 +172,20 @@ service.interceptors.response.use(
     const code = errMsg.indexOf('code') === -1 ? errMsg : errMsg.substr(errMsg.indexOf('code') + 5)
     switch (code) {
       case '404':
-        console.log('404');
+        console.log('404')
         router.push({
           name: 'error404'
-        });
-        break;
+        })
+        break
       case '500':
-        console.log('500');
+        console.log('500')
         router.push({
           name: 'error500',
           query: {
             redirect: router.currentRoute.fullPath
           }
-        });
-        break;
+        })
+        break
       case 'Error: Network Error':
         router.push({
           name: 'error500',
@@ -190,7 +195,7 @@ service.interceptors.response.use(
         })
         break
       default:
-        error.message = `出错了(${error.response.status})!`;
+        error.message = `出错了(${error.response.status})!`
         router.push({
           name: 'error500'
         })
@@ -207,7 +212,7 @@ service.interceptors.response.use(
  * @param {string} url 请求url
  * @param {any} params 请求参数
  * @param {boolean} isJson 请求参数格式，boolean 值，true 表示传 json，false 表示传 form-data
- * @returns 
+ * @returns
  */
 export function fetchPost(url, params, isJson = false) {
   if (params) {
@@ -219,13 +224,17 @@ export function fetchPost(url, params, isJson = false) {
     if (isJson) {
       data = params
     }
-    service.post(url, data)
-      .then(res => {
-        resolve(res)
-      }, err => {
-        reject(err)
-      })
-      .catch(err => {
+    service
+      .post(url, data)
+      .then(
+        (res) => {
+          resolve(res)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+      .catch((err) => {
         reject(err)
       })
   })
@@ -235,20 +244,21 @@ export function fetchPost(url, params, isJson = false) {
  * GET 请求方法封装
  * @param {string} url 请求url
  * @param {any} params 请求参数
- * @returns 
+ * @returns
  */
 export function fetchGet(url, params) {
   if (params) {
     removeEmptyKeyValue(params)
   }
   return new Promise((resolve, reject) => {
-    service.get(url, {
+    service
+      .get(url, {
         params: params
       })
-      .then(res => {
+      .then((res) => {
         resolve(res)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
@@ -256,19 +266,20 @@ export function fetchGet(url, params) {
 
 /**
  * PATCH 请求方法封装
- * @param {string} url 请求url 
+ * @param {string} url 请求url
  * @param {any} params 请求参数
- * @returns 
+ * @returns
  */
 export function fetchPatch(url, params) {
   return new Promise((resolve, reject) => {
-    service.patch(url, {
+    service
+      .patch(url, {
         params: params
       })
-      .then(res => {
+      .then((res) => {
         resolve(res)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
@@ -279,31 +290,33 @@ export function fetchPatch(url, params) {
  * @param {string} url 请求url
  * @param {any} params 请求参数
  * @param {boolean} isFormData 请求参数格式，boolean 值，true 表示传 json，false 表示传 form-data
- * @returns 
+ * @returns
  */
 export function fetchPut(url, params, isFormData) {
   if (params) {
     removeEmptyKeyValue(params)
   }
   if (isFormData) {
-    let ret = ""
+    let ret = ''
     ret = qs.stringify(params)
     return new Promise((resolve, reject) => {
-      service.put(url, ret)
-        .then(res => {
+      service
+        .put(url, ret)
+        .then((res) => {
           resolve(res)
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err)
         })
     })
   } else {
     return new Promise((resolve, reject) => {
-      service.put(url, params)
-        .then(res => {
+      service
+        .put(url, params)
+        .then((res) => {
           resolve(res)
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err)
         })
     })
@@ -314,38 +327,39 @@ export function fetchPut(url, params, isFormData) {
  * DELETE 请求方法封装
  * @param {string} url 请求url
  * @param {any} params 请求参数
- * @returns 
+ * @returns
  */
 export function fetchDelete(url, params) {
   if (params) {
     removeEmptyKeyValue(params)
   }
   return new Promise((resolve, reject) => {
-    service.delete(url, {
+    service
+      .delete(url, {
         params: params
       })
-      .then(res => {
+      .then((res) => {
         resolve(res)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })
 }
 
-const removeEmptyKeyValue = obj => {
-  Object.keys(obj).forEach(key => {
+const removeEmptyKeyValue = (obj) => {
+  Object.keys(obj).forEach((key) => {
     if (
       obj[key] === undefined ||
-      obj[key] === "undefined" ||
-      obj[key] === "null" ||
-      obj[key] === "" ||
+      obj[key] === 'undefined' ||
+      obj[key] === 'null' ||
+      obj[key] === '' ||
       obj[key] === null
     ) {
       delete obj[key]
       // obj[key] = ''
     }
-    if (typeof obj[key] === "object") {
+    if (typeof obj[key] === 'object') {
       removeEmptyKeyValue(obj[key])
     }
   })

@@ -19,7 +19,7 @@ export default {
     if (typeof binding.value === 'function') {
       fn = binding.value
     } else {
-      [fn, event = 'click', time = 1500] = binding.value
+      ;[fn, event = 'click', time = 1500] = binding.value // eslint-disable-line
     }
 
     /**

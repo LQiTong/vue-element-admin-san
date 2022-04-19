@@ -20,7 +20,7 @@ export default {
       if (typeof binding.value === 'function') {
         fn = binding.value
       } else {
-        [fn, event = 'click', time = 500] = binding.value
+        ;[fn, event = 'click', time = 500] = binding.value // eslint-disable-line
       }
       let timer
       el.addEventListener(event, () => {

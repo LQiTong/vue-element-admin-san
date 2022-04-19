@@ -1,8 +1,5 @@
 import menu from '@/api/menu'
-import {
-  constantRoutes,
-  asyncRoutes
-} from '@/router'
+import { constantRoutes, asyncRoutes } from '@/router'
 import Router from 'vue-router'
 import store from '@/store'
 
@@ -15,8 +12,8 @@ const _routesMap = {}
  * 生成路由映射集合
  * @param {Array} routes
  */
-const getRoutesMap = routes => {
-  routes.forEach(item => {
+const getRoutesMap = (routes) => {
+  routes.forEach((item) => {
     _routesMap[item.name] = item.component
     if (item.children && item.children.length > 0) {
       getRoutesMap(item.children)
@@ -27,16 +24,17 @@ const getRoutesMap = routes => {
 
 export const routesMap = getRoutesMap(asyncRoutes)
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  mode: 'hash',
-  scrollBehavior: (to, from, savePosition) => ({
-    // 每次进到页面期望滚到的位置
-    x: 0,
-    y: 0
-  }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    mode: 'hash',
+    scrollBehavior: (to, from, savePosition) => ({
+      // 每次进到页面期望滚到的位置
+      x: 0,
+      y: 0
+    }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
@@ -51,9 +49,7 @@ const generateRoutes = (routesList) => {
     routes = asyncRoutes
   }
 
-  routes = [
-    ...routes
-  ]
+  routes = [...routes]
 
   router.matcher = createRouter().matcher
 
@@ -69,7 +65,7 @@ const generateRoutes = (routesList) => {
 export const filterRoutes = (routesList) => {
   const routes = []
 
-  routesList.forEach(route => {
+  routesList.forEach((route) => {
     const _ = {}
     _.name = route.display_name
     _.path = route.url
@@ -114,58 +110,45 @@ const mutations = {
 }
 
 const actions = {
-  setRoutes({
-    commit
-  }, routes) {
+  setRoutes({ commit }, routes) {
     commit('SET_ROUTES', routes)
   },
-  getRoutes({
-    state
-  }) {
+  getRoutes({ state }) {
     return state.routes
   },
-  generateActions({
-    commit
-  }, actions) {
+  generateActions({ commit }, actions) {
     return new Promise((resolve) => {
       const accessedActions = {}
-      actions.forEach(item => {
+      actions.forEach((item) => {
         accessedActions[item.authCode] = item
       })
       commit('SET_BUTTON_ACTIONS', accessedActions)
       resolve(accessedActions)
     })
   },
-  getMenus({
-    state,
-    commit,
-    dispatch
-  }) {
+  getMenus({ state, commit, dispatch }) {
     return new Promise((resolve, reject) => {
       // merchant/menu/user
       if (state.menus && state.menus.length > 0) {
         resolve(state.menus)
       } else {
-        menu.getMenu().then(({
-          data
-        }) => {
-          console.log(data)
-          const routes = generateRoutes(data.list || [])
-          // const routes = generateRoutes([])
-          store.dispatch('app/setMenus', [...routes, ...constantRoutes])
+        menu
+          .getMenu()
+          .then(({ data }) => {
+            console.log(data)
+            const routes = generateRoutes(data.list || [])
+            // const routes = generateRoutes([])
+            store.dispatch('app/setMenus', [...routes, ...constantRoutes])
 
-          resolve(data.list)
-        }).catch(err => {
-          reject(err)
-        })
+            resolve(data.list)
+          })
+          .catch((err) => {
+            reject(err)
+          })
       }
     })
   },
-  updateMenus({
-    state,
-    commit,
-    dispatch
-  }, menus) {
+  updateMenus({ state, commit, dispatch }, menus) {
     commit('SET_MENUS', menus)
   }
 }

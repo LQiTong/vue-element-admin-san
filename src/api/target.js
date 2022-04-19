@@ -1,11 +1,5 @@
 /* eslint-disable */
-import {
-  fetchGet,
-  fetchPost,
-  fetchPatch,
-  fetchPut,
-  fetchDelete
-} from '@/utils/request'
+import { fetchGet, fetchPost, fetchPatch, fetchPut, fetchDelete } from '@/utils/request'
 
 // 获取客户列表数据
 export default {

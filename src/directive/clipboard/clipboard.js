@@ -20,11 +20,11 @@ export default {
           return binding.arg === 'cut' ? 'cut' : 'copy'
         }
       })
-      clipboard.on('success', e => {
+      clipboard.on('success', (e) => {
         const callback = el._v_clipboard_success
         callback && callback(e) // eslint-disable-line
       })
-      clipboard.on('error', e => {
+      clipboard.on('error', (e) => {
         const callback = el._v_clipboard_error
         callback && callback(e) // eslint-disable-line
       })

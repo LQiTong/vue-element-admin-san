@@ -31,12 +31,7 @@ module.exports = {
    * @param {Object} {}
    * @returns
    */
-  signGenerater: ({
-    appid,
-    q,
-    salt,
-    key
-  }) => {
+  signGenerater: ({ appid, q, salt, key }) => {
     const _s = appid + q + salt + key // 百度翻译开放平台API规定，顺序不能乱，否则出错
     return MD5(_s)
   },
@@ -45,21 +40,17 @@ module.exports = {
    * @param {Object}
    * @returns
    */
-  qsUrlQuery: ({
-    appid,
-    q,
-    salt,
-    sign,
-    from,
-    to
-  }) => {
-    return '?' + qs.stringify({
-      appid,
-      q,
-      salt,
-      sign,
-      from,
-      to
-    })
+  qsUrlQuery: ({ appid, q, salt, sign, from, to }) => {
+    return (
+      '?' +
+      qs.stringify({
+        appid,
+        q,
+        salt,
+        sign,
+        from,
+        to
+      })
+    )
   }
 }

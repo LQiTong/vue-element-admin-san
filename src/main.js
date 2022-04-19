@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import Cookies from 'js-cookie'
-
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import Element from 'element-ui'
@@ -53,7 +52,7 @@ Vue.prototype.$app_const = appConst
 
 // 自定义指令注册
 import * as selfDirective from '@/directive'
-Object.keys(selfDirective).forEach(directive => {
+Object.keys(selfDirective).forEach((directive) => {
   Vue.directive(directive, selfDirective[directive])
 })
 
@@ -64,22 +63,16 @@ Vue.use(Element, {
 
 // 注册全局过滤器
 import * as filters from './filters' // 全局过滤器
-Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
 
 // 使用 vue-jsonp ，接入百度翻译api ， 防报跨域
-import {
-  VueJsonp
-} from 'vue-jsonp'
+import { VueJsonp } from 'vue-jsonp'
 Vue.use(VueJsonp)
 
 // 使用微信表情
-import {
-  emoji2string,
-  genString2emoji,
-  deleteEmoji
-} from '@/utils/qq-emoji'
+import { emoji2string, genString2emoji, deleteEmoji } from '@/utils/qq-emoji'
 Vue.prototype.$emoji2string = emoji2string
 Vue.prototype.$string2emoji = genString2emoji(require('@/assets/qqface.png'))
 Vue.prototype.$deleteEmoji = deleteEmoji
@@ -91,5 +84,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: h => h(App)
+  render: (h) => h(App)
 })

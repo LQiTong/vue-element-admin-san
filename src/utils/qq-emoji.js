@@ -116,12 +116,15 @@ for (const key of keys) {
 }
 
 export function genString2emoji(url) {
-  return words => {
+  return (words) => {
     const keys = words.match(/\[(.+?)\]/g) || []
     let result = words
     for (const key of keys) {
       if (qqfaceArr[key]) {
-        result = result.replace(new RegExp(`\\[${key.slice(1, -1)}\\]`, 'g'), `<span style="display: inline-block;" class="qqface-wrapper"><img src="${url}" class="qqface qqface${qqfaceArr[key]}"></span>`)
+        result = result.replace(
+          new RegExp(`\\[${key.slice(1, -1)}\\]`, 'g'),
+          `<span style="display: inline-block;" class="qqface-wrapper"><img src="${url}" class="qqface qqface${qqfaceArr[key]}"></span>`
+        )
       }
     }
     // console.log(result, keys)
@@ -130,9 +133,12 @@ export function genString2emoji(url) {
 }
 
 export function emoji2string(words) {
-  const result = words.replace(new RegExp(`<span[^>]+><img [^>]*? class="qqface qqface(\\d+?)"[^>]*></span>`, 'g'), (match, offset) => {
-    return reverseEmoijMap[offset]
-  })
+  const result = words.replace(
+    new RegExp(`<span[^>]+><img [^>]*? class="qqface qqface(\\d+?)"[^>]*></span>`, 'g'),
+    (match, offset) => {
+      return reverseEmoijMap[offset]
+    }
+  )
   return result
 }
 

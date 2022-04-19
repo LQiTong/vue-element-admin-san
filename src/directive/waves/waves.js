@@ -2,16 +2,17 @@ import './waves.css'
 
 const context = '@@wavesContext'
 
-function handleClick(el, binding, options = {
-  type: 'hit',
-  color: 'rgba(0, 0, 0, 0.15)'
-}) {
+function handleClick(
+  el,
+  binding,
+  options = {
+    type: 'hit',
+    color: 'rgba(0, 0, 0, 0.15)'
+  }
+) {
   function handle(e) {
     const customOpts = Object.assign({}, binding.value)
-    const {
-      type,
-      color
-    } = options
+    const { type, color } = options
     const opts = Object.assign(
       // 初始化设置
       {

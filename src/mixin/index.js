@@ -1,11 +1,6 @@
 /* eslint-disable */
-import {
-  mapGetters
-} from 'vuex'
-import {
-  Message,
-  MessageBox
-} from 'element-ui'
+import { mapGetters } from 'vuex'
+import { Message, MessageBox } from 'element-ui'
 
 const Mixin = {}
 
@@ -13,7 +8,7 @@ Mixin.install = (Vue, options) => {
   Vue.prototype._alert = (text, cb) => {
     MessageBox.alert(text, '提示', {
       confirmButtonText: '确定',
-      callback: action => {
+      callback: (action) => {
         cb && cb(action)
       }
     })
@@ -23,11 +18,13 @@ Mixin.install = (Vue, options) => {
     MessageBox.confirm(text, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
-    }).then(() => {
-      cb && cb(true)
-    }).catch(() => {
-      cb && cb(false)
     })
+      .then(() => {
+        cb && cb(true)
+      })
+      .catch(() => {
+        cb && cb(false)
+      })
   }
 
   Vue.prototype._warnConfirm = (text, cb, conTxt = '确定', canTxt = '取消') => {
@@ -36,11 +33,13 @@ Mixin.install = (Vue, options) => {
       cancelButtonText: canTxt,
       dangerouslyUseHTMLString: true,
       type: 'warning'
-    }).then(() => {
-      cb && cb(true)
-    }).catch(() => {
-      cb && cb(false)
     })
+      .then(() => {
+        cb && cb(true)
+      })
+      .catch(() => {
+        cb && cb(false)
+      })
   }
 
   Vue.mixin({
@@ -74,8 +73,8 @@ Mixin.install = (Vue, options) => {
       $scrollTopOrBottom(ref, isTop) {
         const refDom = this.$refs[ref]
         refDom.scrollTop = isTop ? 0 : refDom.scrollHeight
-      },
-    },
+      }
+    }
   })
 }
 

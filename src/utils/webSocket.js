@@ -1,8 +1,6 @@
 /* eslint-disable */
 // import store from '@/store'
-import {
-  Message
-} from 'element-ui'
+import { Message } from 'element-ui'
 
 var url = process.env.VUE_APP_SOCKET_URL
 var ws
@@ -24,7 +22,8 @@ var websocket = {
     ws.onmessage = function (e) {
       console.log('接收消息:' + e.data)
       heartCheck.start()
-      if (e.data == 'ok') { // 心跳消息不做处理
+      if (e.data == 'ok') {
+        // 心跳消息不做处理
         return
       }
       // messageHandle(e.data)

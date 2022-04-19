@@ -1,13 +1,12 @@
-/* eslint-disable */
-import WaterMark from "./waterMark";
+import WaterMark from './waterMark'
 
-const install = function (Vue) {
+const install = (Vue) => {
   Vue.directive('WaterMark', WaterMark)
 }
 
 if (window.Vue) {
   window.waterMark = WaterMark
-  Vue.use(install); // eslint-disable-line
+  Vue.use(install) // eslint-disable-line
 }
 
 WaterMark.install = install

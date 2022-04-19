@@ -52,8 +52,8 @@ export function parseTime(time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string')) {
-      if ((/^[0-9]+$/.test(time))) {
+    if (typeof time === 'string') {
+      if (/^[0-9]+$/.test(time)) {
         // support "1548221490638"
         time = parseInt(time)
       } else {
@@ -63,7 +63,7 @@ export function parseTime(time, cFormat) {
       }
     }
 
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
+    if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -159,7 +159,7 @@ export function fixedZero(val) {
  */
 export function getPlainNode(nodeList, parentPath = '') {
   const arr = []
-  nodeList.forEach(node => {
+  nodeList.forEach((node) => {
     const item = node
     item.path = `${parentPath}/${item.path || ''}`.replace(/\/+/g, '/')
     item.exact = true
@@ -220,7 +220,7 @@ export function digitUppercase(n) {
  */
 const getRelation = (str1, str2) => {
   if (str1 === str2) {
-    console.warn('Two path are equal!'); // eslint-disable-line
+    console.warn('Two path are equal!') // eslint-disable-line
   }
   const arr1 = str1.split('/')
   const arr2 = str2.split('/')
@@ -238,9 +238,9 @@ const getRenderArr = (routes) => {
   for (let i = 1; i < routes.length; i += 1) {
     let isAdd = false
     // 是否包含
-    isAdd = renderArr.every(item => getRelation(item, routes[i]) === 3)
+    isAdd = renderArr.every((item) => getRelation(item, routes[i]) === 3)
     // 去重
-    renderArr = renderArr.filter(item => getRelation(item, routes[i]) !== 1)
+    renderArr = renderArr.filter((item) => getRelation(item, routes[i]) !== 1)
     if (isAdd) {
       renderArr.push(routes[i])
     }
@@ -255,16 +255,14 @@ const getRenderArr = (routes) => {
  * @param {routerData} routerData
  */
 export function getRoutes(path, routerData) {
-  let routes = Object.keys(routerData).filter(
-    routePath => routePath.indexOf(path) === 0 && routePath !== path
-  )
+  let routes = Object.keys(routerData).filter((routePath) => routePath.indexOf(path) === 0 && routePath !== path)
   // Replace path to '' eg. path='user' /user/name => name
-  routes = routes.map(item => item.replace(path, ''))
+  routes = routes.map((item) => item.replace(path, ''))
   // Get the route to be rendered to remove the deep rendering
   const renderArr = getRenderArr(routes)
   // Conversion and stitching parameters
-  const renderRoutes = renderArr.map(item => {
-    const exact = !routes.some(route => route !== item && getRelation(route, item) === 1)
+  const renderRoutes = renderArr.map((item) => {
+    const exact = !routes.some((route) => route !== item && getRelation(route, item) === 1)
     return {
       exact,
       ...routerData[`${path}${item}`],
@@ -276,7 +274,8 @@ export function getRoutes(path, routerData) {
 }
 
 /* eslint no-useless-escape:0 */
-const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g
+const reg =
+  /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g
 // 验证url是否正确
 export function isUrl(path) {
   return reg.test(path)
@@ -297,7 +296,8 @@ export const regular = {
   // 证件号码
   IDNumber: /^[a-z0-9A-Z]{0,50}$/,
   // 身份证号码,包括15位和18位的
-  IDCard: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{7}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/,
+  IDCard:
+    /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{7}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/,
   // QQ号码
   qq: /^[1-9]\d{4,11}$/,
   // 网址, 仅支持http和https开头的
@@ -341,17 +341,7 @@ export function formatTime(time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分'
-    )
+    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
 
@@ -385,7 +375,7 @@ export function byteLength(str) {
     const code = str.charCodeAt(i)
     if (code > 0x7f && code <= 0x7ff) s++
     else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i--
+    if (code >= 0xdc00 && code <= 0xdfff) i--
   }
   return s
 }
@@ -411,7 +401,7 @@ export function cleanArray(actual) {
 export function param(json) {
   if (!json) return ''
   return cleanArray(
-    Object.keys(json).map(key => {
+    Object.keys(json).map((key) => {
       if (json[key] === undefined) return ''
       return encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
     })
@@ -429,7 +419,7 @@ export function param2Obj(url) {
   }
   const obj = {}
   const searchArr = search.split('&')
-  searchArr.forEach(v => {
+  searchArr.forEach((v) => {
     const index = v.indexOf('=')
     if (index !== -1) {
       const name = v.substring(0, index)
@@ -463,7 +453,7 @@ export function objectMerge(target, source) {
   if (Array.isArray(source)) {
     return source.slice()
   }
-  Object.keys(source).forEach(property => {
+  Object.keys(source).forEach((property) => {
     const sourceProperty = source[property]
     if (typeof sourceProperty === 'object') {
       target[property] = objectMerge(target[property], sourceProperty)
@@ -576,7 +566,7 @@ export function deepClone(source) {
     throw new Error('error arguments', 'deepClone')
   }
   const targetObj = source.constructor === Array ? [] : {}
-  Object.keys(source).forEach(keys => {
+  Object.keys(source).forEach((keys) => {
     if (source[keys] && typeof source[keys] === 'object') {
       targetObj[keys] = deepClone(source[keys])
     } else {

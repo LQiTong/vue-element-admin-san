@@ -1,6 +1,4 @@
-import {
-  parseTime
-} from '@/utils'
+import { parseTime } from '@/utils'
 /**
  * @author 劳启铜
  * @date 2022/04/11
@@ -32,15 +30,7 @@ export default {
       if (time) cxt.fillText(parseTime(time), canvas.width / 3, 130) // 被填充的文本
       el.style.backgroundImage = `url(${canvas.toDataURL('image/png')})` // 插入背景图
     }
-    const {
-      text,
-      time,
-      angle = -20,
-      color,
-      align,
-      width,
-      height
-    } = binding.value
+    const { text, time, angle = -20, color, align, width, height } = binding.value
     addWaterMarker(text, time, width, height, angle, color, align, el)
   }
 }

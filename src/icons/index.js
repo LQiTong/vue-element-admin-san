@@ -11,5 +11,5 @@ Vue.component('svg-icon', SvgIcon)
  * 3、regExp {RegExp} -匹配文件的正则
  */
 const req = require.context('./svg', false, /\.svg$/)
-const requireAll = requireContext => requireContext.keys().map(requireContext)
+const requireAll = (requireContext) => requireContext.keys().map(requireContext)
 requireAll(req)
