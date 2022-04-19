@@ -1,13 +1,13 @@
 <template>
-  <div class="sidebar-logo-container" :class="{ 'collapse': collapse }">
+  <div class="sidebar-logo-container" :style="layout ? 'background: #fff' : 'background: #2b2f3a'" :class="{ 'collapse': collapse }">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title">{{ title }}</h1>
+        <h1 v-else class="sidebar-title" :style="layout || 'color: #fff;'">{{ title }}</h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 class="sidebar-title">{{ title }}</h1>
+        <h1 class="sidebar-title" :style="layout || 'color: #fff;'">{{ title }}</h1>
       </router-link>
     </transition>
   </div>
@@ -22,6 +22,10 @@ export default {
     collapse: {
       type: Boolean,
       required: true
+    },
+    layout: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -53,7 +57,6 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
   text-align: center;
   overflow: hidden;
 
@@ -72,7 +75,6 @@ export default {
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #fff;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;

@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+    <logo v-if="showLogo" :collapse="isCollapse" :layout="layout" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -31,6 +31,12 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+  props: {
+    layout: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     ...mapGetters([
       'permission_routes',

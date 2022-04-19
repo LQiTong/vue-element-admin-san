@@ -1,23 +1,71 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
-    <sidebar class="sidebar-container" />
-    <div :class="{ hasTagsView: needTagsView }" class="main-container">
-      <div :class="{ 'fixed-header': fixedHeader }">
-        <navbar />
-        <tags-view v-if="needTagsView" />
+    <template v-if="layout === 'classic'">
+      <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
+      <sidebar class="sidebar-container" />
+      <div :class="{ hasTagsView: needTagsView }" class="main-container">
+        <div :class="{ 'fixed-header': fixedHeader }">
+          <navbar />
+          <tags-view v-if="needTagsView" />
+        </div>
+        <app-main />
+        <right-panel v-if="showSettings">
+          <settings />
+        </right-panel>
       </div>
+    </template>
+    <template v-else-if="layout === 'topLeft'">
+      <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
+      <sidebar class="sidebar-container" :layout="true" />
+      <div :class="{ hasTagsView: needTagsView }" class="main-container">
+        <div :class="{ 'fixed-header': fixedHeader }">
+          <navbar />
+          <tags-view v-if="needTagsView" />
+        </div>
+        <app-main />
+        <right-panel v-if="showSettings">
+          <settings />
+        </right-panel>
+      </div>
+    </template>
+    <template v-else-if="layout === 'top'">
+      <TopNavigation />
       <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
-    </div>
+    </template>
+    <template v-else-if="layout === 'cutMenu'">
+      <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
+      <CutMenuNavigation class="sidebar-container cut-menu-container" />
+      <div :class="{ hasTagsView: needTagsView }" class="main-container cut-menu-main-container">
+        <div :class="{ 'fixed-header': fixedHeader }">
+          <navbar />
+          <tags-view v-if="needTagsView" />
+        </div>
+        <app-main />
+        <right-panel v-if="showSettings">
+          <settings />
+        </right-panel>
+      </div>
+    </template>
+    <template v-else>
+      <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
+      <sidebar class="sidebar-container" />
+      <div :class="{ hasTagsView: needTagsView }" class="main-container">
+        <div :class="{ 'fixed-header': fixedHeader }">
+          <navbar />
+          <tags-view v-if="needTagsView" />
+        </div>
+        <app-main />
+        <right-panel v-if="showSettings">
+          <settings />
+        </right-panel>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import { AppMain, Navbar, Settings, Sidebar, TagsView, TopNavigation, CutMenuNavigation } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 
@@ -29,7 +77,9 @@ export default {
     RightPanel,
     Settings,
     Sidebar,
-    TagsView
+    TagsView,
+    TopNavigation,
+    CutMenuNavigation
   },
   mixins: [ResizeMixin],
   computed: {
@@ -38,7 +88,8 @@ export default {
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,
       needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
+      fixedHeader: state => state.settings.fixedHeader,
+      layout: state => state.app.layout
     }),
     classObj() {
       return {

@@ -2,7 +2,6 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-import WindiCSS from 'vue-cli-plugin-windicss'
 // const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 function resolve(dir) {

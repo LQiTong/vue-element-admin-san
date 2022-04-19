@@ -25,6 +25,11 @@
         <span>{{ $t('settings.sidebarLogo') }}</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
+
+      <div class="drawer-item">
+        <span>页面布局</span>
+        <LayoutRadioPicker />
+      </div>
       <!-- <a v-if="isShowJob" href="https://panjiachen.github.io/vue-element-admin-site/zh/job/" target="_blank" class="job-link">
         <el-alert
           title="部门目前非常缺人！有兴趣的可以点击了解详情。坐标: 字节跳动"
@@ -43,9 +48,10 @@
 
 <script>
 import ThemePicker from '@/components/ThemePicker'
+import LayoutRadioPicker from '@/components/LayoutRadioPicker'
 
 export default {
-  components: { ThemePicker },
+  components: { ThemePicker, LayoutRadioPicker },
   data() {
     return {}
   },

@@ -12,6 +12,12 @@ module.exports = {
   showSettings: false,
 
   /**
+   * @type {string} classic 经典布局 topLeft 左上 top 顶部导航 cutMenu 切菜布局
+   * @description 布局
+   */
+  layout: 'cutMenu',
+
+  /**
    * @type {boolean} true | false
    * @description 是否展示标签导航
    */
@@ -47,5 +53,6 @@ module.exports = {
   /**
    * 默认头像
    */
-  default_avatar: 'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4'
+  default_avatar:
+    'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4'
 }
