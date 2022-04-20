@@ -15,7 +15,7 @@ module.exports = {
    * @type {string} classic 经典布局 topLeft 左上 top 顶部导航 cutMenu 切菜布局
    * @description 布局
    */
-  layout: 'cutMenu',
+  layout: 'classic',
 
   /**
    * @type {boolean} true | false

@@ -2,23 +2,8 @@
   <div class="top-navigation" :style="`background: ${variables.menuBg} !important;` ">
     <div class="left-menu">
       <logo v-if="showLogo" :style="`background: ${variables.menuBg} !important;` " class="pr-20 ml-20" :collapse="false" />
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="false"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :unique-opened="false"
-        :active-text-color="variables.menuActiveText"
-        :collapse-transition="false"
-        class="top-navigation-menu"
-        mode="horizontal"
-      >
-        <sidebar-item
-          v-for="route in permission_routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-        />
+      <el-menu :default-active="activeMenu" :collapse="false" :background-color="variables.menuBg" :text-color="variables.menuText" :unique-opened="false" :active-text-color="variables.menuActiveText" :collapse-transition="false" class="top-navigation-menu" mode="horizontal">
+        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </div>
     <div class="right-menu">
@@ -85,7 +70,7 @@ export default {
     SidebarItem
   },
   // 定义属性
-  data() {
+  data () {
     return {
 
     }
@@ -93,7 +78,7 @@ export default {
   // 计算属性，会监听依赖属性值随之变化
   computed: {
     ...mapGetters(['buttonType', 'avatar', 'sidebar', 'device', 'permission_routes']),
-    activeMenu() {
+    activeMenu () {
       const route = this.$route
       const { meta, path } = route
       // 如果设置路径，侧边栏将高亮显示您设置的路径
@@ -102,29 +87,29 @@ export default {
       }
       return path
     },
-    showLogo() {
+    showLogo () {
       return this.$store.state.settings.sidebarLogo
     },
-    variables() {
+    variables () {
       return variables
     },
-    isCollapse() {
+    isCollapse () {
       return !this.sidebar.opened
     }
   },
   // 监控data中的数据变化
   watch: {},
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
 
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
   // 方法集合
   methods: {
-    async logout() {
+    async logout () {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
@@ -133,95 +118,94 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '~@/styles/variables';
-.top-navigation{
+@import "~@/styles/variables";
+.top-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 50px;
+  height: 50px;
+  .left-menu {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    height: 100%;
     line-height: 50px;
-    height: 50px;
-    .left-menu {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100%;
-        line-height: 50px;
-        .top-navigation-menu {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 100%;
-            line-height: 50px;
-            // menu hover
-            .submenu-title-noDropdown,
-            .el-submenu__title {
-                &:hover {
-                    background-color: inherit !important;
-                }
-            }
-            & .nest-menu .el-submenu > .el-submenu__title,
-            & .el-submenu .el-menu-item {
-                min-width: $sideBarWidth !important;
-                background-color: $subMenuBg !important;
-
-                &:hover {
-                    background-color: inherit !important;
-                }
-            }
+    .top-navigation-menu {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100%;
+      line-height: 50px;
+      // menu hover
+      .submenu-title-noDropdown,
+      .el-submenu__title {
+        &:hover {
+          background-color: inherit !important;
         }
+      }
+      & .nest-menu .el-submenu > .el-submenu__title,
+      & .el-submenu .el-menu-item {
+        min-width: $sideBarWidth !important;
+        background-color: $subMenuBg !important;
+
+        &:hover {
+          background-color: inherit !important;
+        }
+      }
     }
-    .right-menu {
-        float: right;
-        height: 100%;
-        line-height: 50px;
+  }
+  .right-menu {
+    float: right;
+    height: 100%;
+    line-height: 50px;
 
-        &:focus {
-        outline: none;
+    &:focus {
+      outline: none;
+    }
+
+    .right-menu-item {
+      display: inline-block;
+      padding: 0 8px;
+      height: 100%;
+      font-size: 18px;
+      color: #fff;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+      }
+    }
+
+    .avatar-container {
+      margin-right: 30px;
+
+      .avatar-wrapper {
+        margin-top: 5px;
+        position: relative;
+
+        .user-avatar {
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+          // border-radius: 10px;
+          border-radius: 50%;
         }
 
-        .right-menu-item {
-        display: inline-block;
-        padding: 0 8px;
-        height: 100%;
-        font-size: 18px;
-        color: #fff;
-        vertical-align: text-bottom;
-
-        &.hover-effect {
-            cursor: pointer;
-            transition: background 0.3s;
-
-            &:hover {
-            background: rgba(0, 0, 0, 0.025);
-            }
+        .el-icon-caret-bottom {
+          cursor: pointer;
+          position: absolute;
+          right: -20px;
+          top: 25px;
+          font-size: 12px;
         }
-        }
-
-        .avatar-container {
-        margin-right: 30px;
-
-        .avatar-wrapper {
-            margin-top: 5px;
-            position: relative;
-
-            .user-avatar {
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            // border-radius: 10px;
-            border-radius: 50%;
-            }
-
-            .el-icon-caret-bottom {
-            cursor: pointer;
-            position: absolute;
-            right: -20px;
-            top: 25px;
-            font-size: 12px;
-            }
-        }
-        }
+      }
+    }
   }
 }
-
 </style>
