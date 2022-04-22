@@ -53,6 +53,5 @@ module.exports = {
   /**
    * 默认头像
    */
-  default_avatar:
-    'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4'
+  default_avatar: 'https://avatars.githubusercontent.com/u/26930175?s=400&u=36be7703d7aa4e9e71c5ce9fa96c29c4c51247f1&v=4'
 }

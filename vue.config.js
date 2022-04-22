@@ -18,8 +18,7 @@ const name = defaultSettings.title || '啊哦，页面崩溃了' // page title
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 
 //! 获取版本号数据
-const bpmVersion = (process.env.NODE_ENV === 'production' ? require('./public/version.json') : { version: 'dev' })
-  .version
+const bpmVersion = (process.env.NODE_ENV === 'production' ? require('./public/version.json') : { version: 'dev' }).version
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {

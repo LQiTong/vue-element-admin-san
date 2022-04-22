@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     setLocalStorage() {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos))
+      this.$storage.set(STORAGE_KEY, JSON.stringify(this.todos))
     },
     addTodo(e) {
       const text = e.target.value

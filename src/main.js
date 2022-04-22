@@ -45,10 +45,12 @@ Vue.use(Mixin)
 import api from '@/api'
 import * as utils from '@/utils'
 import appConst from '@/utils/const'
+import { storage } from '@/utils/storage'
 
 Vue.prototype.$api = api
 Vue.prototype.$utils = utils
 Vue.prototype.$app_const = appConst
+Vue.prototype.$storage = storage
 
 // 自定义指令注册
 import * as selfDirective from '@/directive'

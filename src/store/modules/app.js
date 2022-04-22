@@ -4,6 +4,7 @@ import Axios from 'axios'
 import { parseTime } from '@/utils'
 import { getLanguage } from '@/lang/index'
 import { layout } from '@/settings'
+import {storage} from '@/utils/storage'
 
 const state = {
   sidebar: {
@@ -15,7 +16,6 @@ const state = {
   size: Cookies.get('size') || 'medium',
   menus: [],
   layout: layout,
-  // layout: localStorage.getItem('layout'),
   buttonType: process.env.VUE_APP_BUTTON_TYPE
 }
 
@@ -55,7 +55,7 @@ const mutations = {
   },
   SET_LAYOUT: (state, layout) => {
     state.layout = layout
-    localStorage.setItem('layout', layout)
+    storage.set('layout', layout)
   }
 }
 
