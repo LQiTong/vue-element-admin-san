@@ -3,7 +3,7 @@
 </template>
 
 <script>
-// deps for editor
+// https://blog.csdn.net/weixin_44179923/article/details/123851598
 import 'codemirror/lib/codemirror.css' // codemirror
 import 'codemirror/lib/codemirror.css'
 import '@toast-ui/editor/dist/toastui-editor.css'
