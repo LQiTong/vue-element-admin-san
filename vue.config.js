@@ -33,7 +33,8 @@ module.exports = {
   outputDir: process.env.OUT_PUT_DIR,
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
-  productionSourceMap: false,
+  // 方便 production 环境进行错误排查
+  productionSourceMap: process.env.NODE_ENV === 'production',
   devServer: {
     port: port,
     open: true,
@@ -133,7 +134,8 @@ module.exports = {
           }
         }
       })
-      // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
+      // https://webpack.js.org/configuration/optimization/#optimizationruntimechunk
+      // 值 "single" 会创建一个在所有生成 chunk 之间共享的运行时文件
       config.optimization.runtimeChunk('single')
     })
   }
