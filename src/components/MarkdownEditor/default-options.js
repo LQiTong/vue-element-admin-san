@@ -6,26 +6,7 @@ export default {
   useDefaultHTMLSanitizer: true,
   usageStatistics: false,
   hideModeSwitch: false,
-  toolbarItems: [
-    'heading',
-    'bold',
-    'italic',
-    'strike',
-    'divider',
-    'hr',
-    'quote',
-    'divider',
-    'ul',
-    'ol',
-    'task',
-    'indent',
-    'outdent',
-    'divider',
-    'table',
-    'image',
-    'link',
-    'divider',
-    'code',
-    'codeblock'
-  ]
+  // !tui-editor 升级成 @toast-ui/editor 修改配置
+  // toolbarItems: ['heading', 'bold', 'italic', 'strike', 'divider', 'hr', 'quote', 'divider', 'ul', 'ol', 'task', 'indent', 'outdent', 'divider', 'table', 'image', 'link', 'divider', 'code', 'codeblock']
+  toolbarItems: [['heading', 'bold', 'italic', 'strike'], ['hr', 'quote'], ['ul', 'ol', 'task', 'indent', 'outdent'], ['table', 'image', 'link'], ['code', 'codeblock']]
 }

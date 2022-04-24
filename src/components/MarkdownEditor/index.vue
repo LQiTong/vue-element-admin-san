@@ -5,7 +5,6 @@
 <script>
 // https://blog.csdn.net/weixin_44179923/article/details/123851598
 import 'codemirror/lib/codemirror.css' // codemirror
-import 'codemirror/lib/codemirror.css'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import Editor from '@toast-ui/editor'
 import defaultOptions from './default-options'
@@ -98,7 +97,7 @@ export default {
     destroyEditor() {
       if (!this.editor) return
       this.editor.off('change')
-      this.editor.remove()
+      this.editor.destory()
     },
     setMarkdown(value) {
       this.editor.setMarkdown(value)
@@ -109,8 +108,8 @@ export default {
     setHtml(value) {
       this.editor.setHtml(value)
     },
-    getHtml() {
-      return this.editor.getHtml()
+    getHTML() {
+      return this.editor.getHTML()
     }
   }
 }
