@@ -625,3 +625,208 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+// 2022-04-28 15:54:00 add
+/**
+ * 校验输入的密码强度
+ * @param {string} pwd 要校验的密码字符串
+ * @returns lv 密码强度
+ */
+export function checkPwa(pwd) {
+  let lv = 0
+  if (pwd.length < 6) return lv
+  if (/[0-9]/.test(pwd)) lv++
+  if (/[a-z]/.test(pwd)) lv++
+  if (/[A-Z]/.test(pwd)) lv++
+  if (/[\.|-|_,.?':~`!@#$%^&*()]/.test(pwd)) lv++
+  return lv
+}
+/**
+ * 获取评分数
+ * @param {number} rate 评分级别
+ * @returns 星级数量
+ */
+export function getRate(rate) {
+  return '★★★★★☆☆☆☆☆'.slice(5 - rate, 10 - rate)
+}
+/**
+ * 保留 n 位小数
+ * @param {float} num 浮点型小数
+ * @param {number} n 要保留的小数位数
+ * @returns
+ */
+export function filterToFixed (num, n = 2) {
+  return parseFloat(num.toFixed(n), 10)
+}
+/**
+ * 金额转大写
+ * @param {float} money 浮点型的金额数字
+ * @returns
+ */
+export function convertCurrency (money) {
+  // 汉字的数字
+  const cnNums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
+  // 基本单位
+  const cnIntRadice = ['', '拾', '佰', '仟']
+  // 对应整数部分扩展单位
+  const cnIntUnits = ['', '万', '亿', '兆']
+  // 对应小数部分单位
+  const cnDecUnits = ['角', '分', '毫', '厘']
+  // 整数金额时后面跟的字符
+  const cnInteger = '整'
+  // 整型完以后的单位
+  const cnIntLast = '元'
+  // 最大处理的数字
+  const maxNum = 999999999999999.9999
+  // 金额整数部分
+  let integerNum
+  // 金额小数部分
+  let decimalNum
+  // 输出的中文金额字符串
+  let chineseStr = ''
+  // 分离金额后用的数组，预定义
+  let parts
+  // 传入的参数为空情况
+  if (money === '') {
+    return ''
+  }
+  money = parseFloat(money)
+  if (money >= maxNum) {
+    return ''
+  }
+  // 传入的参数为0情况
+  if (money === 0) {
+    chineseStr = cnNums[0] + cnIntLast + cnInteger
+    return chineseStr
+  }
+  // 转为字符串
+  money = money.toString()
+  // indexOf 检测某字符在字符串中首次出现的位置 返回索引值（从0 开始） -1 代表无
+  if (money.indexOf('.') === -1) {
+    integerNum = money
+    decimalNum = ''
+  } else {
+    parts = money.split('.')
+    integerNum = parts[0]
+    decimalNum = parts[1].substr(0, 4)
+  }
+  // 转换整数部分
+  if (parseInt(integerNum, 10) > 0) {
+    let zeroCount = 0
+    const IntLen = integerNum.length
+    for (let i = 0; i < IntLen; i++) {
+      const n = integerNum.substr(i, 1)
+      const p = IntLen - i - 1
+      const q = p / 4
+      const m = p % 4
+      if (n === '0') {
+        zeroCount++
+      } else {
+        if (zeroCount > 0) {
+          chineseStr += cnNums[0]
+        }
+        zeroCount = 0
+        chineseStr += cnNums[parseInt(n)] + cnIntRadice[m]
+      }
+      if (m === 0 && zeroCount < 4) {
+        chineseStr += cnIntUnits[q]
+      }
+    }
+    // 最后+ 元
+    chineseStr += cnIntLast
+  }
+  // 转换小数部分
+  if (decimalNum !== '') {
+    const decLen = decimalNum.length
+    for (let i = 0; i < decLen; i++) {
+      const n = decimalNum.substr(i, 1)
+      if (n !== '0') {
+        chineseStr += cnNums[Number(n)] + cnDecUnits[i]
+      }
+    }
+  }
+  if (chineseStr === '') {
+    chineseStr += cnNums[0] + cnIntLast + cnInteger
+  } else if (decimalNum === '') {
+    chineseStr += cnInteger
+  }
+
+  return chineseStr
+}
+
+/**
+ * 解决浮点型运算精度丢失的问题
+ */
+export const calculation = {
+  // 加法
+  plus(arg1, arg2) {
+    var r1, r2, m
+    try {
+      r1 = arg1.toString().split('.')[1].length
+    } catch (e) {
+      r1 = 0
+    }
+    try {
+      r2 = arg2.toString().split('.')[1].length
+    } catch (e) {
+      r2 = 0
+    }
+    m = Math.pow(10, Math.max(r1, r2))
+    return (arg1 * m + arg2 * m) / m
+  },
+  // 减法
+  subtract(arg1, arg2) {
+    var r1, r2, m, n
+    try {
+      r1 = arg1.toString().split('.')[1].length
+    } catch (e) {
+      r1 = 0
+    }
+    try {
+      r2 = arg2.toString().split('.')[1].length
+    } catch (e) {
+      r2 = 0
+    }
+    m = Math.pow(10, Math.max(r1, r2))
+    n = r1 >= r2 ? r1 : r2
+    return ((arg1 * m - arg2 * m) / m).toFixed(n)
+  },
+  //   乘法
+  multiply(arg1, arg2) {
+    var m = 0
+    var s1 = arg1.toString()
+    var s2 = arg2.toString()
+    try {
+      m += s1.split('.')[1].length
+    } catch (e) {
+      console.log(e)
+    }
+    try {
+      m += s2.split('.')[1].length
+    } catch (e) {
+      console.log(e)
+    }
+    return ((Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) / Math.pow(10, m))
+  },
+  //   除法
+  divide(arg1, arg2) {
+    var t1 = 0
+    var t2 = 0
+    var r1
+    var r2
+    try {
+      t1 = arg1.toString().split('.')[1].length
+    } catch (e) {
+      console.log(e)
+    }
+    try {
+      t2 = arg2.toString().split('.')[1].length
+    } catch (e) {
+      console.log(e)
+    }
+    r1 = Number(arg1.toString().replace('.', ''))
+    r2 = Number(arg2.toString().replace('.', ''))
+    return (r1 / r2) * Math.pow(10, t2 - t1)
+  }
+}
+
